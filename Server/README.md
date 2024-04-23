@@ -32,3 +32,9 @@ pip3 install -r requirements.txt
 ```
 
 Or, you can just run the `setup.sh`(Linux) or `setup-windows.bat`(Windows) script at the root of the `Server` folder, and it will run the commands for you!
+
+# Start the server
+
+``` bash
+uvicorn app.main:app --reload
+```
