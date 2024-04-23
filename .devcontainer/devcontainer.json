@@ -28,6 +28,12 @@
 	},
 	"postCreateCommand": " bash .devcontainer/startup_script.sh",
 	"customizations": {
+		"runArgs": [
+			"-v",
+			"/run/host-services/ssh-auth.sock:/ssh-auth.sock",
+			"-e",
+			"SSH_AUTH_SOCK=/ssh-auth.sock"
+		],
 		"vscode": {
 			"extensions": [
 				"mongodb.mongodb-vscode",

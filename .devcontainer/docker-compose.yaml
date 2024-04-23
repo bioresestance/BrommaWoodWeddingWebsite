@@ -6,12 +6,10 @@ services:
       - ../..:/workspaces:cached
     network_mode: service:mongodb
     command: sleep infinity
-    user: ${USERNAME}
 
   mongodb:
     image: mongo:latest
     restart: unless-stopped
-    user: ${USERNAME}
     ports:
       - 27017:27017
     environment:
