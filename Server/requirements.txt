@@ -1,4 +1,7 @@
 uvicorn
-fastapi
+fastapi[all]
 motor
 requests
+python-dotenv
+passlib[bcrypt]
+python-jose[cryptography]
