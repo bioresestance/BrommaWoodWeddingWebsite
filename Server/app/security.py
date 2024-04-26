@@ -2,12 +2,26 @@ from datetime import datetime, timedelta
 from fastapi import Depends, HTTPException, Header, status
 from fastapi.security import OAuth2PasswordBearer
 from jose import JWTError, jwt
+from passlib.context import CryptContext
 from app.models.access_token import AccessToken, AccessTokenContents
 from app.settings import get_settings, Settings
 
 setting: Settings = get_settings()
 oauth2_scheme_admin = OAuth2PasswordBearer(tokenUrl="admin/login")
 oauth2_scheme_guest = OAuth2PasswordBearer(tokenUrl="login")
+
+
+class Hasher():
+    __pwd_context = CryptContext(schemes=["sha256_crypt"], deprecated="auto")
+
+    @staticmethod
+    def verify_password(plain_password, hashed_password):
+        return Hasher.__pwd_context.verify(plain_password, hashed_password)
+
+    @staticmethod
+    def get_password_hash(password):
+        return Hasher.__pwd_context.hash(password)
+
 
 
 def encode_json_web_token(username:str, role:str, expires_time: timedelta | None = None) -> AccessToken:

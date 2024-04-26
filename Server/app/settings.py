@@ -7,7 +7,6 @@ class Settings(BaseSettings):
     db_username: str = "admin"
     db_password: str = "admin"
     db_name: str = "brommawoodwedding"
-    db_collection: str = "guests"
     jwt_secret: str = "7a622820781eff8983daebd5552995d510c674d870b5e02a332360e0e68ed985" # This is a placeholder secret for dev, replace it with your own.
     jwt_algorithm: str = "HS256"
     jwt_expires: int = 900

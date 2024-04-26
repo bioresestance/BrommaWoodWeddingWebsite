@@ -1,0 +1,66 @@
+from mongoengine import Document, StringField, BooleanField, EmbeddedDocument, EmbeddedDocumentField, ListField
+from app.security import Hasher
+
+
+class GuestPlusOne(EmbeddedDocument):
+    """
+    Guest Plus One class, to be embedded in the Guest class.
+    """
+    first_name = StringField(required=True)
+    last_name = StringField(required=True)
+    email = StringField(required=True)
+    dietary_restrictions = StringField(required=True)
+    additional_notes = StringField(required=True)
+
+
+
+class User(Document):
+    """
+    Base User class for all user types.
+    """
+    password = StringField(required=True)
+
+    meta = {'collection': 'users', 
+            "allow_inheritance": True,
+            }
+    
+
+    def hash_password(self, password: str):
+        self.password = Hasher.get_password_hash(password)
+
+    def verify_password(self, password: str):
+        return Hasher.verify_password(password, self.password)
+
+class Admin(User):
+    """
+    Admin user class.
+    """
+    username = StringField(required=True, unique=True)
+    email = StringField(required=True, unique=True)
+
+
+class Guest(User):
+    """
+    Guest user class.
+    """
+    # Contact fields
+    first_name = StringField(required=True)
+    last_name = StringField(required=True)
+    email = StringField(required=True, unique=True)
+
+    # Address fields
+    phone = StringField(required=True)
+    address = StringField(required=True)
+    city = StringField(required=True)
+    province = StringField(required=True)
+    area_code = StringField(required=True)
+    country = StringField(required=True)
+
+    # Miscellaneous fields
+    attending = BooleanField(default=False)
+    dietary_restrictions = ListField(StringField(default=""))
+    additional_notes = StringField(default="")
+    is_wedding_party = BooleanField(default=False)
+    plus_one_allowed = BooleanField(default=False)
+    has_plus_one = BooleanField(default=False)
+    plus_one = EmbeddedDocumentField(GuestPlusOne, required=False)
