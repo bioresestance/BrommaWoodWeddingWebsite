@@ -46,15 +46,15 @@ class Guest(User):
     # Contact fields
     first_name = StringField(required=True)
     last_name = StringField(required=True)
-    email = StringField(required=True, unique=True)
+    email = StringField(default= "", unique=True)
 
     # Address fields
-    phone = StringField(required=True)
-    address = StringField(required=True)
-    city = StringField(required=True)
-    province = StringField(required=True)
-    area_code = StringField(required=True)
-    country = StringField(required=True)
+    phone = StringField(default= "")
+    address = StringField(default= "")
+    city = StringField(default= "")
+    province = StringField(default= "")
+    area_code = StringField(default= "")
+    country = StringField(default= "")
 
     # Miscellaneous fields
     attending = BooleanField(default=False)
@@ -63,4 +63,4 @@ class Guest(User):
     is_wedding_party = BooleanField(default=False)
     plus_one_allowed = BooleanField(default=False)
     has_plus_one = BooleanField(default=False)
-    plus_one = EmbeddedDocumentField(GuestPlusOne, required=False)
+    plus_one = EmbeddedDocumentField(GuestPlusOne)
