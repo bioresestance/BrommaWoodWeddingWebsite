@@ -2,26 +2,14 @@ from datetime import datetime, timedelta
 from fastapi import Depends, HTTPException, Header, status
 from fastapi.security import OAuth2PasswordBearer
 from jose import JWTError, jwt
-from passlib.context import CryptContext
 from app.models.access_token import AccessToken, AccessTokenContents
+from app.database.models import Admin, Guest
 from app.settings import get_settings, Settings
-
-setting: Settings = get_settings()
-oauth2_scheme_admin = OAuth2PasswordBearer(tokenUrl="admin/login")
-oauth2_scheme_guest = OAuth2PasswordBearer(tokenUrl="login")
+from app.security.hasher import Hasher
 
 
-class Hasher():
-    __pwd_context = CryptContext(schemes=["sha256_crypt"], deprecated="auto")
-
-    @staticmethod
-    def verify_password(plain_password, hashed_password):
-        return Hasher.__pwd_context.verify(plain_password, hashed_password)
-
-    @staticmethod
-    def get_password_hash(password):
-        return Hasher.__pwd_context.hash(password)
-
+oauth2_scheme_admin = OAuth2PasswordBearer(tokenUrl="/admin/login")
+oauth2_scheme_guest = OAuth2PasswordBearer(tokenUrl="/login")
 
 
 def encode_json_web_token(username:str, role:str, expires_time: timedelta | None = None) -> AccessToken:
@@ -31,11 +19,11 @@ def encode_json_web_token(username:str, role:str, expires_time: timedelta | None
     Returns:
         AccessToken: Model containing the generated bearer token.
     """
-    
+    setting: Settings = get_settings()
     if expires_time:
-        expire = datetime.now(datetime.UTC) + expires_time
+        expire = datetime.utcnow() + expires_time
     else:
-        expire = datetime.now(datetime.UTC) + timedelta(minutes=setting.jwt_expires)
+        expire = datetime.utcnow() + timedelta(minutes=setting.jwt_expires)
         
     # Attempt to encode the contents into the token.
     encoded_jwt = jwt.encode(dict(AccessTokenContents(username=username, exp=expire, role=role)), setting.jwt_secret, algorithm=setting.jwt_algorithm)
@@ -50,7 +38,7 @@ def decode_json_web_token(token) -> AccessTokenContents | None:
         detail="Could not validate credentials",
         headers={"WWW-Authenticate": "Bearer"},
     )
-    
+    setting: Settings = get_settings()
     # Decode the token.
     try:
         payload = jwt.decode(token, setting.jwt_secret, algorithms=[setting.jwt_algorithm])
@@ -85,3 +73,15 @@ def get_current_admin(token: str = Depends(oauth2_scheme_admin) ) -> AccessToken
             headers={"WWW-Authenticate": "Bearer"},
         )
     return token_data
+
+
+def authenticate_admin(username:str, password: str) -> Admin | None:
+    """
+    Authenticates the admin with the given username and password.
+    """
+    admin = Admin.objects(username=username).first()
+    if not admin:
+        return None
+    if not Hasher.verify_password(password, admin.password):
+        return None
+    return admin

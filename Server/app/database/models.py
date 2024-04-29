@@ -1,5 +1,5 @@
 from mongoengine import Document, StringField, BooleanField, EmbeddedDocument, EmbeddedDocumentField, ListField
-from app.security import Hasher
+from app.security.hasher import Hasher
 
 
 class GuestPlusOne(EmbeddedDocument):
