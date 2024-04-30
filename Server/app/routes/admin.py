@@ -26,5 +26,5 @@ async def login(form_data: OAuth2PasswordRequestForm = Depends()) -> AccessToken
 
 
 @admin_router.get("/me")
-async def read_users_me(current_user:Admin = Depends(get_current_admin)) ->str:
-    return current_user.username
+async def read_users_me(current_user:Admin = Depends(get_current_admin)) -> Admin:
+    return current_user
