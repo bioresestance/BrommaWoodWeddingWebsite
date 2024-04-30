@@ -1,5 +1,5 @@
 uvicorn
-fastapi[all]
+fastapi
 motor
 mongoengine
 pylint-mongoengine
@@ -8,6 +8,7 @@ python-dotenv
 passlib[bcrypt]
 python-jose[cryptography]
 pandas
+python-multipart
 
 # Testing dependencies
 pytest

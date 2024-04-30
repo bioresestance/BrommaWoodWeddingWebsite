@@ -16,9 +16,6 @@ class GuestDetail(BaseModel):
     dietary_restrictions: str
     additional_notes: str
 
-class GuestDB(BaseModel):
-    invite_code: str
-    guest: GuestDetail
-    plus_one: GuestDetail
+
 
 
