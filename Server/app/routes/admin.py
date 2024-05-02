@@ -5,7 +5,7 @@ from fastapi.security import OAuth2PasswordRequestForm
 from app.security.utils import authenticate_admin, encode_json_web_token, get_current_admin
 from app.settings import get_settings
 from app.models.access_token import AccessToken, AccessTokenContents
-from app.models.users import Admin
+from app.models.admin import Admin
 
 admin_router = APIRouter( prefix="/admin", tags=["admin"])
 setting = get_settings()

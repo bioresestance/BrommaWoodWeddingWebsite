@@ -1,5 +1,7 @@
 uvicorn
-fastapi
+fastapi[all]
+pydantic-extra-types
+phonenumbers
 motor
 mongoengine
 pylint-mongoengine

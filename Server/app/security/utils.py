@@ -4,14 +4,15 @@ from fastapi import Depends, HTTPException, Header, status
 from fastapi.security import OAuth2PasswordBearer
 from jose import JWTError, jwt
 from app.models.access_token import AccessToken, AccessTokenContents
-from app.database.models import Admin as DBAdmin, Guest
+from app.database.models import Admin as DBAdmin, Guest as DBGuest
 from app.settings import get_settings, Settings
 from app.security.hasher import Hasher
-from app.models.users import Admin
+from app.models.admin import Admin
+from app.models.guests import GuestDetail, PlusOneDetail
 
 
 oauth2_scheme_admin = OAuth2PasswordBearer(tokenUrl="/admin/login")
-# oauth2_scheme_guest = OAuth2PasswordBearer(tokenUrl="/login")
+oauth2_scheme_guest = OAuth2PasswordBearer(tokenUrl="/guest/login")
 
 
 def encode_json_web_token(username:str, role:str, expires_time: timedelta | None = None) -> AccessToken:
@@ -55,11 +56,55 @@ def decode_json_web_token(token) -> AccessTokenContents | None:
     return token_data
 
 
-# async def get_current_guest(token: str = Depends(oauth2_scheme_guest)) -> AccessTokenContents:
-#     """
-#     Dependency to get the current user from the database based on the token.
-#     """
-#     return decode_json_web_token(token)
+def get_current_guest(token: str = Depends(oauth2_scheme_guest)) -> GuestDetail:
+    """
+    Dependency to get the current user from the database based on the token.
+    """
+    token_data = decode_json_web_token(token)
+
+    if not token_data:
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="Could not validate credentials",
+            headers={"WWW-Authenticate": "Bearer"},
+        )
+
+    # Search for the guest with the given username.
+    guest: DBGuest = DBGuest.objects(username=token_data.sub).first()
+
+    if not guest:
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="Could not validate credentials",
+            headers={"WWW-Authenticate": "Bearer"},
+        )
+
+    guest_detail = GuestDetail( username=guest.username,
+                                first_name=guest.first_name,
+                                last_name=guest.last_name,
+                                email=guest.email,
+                                phone=guest.phone,
+                                address=guest.address,
+                                city=guest.city,
+                                province=guest.province,
+                                area_code=guest.area_code,
+                                country=guest.country,
+                                attending=guest.attending,
+                                additional_notes=guest.additional_notes,
+                                is_wedding_party=guest.is_wedding_party,
+                                plus_one_allowed=guest.plus_one_allowed,
+                                has_plus_one=guest.has_plus_one,
+                                )
+    for diet in guest.dietary_restrictions:
+        guest_detail.dietary_restrictions.append(diet)
+
+    if guest.has_plus_one:
+        guest_detail.plus_one = PlusOneDetail(first_name=guest.plus_one.first_name,
+                                              last_name=guest.plus_one.last_name,
+                                              email=guest.plus_one.email,
+                                              additional_notes=guest.plus_one.additional_notes)
+        for diet in guest.plus_one.dietary_restrictions:
+            guest_detail.plus_one.dietary_restrictions.append(diet)
 
 
 def get_current_admin(token: Annotated[str,Depends(oauth2_scheme_admin)]) -> Admin:
@@ -87,3 +132,15 @@ def authenticate_admin(username:str, password: str) -> bool:
     if not Hasher.verify_password(password, admin.password):
         return False
     return True
+
+def authenticate_guest( invite_code: str) -> str | None:
+    """
+    Authenticates the guest with the given invite code.
+    """
+    guests = DBGuest.objects()
+
+    # Search for the guest with the given invite code.
+    for guest in guests:
+        if Hasher.verify_password(invite_code, guest.password):
+            return guest.username
+    return None
