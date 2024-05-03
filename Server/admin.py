@@ -16,32 +16,44 @@ def create_admin_user(username: str, password: str, email: str):
 def delete_admin_user(username: str):
     Admin.objects(username=username).delete()
 
-def create_guests(filename: str):
+def create_guests(filename: str, delete: bool = False):
     # Read the Excel file
     df = pd.read_excel(filename)
 
     # Iterate over the rows of the DataFrame
     for _, row in df.iterrows():
+        first_name = row['First Name']
+        last_name = row['Last Name']
+        invite_code = row['Invite Code']
+        plus_one_allowed = row['Plus One Allowed']
+
+
         # Check if a Guest with the same firstname, lastname, and invite_code already exists
         existing_guest = Guest.objects(
-            firstname=row['firstname'],
-            lastname=row['lastname'],
+            first_name=first_name,
+            last_name=last_name,
         ).first()
+
+        if delete and existing_guest is not None:
+            existing_guest.delete()
+            print(f"Guest {first_name} {last_name} deleted.")
 
         if existing_guest is None:
             # Create a new Guest object
             guest = Guest(
-                firstname=row['firstname'],
-                lastname=row['lastname'],
+                first_name=first_name,
+                last_name=last_name,
+                plus_one_allowed=plus_one_allowed
             )
 
             # Hash the invite code to use as the password
-            guest.hash_password(row['invite_code'])
+            guest.hash_password(str(invite_code))
 
             # Save the Guest object to the database
             guest.save()
+            print(f"Guest {first_name} {last_name} created.")
         else:
-            print(f"Guest {row['firstname']} {row['lastname']} already exists.")
+            print(f"Guest {first_name} {last_name} already exists, skipping.")
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='Manage your FastAPI application.')
@@ -60,6 +72,7 @@ if __name__ == '__main__':
     parser_create_guests = subparsers.add_parser('create-guests')
     parser_create_guests.add_argument('filename')
     parser_create_guests.set_defaults(func=create_guests)
+    parser_create_guests.add_argument("-d", "--delete", action="store_true", help="Delete all existing guests before creating new ones.")
 
     args = parser.parse_args()
     start_db_connection()

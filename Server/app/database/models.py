@@ -35,8 +35,8 @@ class Admin(User):
     """
     Admin user class.
     """
-    username = StringField(required=True, unique=True)
-    email = StringField(required=True, unique=True)
+    username = StringField(required=True,)
+    email = StringField(required=True)
 
 
 class Guest(User):
@@ -45,8 +45,8 @@ class Guest(User):
     """
     # Contact fields
     first_name = StringField(required=True)
-    last_name = StringField(required=True)
-    email = StringField(default= "", unique=True)
+    last_name = StringField(required=True, unique_with="first_name")
+    email = StringField(default= "")
 
     # Address fields
     phone = StringField(default= "")

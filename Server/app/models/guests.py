@@ -18,16 +18,16 @@ class Diets(str, Enum):
 class PlusOneDetail(BaseModel):
     first_name: str
     last_name: str
-    email: EmailStr
+    email: str
     dietary_restrictions: list[Diets] = []
     additional_notes: str = ""
 
 class GuestDetail(BaseModel):
     first_name: str
     last_name: str
-    email: EmailStr
+    email: str
 
-    phone: PhoneNumber = None
+    phone: str = None
     address: str = ""
     city: str = ""
     province: str = ""
@@ -40,7 +40,7 @@ class GuestDetail(BaseModel):
     is_wedding_party: StrictBool = False
     plus_one_allowed: StrictBool = False
     has_plus_one: StrictBool = False
-    plus_one: Optional[PlusOneDetail]
+    plus_one: Optional[PlusOneDetail] = None
 
 
 

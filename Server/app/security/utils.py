@@ -69,8 +69,10 @@ def get_current_guest(token: str = Depends(oauth2_scheme_guest)) -> GuestDetail:
             headers={"WWW-Authenticate": "Bearer"},
         )
 
+    first_name, last_name = token_data.sub.split("_")
+
     # Search for the guest with the given username.
-    guest: DBGuest = DBGuest.objects(username=token_data.sub).first()
+    guest: DBGuest = DBGuest.objects(first_name=first_name, last_name=last_name).first()
 
     if not guest:
         raise HTTPException(
@@ -79,8 +81,7 @@ def get_current_guest(token: str = Depends(oauth2_scheme_guest)) -> GuestDetail:
             headers={"WWW-Authenticate": "Bearer"},
         )
 
-    guest_detail = GuestDetail( username=guest.username,
-                                first_name=guest.first_name,
+    guest_detail = GuestDetail( first_name=guest.first_name,
                                 last_name=guest.last_name,
                                 email=guest.email,
                                 phone=guest.phone,
@@ -105,6 +106,7 @@ def get_current_guest(token: str = Depends(oauth2_scheme_guest)) -> GuestDetail:
                                               additional_notes=guest.plus_one.additional_notes)
         for diet in guest.plus_one.dietary_restrictions:
             guest_detail.plus_one.dietary_restrictions.append(diet)
+    return guest_detail
 
 
 def get_current_admin(token: Annotated[str,Depends(oauth2_scheme_admin)]) -> Admin:
@@ -142,5 +144,5 @@ def authenticate_guest( invite_code: str) -> str | None:
     # Search for the guest with the given invite code.
     for guest in guests:
         if Hasher.verify_password(invite_code, guest.password):
-            return guest.username
+            return guest.first_name + "_" + guest.last_name
     return None
