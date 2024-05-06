@@ -44,4 +44,28 @@ class GuestDetail(BaseModel):
 
 
 
+class Guest(BaseModel):
+    first_name: str
+    last_name: str
 
+
+class GuestDetailForm(BaseModel):
+    attending: StrictBool
+
+    email: Optional[EmailStr] = None
+    phone: Optional[PhoneNumber] = None
+    address: Optional[str] = None
+    city: Optional[str] = None
+    province: Optional[str] = None
+    area_code: Optional[str] = None
+    country: Optional[str] = None
+    dietary_restrictions: Optional[list[Diets]] = []
+    additional_notes: Optional[str] = None
+
+
+class PlusOneForm(BaseModel):
+    first_name: str
+    last_name: str
+    email: EmailStr
+    dietary_restrictions: list[Diets] = []
+    additional_notes: str = ""

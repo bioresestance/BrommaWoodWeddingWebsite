@@ -3,10 +3,10 @@ from fastapi import APIRouter, Depends, HTTPException, status
 from fastapi.security import OAuth2PasswordRequestForm
 
 from app.models.access_token import AccessToken
-from app.models.guests import GuestDetail
+from app.models.guests import Guest, GuestDetail, GuestDetailForm, PlusOneDetail, PlusOneForm
 from app.security.utils import encode_json_web_token, get_current_guest, authenticate_guest
-from app.settings import get_settings, Settings
-from app.models.generic_msg import GenericMsg
+from app.settings import get_settings
+from app.database.models import Guest as GuestDB
 
 guest_router = APIRouter( prefix="/guest", tags=["guest"])
 setting = get_settings()
@@ -26,5 +26,23 @@ async def login(form_data: OAuth2PasswordRequestForm = Depends()) -> AccessToken
 
 
 @guest_router.get("/me")
-async def read_users_me(current_user:GuestDetail = Depends(get_current_guest)) -> GuestDetail:
+async def read_users_me(current_user:GuestDetail = Depends(get_current_guest)) -> Guest:
+    return Guest(first_name=current_user.first_name, last_name=current_user.last_name)
+
+
+@guest_router.post("/update")
+async def update_guest(form_data: GuestDetailForm,current_user: GuestDetail = Depends(get_current_guest)) -> GuestDetail:
+
+    # Get the db object for the current user
+    guest = GuestDB.objects(first_name = current_user.first_name, last_name = current_user.last_name).first()
+
+
+    # Update the guest details for items that are not None
+    for key, value in form_data.dict().items():
+        if value is not None:
+            setattr(guest, key, value)
+            setattr(current_user, key, value)
+
+    # Save the updated guest object
+    guest.save()
     return current_user
