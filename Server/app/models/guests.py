@@ -1,7 +1,7 @@
 from enum import Enum
 from typing import Optional
-from pydantic import BaseModel, EmailStr, StrictBool
-from pydantic_extra_types.phone_numbers import PhoneNumber
+from pydantic import BaseModel, EmailStr, StrictBool, ValidationError, field_validator
+import re
 
 
 class Diets(str, Enum):
@@ -26,14 +26,12 @@ class GuestDetail(BaseModel):
     first_name: str
     last_name: str
     email: str
-
     phone: str = None
     address: str = ""
     city: str = ""
     province: str = ""
     area_code: str = ""
     country: str = ""
-
     attending: StrictBool = False
     dietary_restrictions: list[Diets] = []
     additional_notes: str = ""
@@ -50,10 +48,9 @@ class Guest(BaseModel):
 
 
 class GuestDetailForm(BaseModel):
-    attending: StrictBool
-
+    attending: Optional[StrictBool] = False
     email: Optional[EmailStr] = None
-    phone: Optional[PhoneNumber] = None
+    phone: Optional[str] = None
     address: Optional[str] = None
     city: Optional[str] = None
     province: Optional[str] = None
@@ -62,10 +59,20 @@ class GuestDetailForm(BaseModel):
     dietary_restrictions: Optional[list[Diets]] = []
     additional_notes: Optional[str] = None
 
+    @field_validator("phone")
+    def phone_validator(cls, phone: str|None):
+        if phone is not None:
+            pattern = r'^\+?1?[-.\s]?(\(?([2-9][0-8][0-9])\)?[-.\s]?([2-9][0-9]{2})[-.\s]?([0-9]{4}))$'
+            match = re.match(pattern, phone)
+            if not match:
+                raise ValueError("Invalid phone number")
+            # Format phone number with dashes
+            phone = "1-{}-{}-{}".format(match.group(2), match.group(3), match.group(4))
+        return phone
 
 class PlusOneForm(BaseModel):
     first_name: str
     last_name: str
-    email: EmailStr
+    email: EmailStr | None = None
     dietary_restrictions: list[Diets] = []
     additional_notes: str = ""
