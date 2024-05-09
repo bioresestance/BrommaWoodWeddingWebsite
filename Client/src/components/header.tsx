@@ -1,48 +1,42 @@
-interface HeaderProps {
-  showDropdown: boolean;
-}
+import React from "react";
+import { Link } from "react-router-dom";
 
-const Header = ({ showDropdown }: HeaderProps) => {
+const Header: React.FC = () => {
   return (
-    <header className="flex items-center justify-between p-5 shadow-xl md:px-10 bg-gradient-to-r from-blue-500 to-purple-500">
-      <div className="flex items-center">
+    <header className="flex items-center justify-between p-5 shadow-xl md:px-10 bg-gradient-to-r from-blue-500/75 to-purple-500/75 fixed w-full h-12 rounded-b-3xl z-10">
+      <Link
+        to="/"
+        className="w-1/3 flex justify-start items-center mb-[-175px]"
+      >
         <img
-          className="w-36 h-36 rounded-full"
-          src="https://picsum.photos/400/500"
+          className="w-48 h-48 rounded-full shadow-lg border-black border-6"
+          src="/photos/logo.png"
           alt="Profile"
         />
-      </div>
+      </Link>
 
-      <div className="text-5xl font-bold text-center">
-        Bromma and Wood Wedding
-      </div>
+      <nav className="w-1/3 flex justify-center space-x-20">
+        <a
+          href="#"
+          className="text-gray-800 hover:bg-indigo-500 hover:text-white px-2 py-2 rounded-md text-sm font-medium border border-2 bg-gray-600/20 w-28 h-10 text-center"
+        >
+          RSVP
+        </a>
+        <a
+          href="#"
+          className="text-gray-800 hover:bg-indigo-500 hover:text-white px-2 py-2 rounded-md text-sm font-medium border border-2 bg-gray-600/20 w-28 h-10 text-center"
+        >
+          Our Story
+        </a>
+        <a
+          href="#"
+          className="text-gray-800 hover:bg-indigo-500 hover:text-white px-2 py-2 rounded-md text-sm font-medium border border-2 bg-gray-600/20 w-28 h-10 text-center"
+        >
+          Help
+        </a>
+      </nav>
 
-      {showDropdown && (
-        <div className="relative">
-          {/* <MenuIcon className="w-6 h-6 cursor-pointer md:hidden" /> */}
-          <div className="absolute right-0 w-48 py-2 mt-2 bg-white rounded-md shadow-xl">
-            <a
-              href="#"
-              className="block px-4 py-2 text-gray-800 hover:bg-indigo-500 hover:text-white"
-            >
-              Link 1
-            </a>
-            <a
-              href="#"
-              className="block px-4 py-2 text-gray-800 hover:bg-indigo-500 hover:text-white"
-            >
-              Link 2
-            </a>
-            <a
-              href="#"
-              className="block px-4 py-2 text-gray-800 hover:bg-indigo-500 hover:text-white"
-            >
-              Link 3
-            </a>
-          </div>
-        </div>
-      )}
-      {!showDropdown && <div className="relative"></div>}
+      <div className="w-1/3 text-right font-bold">June 15th, 2025</div>
     </header>
   );
 };
