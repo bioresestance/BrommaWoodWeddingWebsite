@@ -4,16 +4,15 @@ import { Link } from "react-router-dom";
 const Header: React.FC = () => {
   return (
     <header className="flex items-center justify-between p-5 shadow-xl md:px-10 bg-gradient-to-r from-blue-500/75 to-purple-500/75 fixed w-full h-12 rounded-b-3xl z-10">
-      <Link
-        to="/"
-        className="w-1/3 flex justify-start items-center mb-[-175px]"
-      >
-        <img
-          className="w-48 h-48 rounded-full shadow-lg border-black border-6"
-          src="/photos/logo.png"
-          alt="Profile"
-        />
-      </Link>
+      <div className="w-1/3 flex justify-start items-center mb-[-175px]">
+        <Link to="/">
+          <img
+            className="w-48 h-48 rounded-full shadow-lg border-black border-6"
+            src="/photos/logo.png"
+            alt="Profile"
+          />
+        </Link>
+      </div>
 
       <nav className="w-1/3 flex justify-center space-x-20">
         <a
