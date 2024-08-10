@@ -12,6 +12,7 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
         <Route path="/" element={<App />}>
           <Route path="/" element={<Home />} />
           <Route path="/rsvp" element={<RSVP />} />
+          <Route path="*" element={<Home />} /> /* Catch all */
         </Route>
       </Routes>
     </Router>
