@@ -7,6 +7,7 @@ import RSVP from "./pages/rsvp.tsx";
 import FAQPage from "./pages/FAQ.tsx";
 import UserInfoPage from "./pages/UserInfo.tsx";
 import RulesPage from "./pages/RulesPage.tsx";
+import PrivateRoute from "./pages/PrivatePage.tsx";
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
@@ -17,7 +18,14 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
           <Route path="/rsvp" element={<RSVP />} />
           <Route path="/faq" element={<FAQPage />} />
           <Route path="/rules" element={<RulesPage />} />
-          <Route path="/user" element={<UserInfoPage />} /> /* TODO: Make this private to logged user only*/
+          <Route
+            path="/user"
+            element={
+              //<PrivateRoute>
+              <UserInfoPage />
+              // </PrivateRoute>
+            }
+          />
           <Route path="*" element={<Home />} /> /* Catch all */
         </Route>
       </Routes>

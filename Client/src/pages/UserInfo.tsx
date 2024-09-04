@@ -1,39 +1,57 @@
-import { useForm } from "react-hook-form"
-import { yupResolver } from "@hookform/resolvers/yup"
-import * as yup from "yup"
+import { useForm } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
+import * as yup from "yup";
 
 const UserInfoPage: React.FC = () => {
-
   const schema = yup.object().shape({
-    rsvp_code: yup.string().required("Please enter your RSVP code.").min(6, "Please enter a valid RSVP code."),
-  })
+    rsvp_code: yup
+      .string()
+      .required("Please enter your RSVP code.")
+      .min(6, "Please enter a valid RSVP code."),
+  });
 
-  const { register, handleSubmit, formState: { errors } } = useForm({
-    resolver: yupResolver(schema)
-  })
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({
+    resolver: yupResolver(schema),
+  });
 
   const onSubmit = (data: any) => {
-    console.log(data)
-  }
+    console.log(data);
+  };
 
   const onError = (error: any) => {
-    console.log(error)
-  }
+    console.log(error);
+  };
 
-  let firstName = "Aaron"
+  const firstName = "Aaron";
+  const dummyUser = { id: 1, name: "John Doe", email: "john@example.com" };
+
   return (
-    <div className="flex flex-col items-center w-full min-h-screen text-black pt-[10vh]">
+    <div className="flex flex-col items-center w-full min-h-screen text-black pt-[5vh]">
       <p className="text-5xl font-bold text-black rounded-full p-12 pr-16">
         Welcome {firstName}
       </p>
-      <br />
-      Below is your provided information. Please ensure it is correct and up to date!
-      <br />
-      <br />
-      Please be aware that you will have until <span className="font-bold">April 30th, 2025</span> to make any changes, after that date we will lock this site.
-
-      <form onSubmit={handleSubmit(onSubmit, onError)}>
-      </form>
+      <table className="table-fixed w-[50%] border m-12">
+        <tbody>
+          {Object.entries(dummyUser).map(([key, value]) => (
+            <tr key={key}>
+              <td className="pl-10">{key}</td>
+              <td className=" text-center">{value}</td>
+              <td className=" text-center">
+                <button className="bg-blue-500 text-white px-2 py-1 rounded">
+                  Edit
+                </button>
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+      <button className="bg-green-500 text-white px-4 py-2 mt-4 rounded">
+        Submit Changes
+      </button>
     </div>
   );
 };

@@ -12,7 +12,7 @@ const Home: React.FC = () => {
         <br />
         <CountdownTimer targetDate={wedding_time} />
         <br />
-        <div className="  z-10 px-5 py-2 pb-20">
+        <div className="z-10 px-5 py-2 pb-20">
           <Link to="/rsvp">
             <button className="bg-blue-600/75 hover:bg-blue-800 text-xl border-2 border rounded-full border-black text-white/90 hover:text-white font-bold py-4 px-8">
               RSVP?
