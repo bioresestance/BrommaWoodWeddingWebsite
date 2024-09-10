@@ -1,8 +1,13 @@
 import CountdownTimer from "../components/countdownTimer";
 import { Link } from "react-router-dom";
+import useCheckApiConnection from "../hooks/useCheckApiConnection";
 
 const Home: React.FC = () => {
   const wedding_time = new Date("2025-06-15T16:00:00Z").getTime();
+  const { data, error, isLoading } = useCheckApiConnection();
+
+  console.log(data?.data.msg);
+
   return (
     <div className="bg-cover bg-center bg-no-repeat bg-fixed background">
       <div className="flex flex-col items-center w-full min-h-screen text-white pt-[30vh]">

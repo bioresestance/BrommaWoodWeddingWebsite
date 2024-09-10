@@ -7,11 +7,14 @@
     "dev": "vite",
     "build": "tsc && vite build",
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "api": "openapi-generator-cli generate"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.9.0",
     "@tailwindcss/vite": "^4.0.0-alpha.14",
+    "@tanstack/react-query": "^5.55.2",
+    "axios": "^1.7.7",
     "js-cookie": "^3.0.5",
     "jwt-decode": "^4.0.0",
     "localforage": "^1.10.0",
@@ -25,6 +28,7 @@
     "yup": "^1.4.0"
   },
   "devDependencies": {
+    "@openapitools/openapi-generator-cli": "^2.13.5",
     "@types/js-cookie": "^3.0.6",
     "@types/react": "^18.2.66",
     "@types/react-dom": "^18.2.22",
