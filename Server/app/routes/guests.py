@@ -46,3 +46,7 @@ async def update_guest(form_data: GuestDetailForm,current_user: GuestDetail = De
     # Save the updated guest object
     guest.save()
     return current_user
+
+@guest_router.get("/details")
+async def get_guest(current_user: GuestDetail = Depends(get_current_guest)) -> GuestDetail:
+    return current_user

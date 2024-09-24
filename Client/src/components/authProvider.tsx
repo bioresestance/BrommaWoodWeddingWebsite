@@ -1,30 +1,43 @@
 import React, { useState, useEffect } from "react";
 import Cookies from "js-cookie";
-import { jwtDecode } from "jwt-decode";
+import { jwtDecode, JwtPayload } from "jwt-decode";
 import AuthContext from "../authContext";
+import useLoginGuest from "../hooks/useLoginGuest";
 
 const AuthProvider: React.FC = ({ children }) => {
-  const [user, setUser] = useState(null);
+  const [user, setUser] = useState<string | null>(null);
+  const { mutateAsync } = useLoginGuest();
 
   useEffect(() => {
     const token = Cookies.get("token");
     if (token) {
-      const decodedToken = jwtDecode(token, { header: true });
-      const expirationDate = new Date(decodedToken.exp * 1000);
-      if (new Date() < expirationDate) {
-        setUser({ username: decodedToken.username });
-      } else {
+      try {
+        const decodedToken = jwtDecode<JwtPayload>(token);
+        const expirationDate = new Date(decodedToken.exp * 1000);
+        if (new Date() < expirationDate) {
+          setUser("guest");
+        } else {
+          console.log("Token expired");
+          Cookies.remove("token");
+        }
+      } catch (error) {
+        console.error(error);
         Cookies.remove("token");
       }
     }
   }, []);
 
-  const login = async (username: string, password: string) => {
-    // Call your login API here
-    // If login is successful, set the user state and store the token in a cookie
-    const token = "your jwt token";
-    Cookies.set("token", token);
-    setUser({ username });
+  const login = async (password: string) => {
+    try {
+      const response = await mutateAsync(password);
+      // If login is successful, set the user state and store the token in a cookie
+      const token = response.data.access_token;
+      Cookies.set("token", token);
+      setUser("guest");
+      return true;
+    } catch (error) {
+      return false;
+    }
   };
 
   const logout = () => {

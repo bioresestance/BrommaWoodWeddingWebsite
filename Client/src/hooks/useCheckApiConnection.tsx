@@ -1,7 +1,8 @@
-import { DefaultApi, Configuration } from "../api/axios-client";
+import apiConfiguration from "../api/apiConfiguration";
+import { DefaultApi } from "../api/axios-client";
 import { useQuery } from "@tanstack/react-query";
 
-const api = new DefaultApi();
+const api = new DefaultApi(apiConfiguration);
 
 export default function useCheckApiConnection() {
   const { data, error, isLoading } = useQuery({

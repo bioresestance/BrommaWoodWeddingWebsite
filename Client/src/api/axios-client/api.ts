@@ -731,6 +731,40 @@ export const GuestApiAxiosParamCreator = function (configuration?: Configuration
     return {
         /**
          * 
+         * @summary Get Guest
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getGuestGuestDetailsGet: async (options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/guest/details`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication OAuth2PasswordBearer required
+            // oauth required
+            await setOAuthToObject(localVarHeaderParameter, "OAuth2PasswordBearer", [], configuration)
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
          * @summary Login
          * @param {string} username 
          * @param {string} password 
@@ -883,6 +917,18 @@ export const GuestApiFp = function(configuration?: Configuration) {
     return {
         /**
          * 
+         * @summary Get Guest
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async getGuestGuestDetailsGet(options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<GuestDetail>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.getGuestGuestDetailsGet(options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['GuestApi.getGuestGuestDetailsGet']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         * 
          * @summary Login
          * @param {string} username 
          * @param {string} password 
@@ -934,6 +980,15 @@ export const GuestApiFp = function(configuration?: Configuration) {
 export const GuestApiFactory = function (configuration?: Configuration, basePath?: string, axios?: AxiosInstance) {
     const localVarFp = GuestApiFp(configuration)
     return {
+        /**
+         * 
+         * @summary Get Guest
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getGuestGuestDetailsGet(options?: RawAxiosRequestConfig): AxiosPromise<GuestDetail> {
+            return localVarFp.getGuestGuestDetailsGet(options).then((request) => request(axios, basePath));
+        },
         /**
          * 
          * @summary Login
@@ -1036,6 +1091,17 @@ export interface GuestApiUpdateGuestGuestUpdatePostRequest {
  * @extends {BaseAPI}
  */
 export class GuestApi extends BaseAPI {
+    /**
+     * 
+     * @summary Get Guest
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof GuestApi
+     */
+    public getGuestGuestDetailsGet(options?: RawAxiosRequestConfig) {
+        return GuestApiFp(this.configuration).getGuestGuestDetailsGet(options).then((request) => request(this.axios, this.basePath));
+    }
+
     /**
      * 
      * @summary Login

@@ -25,9 +25,9 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
             <Route
               path="/user"
               element={
-                //<PrivateRoute>
-                <UserInfoPage />
-                // </PrivateRoute>
+                <PrivateRoute>
+                  <UserInfoPage />
+                </PrivateRoute>
               }
             />
             <Route path="*" element={<Home />} /> /* Catch all */
