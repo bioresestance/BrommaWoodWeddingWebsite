@@ -4,12 +4,24 @@ import GuestDetailForm from "../components/guestDetailForm";
 const UserInfoPage: React.FC = () => {
   const { data, isLoading } = useGetGuestDetails();
 
+  if (isLoading) {
+    return <p>Loading...</p>;
+  }
+
   return (
-    <div className="flex flex-col items-center w-full min-h-screen text-black pt-[5vh]">
+    <div className="flex flex-col items-center w-full min-h-screen mb-[10vh] text-black pt-[5vh]">
       <p className="text-5xl font-bold text-black rounded-full p-12 pr-16">
         Welcome {data?.data.first_name}
       </p>
-      {isLoading ? <p>Loading...</p> : <GuestDetailForm details={data?.data} />}
+      <br />
+      <br />
+      <p className="md:w-[50%] w-[90%] text-lg">
+        Below are your current details, please make sure they are correct. If
+        not, please update them and make sure to hit save.
+      </p>
+      <div className=" border-black border-4 mt-10 mx-2 md:mx-16 p-6">
+        <GuestDetailForm details={data?.data} />
+      </div>
     </div>
   );
 };

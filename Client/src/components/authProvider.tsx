@@ -1,10 +1,14 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, ReactNode } from "react";
 import Cookies from "js-cookie";
 import { jwtDecode, JwtPayload } from "jwt-decode";
 import AuthContext from "../authContext";
 import useLoginGuest from "../hooks/useLoginGuest";
 
-const AuthProvider: React.FC = ({ children }) => {
+interface AuthProviderProps {
+  children: ReactNode;
+}
+
+const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const [user, setUser] = useState<string | null>(null);
   const { mutateAsync } = useLoginGuest();
 
@@ -13,6 +17,12 @@ const AuthProvider: React.FC = ({ children }) => {
     if (token) {
       try {
         const decodedToken = jwtDecode<JwtPayload>(token);
+        if (!decodedToken) {
+          throw new Error("Token is invalid");
+        }
+        if (decodedToken.exp === undefined) {
+          throw new Error("Token has no expiration date");
+        }
         const expirationDate = new Date(decodedToken.exp * 1000);
         if (new Date() < expirationDate) {
           setUser("guest");
