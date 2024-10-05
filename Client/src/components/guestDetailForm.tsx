@@ -80,6 +80,8 @@ const GuestDetailForm: React.FC<GuestDetailFormProps> = (props) => {
   });
 
   const watchAttending = watch("attending");
+  const plusOneAllowed = watch("plus_one_allowed");
+  const plusOneAttending = watch("has_plus_one");
 
   const addDietaryRestriction = () => {
     append({ value: "" });
@@ -354,6 +356,35 @@ const GuestDetailForm: React.FC<GuestDetailFormProps> = (props) => {
             </p>
           )}
         </div>
+        <br />
+        <DividerLine text="Additional Notes" />
+        {/* Notes */}
+        <div className="pb-5">
+          <textarea
+            id="notes"
+            className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full  p-2.5"
+            placeholder="Please enter any additional notes here that we will need to know!"
+            {...register("notes")}
+          />
+        </div>
+
+        <DividerLine text="Plus One Information" />
+
+        {/* Plus One */}
+        {!plusOneAllowed && (
+          <div className="flex items-center justify-center text-center w-full py-5">
+            <p className="md:w-[50%]">
+              We are very sorry,we have to limit the number of guests at our
+              wedding due to budget and space. As such, you are not eligible to
+              bring a plus one. Please read the{" "}
+              <a href="/faq" className="text-blue-500 underline">
+                FAQ
+              </a>{" "}
+              for more information.
+            </p>
+          </div>
+        )}
+        {plusOneAllowed && <div>hi</div>}
       </div>
       <button type="submit" className="mt-4 bg-blue-500 text-white p-2 rounded">
         Save
