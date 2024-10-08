@@ -384,7 +384,7 @@ const GuestDetailForm: React.FC<GuestDetailFormProps> = (props) => {
             </p>
           </div>
         )}
-        {plusOneAllowed && <div>hi</div>}
+        {plusOneAllowed && <div>Good Job, you are allowed a guest! Yay!</div>}
       </div>
       <button type="submit" className="mt-4 bg-blue-500 text-white p-2 rounded">
         Save

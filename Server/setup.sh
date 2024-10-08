@@ -10,7 +10,7 @@ source env/bin/activate.fish
 pip3 install -r requirements.txt
 
 # Start the docker compose file
-docker compose pull
-docker compose up -d
+docker compose pull -f compose.dev.yml
+docker compose up -d -f compose.dev.yml
 
 uvicorn app.main:app --reload

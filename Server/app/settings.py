@@ -1,18 +1,17 @@
 from pydantic_settings import BaseSettings, SettingsConfigDict
+from pydantic import Field
 from functools import lru_cache
 
 class Settings(BaseSettings):
-    app_name: str = "Bromma Wood Wedding"
-    db_url: str = "mongodb://localhost:27017"
-    db_username: str = "admin"
-    db_password: str = "admin"
-    db_name: str = "brommawoodwedding"
-    jwt_secret: str = "7a622820781eff8983daebd5552995d510c674d870b5e02a332360e0e68ed985" # This is a placeholder secret for dev, replace it with your own.
-    jwt_algorithm: str = "HS256"
-    jwt_expires: int = 900
+    app_name: str = Field("Bromma Wood Wedding", env="APP_NAME")
+    db_url: str = Field("mongodb://localhost:27017", env="DB_URL")
+    db_username: str = Field("admin", env="DB_USERNAME")
+    db_password: str = Field("admin", env="DB_PASSWORD")
+    db_name: str = Field("brommawoodwedding", env="DB_NAME")
+    jwt_secret: str = Field("7a622820781eff8983daebd5552995d510c674d870b5e02a332360e0e68ed985", env="JWT_SECRET")
+    jwt_algorithm: str = Field("HS256", env="JWT_ALGORITHM")
+    jwt_expires: int = Field(900, env="JWT_EXPIRES")
 
-    # Anything in .env file, at the root of the Server folder will override the above default settings.
-    model_config = SettingsConfigDict(env_file=".env")
 
 
 @lru_cache()
