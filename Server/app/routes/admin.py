@@ -28,3 +28,16 @@ async def login(form_data: OAuth2PasswordRequestForm = Depends()) -> AccessToken
 @admin_router.get("/me")
 async def read_users_me(current_user:Admin = Depends(get_current_admin)) -> Admin:
     return current_user
+
+
+@admin_router.get("/guest")
+async def get_guest(current_user:Admin = Depends(get_current_admin)) -> str:
+    return "Get Guest"
+
+@admin_router.put("/guest")
+async def create_guest(current_user:Admin = Depends(get_current_admin)) -> str:
+    return "Create Guest"
+
+@admin_router.post("/guest")
+async def update_guest(current_user:Admin = Depends(get_current_admin)) -> str:
+    return "Update Guest"
