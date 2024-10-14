@@ -1,4 +1,5 @@
 from datetime import datetime, timedelta
+import os
 from typing import Annotated
 from fastapi import Depends, HTTPException, Header, status
 from fastapi.security import OAuth2PasswordBearer
@@ -124,15 +125,19 @@ def get_current_admin(token: Annotated[str,Depends(oauth2_scheme_admin)]) -> Adm
     return Admin(username=token_data.sub)
 
 
-def authenticate_admin(username:str, password: str) -> bool:
+def authenticate_admin(username: str, password: str) -> bool:
     """
     Authenticates the admin with the given username and password.
     """
-    admin = DBAdmin.objects(username=username).first()
-    if not admin:
+    admin_username = os.getenv('ADMIN_USERNAME', 'admin')
+    admin_password = os.getenv('ADMIN_PASSWORD', 'admin_password')
+
+    if username != admin_username:
         return False
-    if not Hasher.verify_password(password, admin.password):
+
+    if password != admin_password:
         return False
+
     return True
 
 def authenticate_guest( invite_code: str) -> str | None:
