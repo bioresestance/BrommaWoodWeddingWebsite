@@ -1,11 +1,27 @@
 import { yupResolver } from "@hookform/resolvers/yup";
-import { GuestDetail } from "../api/axios-client";
+import { Diets, GuestDetail } from "../api/axios-client";
 import * as yup from "yup";
 import { useForm, useFieldArray } from "react-hook-form";
 import DividerLine from "./dividerLine";
 
 type GuestDetailFormProps = {
   details: GuestDetail | undefined;
+};
+
+type GuestDetailForm = {
+  attending?: boolean;
+  first_name?: string;
+  last_name?: string;
+  preferred_name?: string;
+  email?: string;
+  phone?: string;
+  address?: string;
+  city?: string;
+  province?: string;
+  area_code?: string;
+  country?: string;
+  additional_notes?: string;
+  dietary_restrictions?: { value?: Diets }[];
 };
 
 const GuestDetailForm: React.FC<GuestDetailFormProps> = (props) => {
@@ -55,10 +71,16 @@ const GuestDetailForm: React.FC<GuestDetailFormProps> = (props) => {
       is: true,
       then: (schema) => schema.required("Please enter your country."),
     }),
-    notes: yup.string(),
+    additional_notes: yup.string(),
     dietary_restrictions: yup.array().of(
       yup.object().shape({
-        value: yup.string(),
+        value: yup
+          .string()
+          .oneOf(
+            Object.values(Diets),
+            "Please enter a valid dietary restriction."
+          )
+          .required("Please enter a dietary restriction."),
       })
     ),
   });
@@ -66,12 +88,11 @@ const GuestDetailForm: React.FC<GuestDetailFormProps> = (props) => {
   const {
     register,
     control,
-    watch,
     handleSubmit,
     formState: { errors },
-  } = useForm({
+  } = useForm<GuestDetailForm>({
     resolver: yupResolver(schema),
-    defaultValues: props.details, // Set initial values based on the incoming details
+    // defaultValues: props.details, // Set initial values based on the incoming details
   });
 
   const { fields, append, remove } = useFieldArray({
@@ -79,15 +100,14 @@ const GuestDetailForm: React.FC<GuestDetailFormProps> = (props) => {
     name: "dietary_restrictions",
   });
 
-  const watchAttending = watch("attending");
-  const plusOneAllowed = watch("plus_one_allowed");
-  const plusOneAttending = watch("has_plus_one");
+  const watchAttending = props.details?.attending;
+  const plusOneAllowed = props.details?.plus_one_allowed;
 
   const addDietaryRestriction = () => {
-    append({ value: "" });
+    append({ value: "none" });
   };
 
-  const onSubmit = (data) => {
+  const onSubmit = (data: GuestDetailForm) => {
     console.log(data);
   };
 
@@ -338,7 +358,7 @@ const GuestDetailForm: React.FC<GuestDetailFormProps> = (props) => {
                   id={`dietary_restrictions_${index}`}
                   className={inputClass}
                   autoComplete="off"
-                  {...register(`dietary_restrictions.${index}.value`)}
+                  {...register(`dietary_restrictions.${index}`)}
                 />
                 <button
                   type="button"
@@ -364,7 +384,7 @@ const GuestDetailForm: React.FC<GuestDetailFormProps> = (props) => {
             id="notes"
             className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full  p-2.5"
             placeholder="Please enter any additional notes here that we will need to know!"
-            {...register("notes")}
+            {...register("additional_notes")}
           />
         </div>
 

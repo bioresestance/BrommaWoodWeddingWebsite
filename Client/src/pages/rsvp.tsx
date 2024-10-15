@@ -33,7 +33,7 @@ const RSVP: React.FC = () => {
 
   const onSubmit = async (data: { rsvp_code: string }) => {
     try {
-      const response: boolean = await login(data.rsvp_code, "guest");
+      const response: boolean = await login(data.rsvp_code);
 
       if (response) {
         setError(false);

@@ -18,8 +18,8 @@ services:
 
   backend:
     build:
-      context: ./
-      dockerfile: Dockerfile.Server.prod
+      context: ../Server
+      dockerfile: ../Production/Dockerfile.Server.prod
     command: uvicorn app.main:app --host 0.0.0.0 --port 8000
     restart: unless-stopped
     environment:
@@ -33,11 +33,12 @@ services:
 
   frontend:
     build:
-      context: ./
-      dockerfile: Dockerfile.Client.prod
+      context: ../Client
+      dockerfile: ../Production/Dockerfile.Client.prod
     restart: unless-stopped
     environment:
       - NODE_ENV=production
+      - VITE_API_BASE_URL="${APP_URL}/api"
     networks:
       - wedding_website
 
