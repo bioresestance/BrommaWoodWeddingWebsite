@@ -13,7 +13,6 @@ class Settings(BaseSettings):
     jwt_expires: int = Field(900, env="JWT_EXPIRES")
 
 
-
 @lru_cache()
 def get_settings() -> Settings:
     return Settings()

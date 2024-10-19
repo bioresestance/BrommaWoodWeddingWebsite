@@ -20,12 +20,9 @@ services:
     build:
       context: ../Server
       dockerfile: ../Production/Dockerfile.Server.prod
-    command: uvicorn app.main:app --host 0.0.0.0 --port 8000
     restart: unless-stopped
-    environment:
-      - MONGODB_HOST=mongodb:27017
-      - MONGODB_ROOT_USERNAME=${DB_USERNAME}
-      - MONGODB_ROOT_PASSWORD=${DB_PASSWORD}
+    env_file:
+      - .env
     depends_on:
       - mongodb
     networks:
@@ -38,7 +35,6 @@ services:
     restart: unless-stopped
     environment:
       - NODE_ENV=production
-      - VITE_API_BASE_URL="${APP_URL}/api"
     networks:
       - wedding_website
 
