@@ -12,3 +12,9 @@ services:
     environment:
       MONGO_INITDB_ROOT_USERNAME: admin
       MONGO_INITDB_ROOT_PASSWORD: admin
+
+  redis:
+    image: redis:latest
+    restart: unless-stopped
+    ports:
+      - 6379:6379
