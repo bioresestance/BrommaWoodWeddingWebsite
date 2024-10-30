@@ -16,6 +16,45 @@ oauth2_scheme_admin = OAuth2PasswordBearer(tokenUrl="/admin/login")
 oauth2_scheme_guest = OAuth2PasswordBearer(tokenUrl="/guest/login")
 
 
+def get_guest_from_name(first_name: str, last_name: str) -> GuestDetail | None:
+    """
+    Get the guest from the database based on the first and last name.
+    """
+    db_guest = DBGuest.objects(first_name=first_name, last_name=last_name).first()
+
+    if not db_guest or db_guest is None:
+        return None
+    
+    guest_detail = GuestDetail( first_name=db_guest.first_name,
+                                last_name=db_guest.last_name,
+                                email=db_guest.email,
+                                phone=db_guest.phone,
+                                address=db_guest.address,
+                                city=db_guest.city,
+                                province=db_guest.province,
+                                area_code=db_guest.area_code,
+                                country=db_guest.country,
+                                attending=db_guest.attending,
+                                additional_notes=db_guest.additional_notes,
+                                is_wedding_party=db_guest.is_wedding_party,
+                                plus_one_allowed=db_guest.plus_one_allowed,
+                                has_plus_one=db_guest.has_plus_one,
+                                )
+    for diet in db_guest.dietary_restrictions:
+        guest_detail.dietary_restrictions.append(diet)
+
+    if db_guest.has_plus_one:
+        guest_detail.plus_one = PlusOneDetail(first_name=db_guest.plus_one.first_name,
+                                              last_name=db_guest.plus_one.last_name,
+                                              email=db_guest.plus_one.email,
+                                              additional_notes=db_guest.plus_one.additional_notes)
+        for diet in db_guest.plus_one.dietary_restrictions:
+            guest_detail.plus_one.dietary_restrictions.append(diet)
+
+    return guest_detail
+
+
+
 def encode_json_web_token(username:str, role:str, expires_time: timedelta | None = None) -> AccessToken:
     
     """Generates a JSON Web Token thats been encoded with needed data to verify authentication.
@@ -73,40 +112,14 @@ def get_current_guest(token: str = Depends(oauth2_scheme_guest)) -> GuestDetail:
     first_name, last_name = token_data.sub.split("_")
 
     # Search for the guest with the given username.
-    guest: DBGuest = DBGuest.objects(first_name=first_name, last_name=last_name).first()
+    guest_detail = get_guest_from_name(first_name, last_name)
 
-    if not guest:
+    if guest_detail is None:
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
             detail="Could not validate credentials",
             headers={"WWW-Authenticate": "Bearer"},
         )
-
-    guest_detail = GuestDetail( first_name=guest.first_name,
-                                last_name=guest.last_name,
-                                email=guest.email,
-                                phone=guest.phone,
-                                address=guest.address,
-                                city=guest.city,
-                                province=guest.province,
-                                area_code=guest.area_code,
-                                country=guest.country,
-                                attending=guest.attending,
-                                additional_notes=guest.additional_notes,
-                                is_wedding_party=guest.is_wedding_party,
-                                plus_one_allowed=guest.plus_one_allowed,
-                                has_plus_one=guest.has_plus_one,
-                                )
-    for diet in guest.dietary_restrictions:
-        guest_detail.dietary_restrictions.append(diet)
-
-    if guest.has_plus_one:
-        guest_detail.plus_one = PlusOneDetail(first_name=guest.plus_one.first_name,
-                                              last_name=guest.plus_one.last_name,
-                                              email=guest.plus_one.email,
-                                              additional_notes=guest.plus_one.additional_notes)
-        for diet in guest.plus_one.dietary_restrictions:
-            guest_detail.plus_one.dietary_restrictions.append(diet)
     return guest_detail
 
 

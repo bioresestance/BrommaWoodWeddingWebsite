@@ -18,18 +18,19 @@ def ensure_users_exist(base_url, token, users):
     headers = {
         "Authorization": f"Bearer {token}"
     }
-    for user in users:
+    # for user in users:
         # Check if user exists
-        response = requests.get(f"{base_url}/admin/users/{user['username']}", headers=headers)
-        if response.status_code == 404:
-            # Create user if not exists
-            response = requests.post(f"{base_url}/admin/users", headers=headers, json=user)
-            if response.status_code != 201:
-                print(f"Failed to create user {user['username']}: {response.text}")
-            else:
-                print(f"User {user['username']} created successfully")
-        else:
-            print(f"User {user['username']} already exists")
+    response = requests.get(f"{base_url}/admin/guest/test_testing", headers=headers)
+    print(response)
+        # if response.status_code == 404:
+        #     # Create user if not exists
+        #     response = requests.post(f"{base_url}/admin/users", headers=headers, json=user)
+        #     if response.status_code != 201:
+        #         print(f"Failed to create user {user['username']}: {response.text}")
+        #     else:
+        #         print(f"User {user['username']} created successfully")
+        # else:
+        #     print(f"User {user['username']} already exists")
 
 def main():
     parser = argparse.ArgumentParser(description="Manage admin endpoints")
@@ -48,7 +49,7 @@ def main():
     #     users = json.load(f)
 
     token = authenticate(args.base_url, username, password)
-    # ensure_users_exist(args.base_url, token, users)
+    ensure_users_exist(args.base_url, token, None)
 
 if __name__ == "__main__":
     main()
