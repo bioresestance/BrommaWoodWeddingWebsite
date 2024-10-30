@@ -16,6 +16,12 @@ services:
     networks:
       - wedding_website
 
+  redis:
+    image: redis:7.4.1
+    restart: unless-stopped
+    networks:
+      - wedding_website
+
   backend:
     build:
       context: ../Server

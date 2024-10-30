@@ -1,4 +1,4 @@
-from pydantic_settings import BaseSettings, SettingsConfigDict
+from pydantic_settings import BaseSettings
 from pydantic import Field
 from functools import lru_cache
 
@@ -11,6 +11,7 @@ class Settings(BaseSettings):
     jwt_secret: str = Field("7a622820781eff8983daebd5552995d510c674d870b5e02a332360e0e68ed985", env="JWT_SECRET")
     jwt_algorithm: str = Field("HS256", env="JWT_ALGORITHM")
     jwt_expires: int = Field(900, env="JWT_EXPIRES")
+    redis_url: str = Field("redis://localhost:6379", env="REDIS_URL")
 
 
 @lru_cache()
