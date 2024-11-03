@@ -114,7 +114,7 @@ const FAQPage: React.FC = () => {
             </div>
             <div className="mx-auto mt-8 grid max-w-xl divide-y divide-neutral-200">
                 {faqs.map((faq, index) => (
-                    <div className="py-5">
+                    <div className="py-5" key={index}>
                         <details className="group">
                             <summary className="flex cursor-pointer list-none items-center justify-between font-medium">
                                 <span> {faq.question}</span>
