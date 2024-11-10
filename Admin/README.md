@@ -17,8 +17,8 @@ Create Users File: users.json
 
 ```json
 [
-  { "username": "user1", "password": "password1" },
-  { "username": "user2", "password": "password2" }
+  { "username": "user1", "code": "1234567890", "plus_one": false },
+  { "username": "user2", "code": "2345678901", "plus_one": false }
 ]
 ```
 

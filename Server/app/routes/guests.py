@@ -37,6 +37,8 @@ async def update_guest(form_data: GuestDetailForm,current_user: GuestDetail = De
     guest = GuestDB.objects(first_name = current_user.first_name, last_name = current_user.last_name).first()
 
 
+    # TODO: Only update fields that are not None, and check if user has permission to update the field, such as plus_one
+
     # Update the guest details for items that are not None
     for key, value in form_data.dict().items():
         if value is not None:

@@ -18,22 +18,34 @@ def ensure_users_exist(base_url, token, users):
     headers = {
         "Authorization": f"Bearer {token}"
     }
-    # for user in users:
+    for user in users:
         # Check if user exists
-    response = requests.get(f"{base_url}/admin/guest/test_testing", headers=headers)
-    print(response)
-        # if response.status_code == 404:
-        #     # Create user if not exists
-        #     response = requests.post(f"{base_url}/admin/users", headers=headers, json=user)
-        #     if response.status_code != 201:
-        #         print(f"Failed to create user {user['username']}: {response.text}")
-        #     else:
-        #         print(f"User {user['username']} created successfully")
-        # else:
-        #     print(f"User {user['username']} already exists")
+        response = requests.get(f"{base_url}/admin/guest/{str(user['username']).lower()}", headers=headers)
+        if response.status_code == 404:
+            print(f"User {user['username']} does not exists, creating...")
+            response = requests.post(f"{base_url}/admin/guest/create", headers=headers, json=user)
+            if response.status_code != 201:
+                print(f"Failed to create user {user['username']}: {response.text}")
+            else:
+                print(f"User {user['username']} created successfully")
+        else:
+            print(f"User {user['username']} already exists")
+
+
+def nuke_db(base_url, token):
+    headers = {
+        "Authorization": f"Bearer {token}"
+    }
+
+    response = requests.post(f"{base_url}/admin/nuke", headers=headers)
+    if response.status_code == 200:
+        print("Database nuked")
+    else:
+        print(f"Failed to nuke database: {response.text}")
 
 def main():
     parser = argparse.ArgumentParser(description="Manage admin endpoints")
+    parser.add_argument("--nuke", help="Nuke the database", default=False , action="store_true")
     parser.add_argument("--base-url", help="Base URL of the admin API", default="http://localhost:8000")
     parser.add_argument("--auth-file", help="File containing username and password for authentication", default="auth.json")
     parser.add_argument("--users-file", help="File containing list of users to ensure exist on the server", default="users.json")
@@ -45,11 +57,15 @@ def main():
         username = auth_data["username"]
         password = auth_data["password"]
 
-    # with open(args.users_file, "r") as f:
-    #     users = json.load(f)
-
     token = authenticate(args.base_url, username, password)
-    ensure_users_exist(args.base_url, token, None)
+
+    if args.nuke:
+        nuke_db(args.base_url, token)
+
+    else:
+        with open(args.users_file, "r") as f:
+            users = json.load(f)
+        ensure_users_exist(args.base_url, token, users)
 
 if __name__ == "__main__":
     main()

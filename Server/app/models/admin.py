@@ -6,3 +6,9 @@ class User(BaseModel):
 
 class Admin(BaseModel):
     username: str
+
+
+class CreateUserModel(BaseModel):
+    username: str
+    code: str
+    plus_one: bool

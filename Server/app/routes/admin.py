@@ -2,10 +2,11 @@ from datetime import timedelta
 from typing import Annotated
 from fastapi import APIRouter, Depends, HTTPException, status
 from fastapi.security import OAuth2PasswordRequestForm
+from fastapi.responses import JSONResponse
 from app.security.utils import authenticate_admin, encode_json_web_token, get_current_admin, get_guest_from_name
 from app.settings import get_settings
 from app.models.access_token import AccessToken, AccessTokenContents
-from app.models.admin import Admin
+from app.models.admin import Admin, CreateUserModel
 from app.database.models import Guest as GuestDB
 from app.models.guests import GuestDetail
 
@@ -32,8 +33,14 @@ async def read_users_me(current_admin:Admin = Depends(get_current_admin)) -> Adm
     return current_admin
 
 
+@admin_router.post("/nuke")
+async def nuke_db(_:Admin = Depends(get_current_admin)):
+    GuestDB.drop_collection()
+    return "Database nuked"
+
+
 @admin_router.get("/guest/{guest_name}")
-async def get_guest(guest_name: str, current_admin:Admin = Depends(get_current_admin)) -> GuestDetail:
+async def get_guest(guest_name: str, _:Admin = Depends(get_current_admin)) -> GuestDetail:
 
     try:
         first_name = guest_name.split("_")[0].lower()
@@ -55,10 +62,31 @@ async def get_guest(guest_name: str, current_admin:Admin = Depends(get_current_a
 
 
 
-@admin_router.put("/guest")
-async def create_guest(current_admin:Admin = Depends(get_current_admin)) -> str:
-    return "Create Guest"
+@admin_router.post("/guest/create")
+async def create_guest( newGuestInfo:CreateUserModel,  _:Admin = Depends(get_current_admin)):
+    print(newGuestInfo)
 
-@admin_router.post("/guest")
-async def update_guest(current_admin:Admin = Depends(get_current_admin)) -> str:
-    return "Update Guest"
+    try:
+        first_name = newGuestInfo.username.split("_")[0].lower()
+        last_name = newGuestInfo.username.split("_")[1].lower()
+    except:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="Please ensure the username is in the format 'first_last'",
+        )
+
+    guest = get_guest_from_name(first_name, last_name)
+    if guest is not None:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="Guest already exists",
+        )
+
+    newGuest = GuestDB()
+    newGuest.first_name = first_name
+    newGuest.last_name = last_name
+    newGuest.hash_password(newGuestInfo.code)
+    newGuest.plus_one_allowed = newGuestInfo.plus_one
+    newGuest.save()
+
+    return JSONResponse(content={"message": "Guest created successfully"}, status_code=status.HTTP_201_CREATED)
