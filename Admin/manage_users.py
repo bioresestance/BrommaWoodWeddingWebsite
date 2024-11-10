@@ -57,7 +57,12 @@ def main():
         username = auth_data["username"]
         password = auth_data["password"]
 
-    token = authenticate(args.base_url, username, password)
+
+    try:
+        token = authenticate(args.base_url, username, password)
+    except Exception as e:
+        print(f"Failed to authenticate: {e}")
+        return
 
     if args.nuke:
         nuke_db(args.base_url, token)
