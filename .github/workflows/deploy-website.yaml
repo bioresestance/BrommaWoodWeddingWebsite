@@ -20,6 +20,7 @@ jobs:
           oauth-client-id: ${{ secrets.TAILSCALE_CLIENT_ID }}
           oauth-secret: ${{ secrets.TAILSCALE_CLIENT_SECRET }}
           tags: tag:ci-cd
+          args: --ssh
 
       - name: SSH into VM and update website
         uses: appleboy/ssh-action@v1.1.0
