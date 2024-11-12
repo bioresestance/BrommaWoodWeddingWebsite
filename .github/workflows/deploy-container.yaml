@@ -29,17 +29,24 @@ jobs:
           username: ${{ github.repository_owner }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Build and push Docker images
+      - name: Build and push Client Docker image
         run: |
           TAG=${GITHUB_REF##*/}
           if [ "${GITHUB_REF}" == "refs/heads/main" ]; then
             TAG="latest"
           fi
+          DOCKERFILE = Production/Dockerfile.Client.prod
 
-          cd Production
+          docker build -f ${DOCKERFILE} -t ${{ env.REGISTRY }}/${{ env.REPOSITORY }}_client:${TAG} .
+          docker push ${{ env.REGISTRY }}/${{ env.REPOSITORY }}_client:${TAG}
 
-          for DOCKERFILE in $(ls Dockerfile.*.prod); do
-            IMAGE_NAME=$(basename ${DOCKERFILE} | cut -d'.' -f2 | tr '[:upper:]' '[:lower:]')
-            docker build -f ${DOCKERFILE} -t ${{ env.REGISTRY }}/${{ env.REPOSITORY }}:${IMAGE_NAME}-${TAG} .
-            docker push ${{ env.REGISTRY }}/${{ env.REPOSITORY }}:${IMAGE_NAME}-${TAG}
-          done
+      - name: Build and push Server Docker image
+        run: |
+          TAG=${GITHUB_REF##*/}
+          if [ "${GITHUB_REF}" == "refs/heads/main" ]; then
+              TAG="latest"
+          fi
+          DOCKERFILE = Production/Dockerfile.Server.prod
+
+          docker build -f ${DOCKERFILE} -t ${{ env.REGISTRY }}/${{ env.REPOSITORY }}_server:${TAG} .
+          docker push ${{ env.REGISTRY }}/${{ env.REPOSITORY }}_server:${TAG}
