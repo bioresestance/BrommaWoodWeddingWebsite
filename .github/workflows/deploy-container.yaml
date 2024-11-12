@@ -36,8 +36,8 @@ jobs:
             TAG="latest"
           fi
 
-          for DOCKERFILE in $(ls production/*.Dockerfile); do
-            IMAGE_NAME=$(basename ${DOCKERFILE} .Dockerfile)
+          for DOCKERFILE in $(ls production/Dockerfile.*.prod); do
+            IMAGE_NAME=$(basename ${DOCKERFILE} | cut -d'.' -f2 | tr '[:upper:]' '[:lower:]')
             docker build -f ${DOCKERFILE} -t ${{ env.REGISTRY }}/${{ env.REPOSITORY }}:${IMAGE_NAME}-${TAG} .
             docker push ${{ env.REGISTRY }}/${{ env.REPOSITORY }}:${IMAGE_NAME}-${TAG}
           done
