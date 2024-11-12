@@ -23,9 +23,7 @@ services:
       - wedding_website
 
   backend:
-    build:
-      context: ../Server
-      dockerfile: ../Production/Dockerfile.Server.prod
+    image: ghcr.io/bioresestance/bromma_wood_wedding_server:latest
     restart: unless-stopped
     env_file:
       - .env
@@ -35,9 +33,7 @@ services:
       - wedding_website
 
   frontend:
-    build:
-      context: ../Client
-      dockerfile: ../Production/Dockerfile.Client.prod
+    image: ghcr.io/bioresestance/bromma_wood_wedding_client:latest
     restart: unless-stopped
     environment:
       - NODE_ENV=production
