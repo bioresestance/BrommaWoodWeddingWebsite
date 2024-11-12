@@ -35,7 +35,7 @@ jobs:
           if [ "${GITHUB_REF}" == "refs/heads/main" ]; then
             TAG="latest"
           fi
-          DOCKERFILE = Production/Dockerfile.Client.prod
+          DOCKERFILE="Production/Dockerfile.Client.prod"
 
           docker build -f ${DOCKERFILE} -t ${{ env.REGISTRY }}/${{ env.REPOSITORY }}_client:${TAG} .
           docker push ${{ env.REGISTRY }}/${{ env.REPOSITORY }}_client:${TAG}
@@ -46,7 +46,7 @@ jobs:
           if [ "${GITHUB_REF}" == "refs/heads/main" ]; then
               TAG="latest"
           fi
-          DOCKERFILE = Production/Dockerfile.Server.prod
+          DOCKERFILE="Production/Dockerfile.Server.prod"
 
           docker build -f ${DOCKERFILE} -t ${{ env.REGISTRY }}/${{ env.REPOSITORY }}_server:${TAG} .
           docker push ${{ env.REGISTRY }}/${{ env.REPOSITORY }}_server:${TAG}
