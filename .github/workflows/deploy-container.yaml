@@ -13,7 +13,7 @@ jobs:
 
     env:
       REGISTRY: ghcr.io
-      REPOSITORY: ${{ github.repository_owner }}/BrommaWoodWedding
+      REPOSITORY: ${{ github.repository_owner }}/bromma_wood_wedding
 
     steps:
       - name: Checkout code
