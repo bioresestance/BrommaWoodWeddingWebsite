@@ -7,7 +7,7 @@ on:
       - completed
 
 jobs:
-  deploy:
+  deploy-website:
     runs-on: ubuntu-latest
 
     steps:
@@ -19,7 +19,7 @@ jobs:
         with:
           oauth-client-id: ${{ secrets.TAILSCALE_CLIENT_ID }}
           oauth-secret: ${{ secrets.TAILSCALE_CLIENT_SECRET }}
-          tags: tag:ci
+          tags: tag:ci-cd
 
       - name: SSH into VM and update website
         uses: appleboy/ssh-action@v1.1.0
