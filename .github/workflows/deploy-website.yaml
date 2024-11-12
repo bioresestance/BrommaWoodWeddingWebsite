@@ -1,0 +1,33 @@
+name: Deploy Website to VM
+
+on:
+  workflow_run:
+    workflows: ["Build and Deploy Docker Images"]
+    types:
+      - completed
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Tailscale
+        uses: tailscale/github-action@v2
+        with:
+          oauth-client-id: ${{ secrets.TAILSCALE_CLIENT_ID }}
+          oauth-secret: ${{ secrets.TAILSCALE_CLIENT_SECRET }}
+          tags: tag:ci
+
+      - name: SSH into VM and update website
+        uses: appleboy/ssh-action@v1.1.0
+        with:
+          host: ${{ secrets.VM_HOST }}
+          username: ${{ secrets.VM_USERNAME }}
+          script: |
+            cd /opt/weddingWebsite
+            git pull
+            docker compose -f Production/compose.yml pull
+            docker compose -f Production/compose.yml up -d

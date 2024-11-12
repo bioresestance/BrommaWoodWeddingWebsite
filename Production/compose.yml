@@ -35,8 +35,6 @@ services:
   frontend:
     image: ghcr.io/bioresestance/bromma_wood_wedding_client:latest
     restart: unless-stopped
-    environment:
-      - NODE_ENV=production
     networks:
       - wedding_website
 
