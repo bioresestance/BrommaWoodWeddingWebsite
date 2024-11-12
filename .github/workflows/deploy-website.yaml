@@ -25,4 +25,4 @@ jobs:
 
       - name: SSH into VM and deploy website
         run: |
-          ssh -o StrictHostKeyChecking=no "${{ secrets.VM_USERNAME }}@${{ secrets.VM_HOST }}" "cd /opt/weddingWebsite && git pull && docker compose -f Production/compose.yml pull && docker compose -f Production/compose.yml up -d"
+          ssh -o StrictHostKeyChecking=no "${{ secrets.VM_USERNAME }}@${{ secrets.VM_HOST }}" "cd /opt/weddingWebsite && git config --global --add safe.directory /opt/weddingWebsite && git pull && docker compose -f Production/compose.yml pull && docker compose -f Production/compose.yml up -d"
