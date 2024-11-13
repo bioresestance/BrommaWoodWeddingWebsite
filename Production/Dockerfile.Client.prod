@@ -13,10 +13,6 @@ RUN npm install
 # Copy the rest of the application code
 COPY ./Client .
 
-# Copy the replace-env.sh script
-COPY ./Client/replace-env.sh /usr/local/bin/replace-env.sh
-RUN chmod +x /usr/local/bin/replace-env.sh
-
 # Build the application for production
 RUN npm run build
 
@@ -27,6 +23,9 @@ FROM nginx:alpine
 
 # Copy the build output to the Nginx HTML directory
 COPY --from=build /app/dist /usr/share/nginx/html
+
+COPY --from=build /app/replace-env.sh /usr/local/bin/replace-env.sh
+RUN chmod +x /usr/local/bin/replace-env.sh
 
 # Expose the port the app runs on
 EXPOSE 80

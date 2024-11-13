@@ -35,8 +35,8 @@ services:
   frontend:
     image: ghcr.io/bioresestance/bromma_wood_wedding_client:latest
     restart: unless-stopped
-    env_file:
-      - .env
+    environment:
+      - VITE_API_BASE_URL=${VITE_API_BASE_URL}
     networks:
       - wedding_website
 
