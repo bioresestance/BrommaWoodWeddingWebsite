@@ -13,10 +13,14 @@ RUN npm install
 # Copy the rest of the application code
 COPY ./Client .
 
-RUN chmod +x ./replace-env.sh
+# Copy the replace-env.sh script
+COPY ./Client/replace-env.sh /usr/local/bin/replace-env.sh
+RUN chmod +x /usr/local/bin/replace-env.sh
 
 # Build the application for production
 RUN npm run build
+
+
 
 # Use the official Nginx image to serve the build
 FROM nginx:alpine
@@ -28,4 +32,4 @@ COPY --from=build /app/dist /usr/share/nginx/html
 EXPOSE 80
 
 # Command to run Nginx
-CMD /bin/sh -c "./replace-env.sh && nginx -g 'daemon off;'"
+CMD /bin/sh -c "/usr/local/bin/replace-env.sh && nginx -g 'daemon off;'"
