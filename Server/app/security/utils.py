@@ -27,6 +27,7 @@ def get_guest_from_name(first_name: str, last_name: str) -> GuestDetail | None:
     
     guest_detail = GuestDetail( first_name=db_guest.first_name,
                                 last_name=db_guest.last_name,
+                                preferred_name=db_guest.preferred_name,
                                 email=db_guest.email,
                                 phone=db_guest.phone,
                                 address=db_guest.address,
@@ -43,7 +44,7 @@ def get_guest_from_name(first_name: str, last_name: str) -> GuestDetail | None:
     for diet in db_guest.dietary_restrictions:
         guest_detail.dietary_restrictions.append(diet)
 
-    if db_guest.has_plus_one:
+    if db_guest.plus_one_allowed and db_guest.has_plus_one:
         guest_detail.plus_one = PlusOneDetail(first_name=db_guest.plus_one.first_name,
                                               last_name=db_guest.plus_one.last_name,
                                               email=db_guest.plus_one.email,

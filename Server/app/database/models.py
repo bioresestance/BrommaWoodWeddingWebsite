@@ -46,6 +46,7 @@ class Guest(User):
     # Contact fields
     first_name = StringField(required=True)
     last_name = StringField(required=True, unique_with="first_name")
+    preferred_name = StringField(default= "")
     email = StringField(default= "")
 
     # Address fields

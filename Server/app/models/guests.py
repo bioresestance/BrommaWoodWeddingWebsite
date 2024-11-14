@@ -25,6 +25,7 @@ class PlusOneDetail(BaseModel):
 class GuestDetail(BaseModel):
     first_name: str
     last_name: str
+    preferred_name: str = ""
     email: str
     phone: str = None
     address: str = ""
