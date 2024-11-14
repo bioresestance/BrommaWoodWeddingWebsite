@@ -19,7 +19,7 @@ if [ $? != 0 ]; then
 
   # Select the second pane (right) and run the client
   tmux select-pane -t 1
-  tmux send-keys 'cd ./Client && npm run dev' C-m
+  tmux send-keys 'cd ./Client && export VITE_API_BASE_URL=http://localhost:8000 && npm run dev' C-m
 fi
 
 # Attach to the tmux session
