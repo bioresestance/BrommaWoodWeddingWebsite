@@ -89,10 +89,11 @@ const GuestDetailForm: React.FC<GuestDetailFormProps> = (props) => {
     register,
     control,
     handleSubmit,
+    watch,
     formState: { errors },
   } = useForm<GuestDetailForm>({
     resolver: yupResolver(schema),
-    // defaultValues: props.details, // Set initial values based on the incoming details
+    defaultValues: props.details, // Set initial values based on the incoming details
   });
 
   const { fields, append, remove } = useFieldArray({
@@ -100,7 +101,7 @@ const GuestDetailForm: React.FC<GuestDetailFormProps> = (props) => {
     name: "dietary_restrictions",
   });
 
-  const watchAttending = props.details?.attending;
+  const watchAttending = watch("attending");
   const plusOneAllowed = props.details?.plus_one_allowed;
 
   const addDietaryRestriction = () => {

@@ -31,10 +31,10 @@ const Header: React.FC = () => {
             RSVP
           </Link>
           <Link
-            to="/about"
+            to="/rules"
             className="text-gray-800 hover:bg-indigo-500 hover:text-white px-2 py-2 rounded-md text-sm font-medium border border-2 bg-gray-600/20 w-20 md:w-28 h-8 md:h-10 text-center"
           >
-            About
+            Rules
           </Link>
           <Link
             to="/faq"
@@ -92,11 +92,11 @@ const Header: React.FC = () => {
               RSVP
             </Link>
             <Link
-              to="/about"
+              to="/rules"
               className="text-gray-800 hover:bg-indigo-500 hover:text-white px-2 py-2 rounded-md text-sm font-medium border border-2 bg-gray-600/20 w-28 h-10 text-center"
               onClick={toggleMenu}
             >
-              About
+              Rules
             </Link>
             <Link
               to="/faq"
