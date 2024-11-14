@@ -93,7 +93,14 @@ const GuestDetailForm: React.FC<GuestDetailFormProps> = (props) => {
     formState: { errors },
   } = useForm<GuestDetailForm>({
     resolver: yupResolver(schema),
-    defaultValues: props.details, // Set initial values based on the incoming details
+    defaultValues: props.details
+      ? {
+          ...props.details,
+          dietary_restrictions: props.details.dietary_restrictions?.map(
+            (restriction) => ({ value: restriction })
+          ),
+        }
+      : undefined, // Set initial values based on the incoming details
   });
 
   const { fields, append, remove } = useFieldArray({
@@ -112,7 +119,11 @@ const GuestDetailForm: React.FC<GuestDetailFormProps> = (props) => {
     console.log(data);
   };
 
-  const onErrors = (data) => {
+  interface FormErrors {
+    [key: string]: { message?: string };
+  }
+
+  const onErrors = (errors: FormErrors): void => {
     console.log(errors);
   };
 
