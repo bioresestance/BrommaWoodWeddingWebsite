@@ -24,6 +24,10 @@ type GuestDetailForm = {
   dietary_restrictions?: { value?: Diets }[];
 };
 
+interface FormErrors {
+  [key: string]: { message?: string };
+}
+
 const GuestDetailForm: React.FC<GuestDetailFormProps> = (props) => {
   const labelClass = "block mb-2 text-sm font-medium text-gray-900 text-black";
   const inputClass =
@@ -118,10 +122,6 @@ const GuestDetailForm: React.FC<GuestDetailFormProps> = (props) => {
   const onSubmit = (data: GuestDetailForm) => {
     console.log(data);
   };
-
-  interface FormErrors {
-    [key: string]: { message?: string };
-  }
 
   const onErrors = (errors: FormErrors): void => {
     console.log(errors);
