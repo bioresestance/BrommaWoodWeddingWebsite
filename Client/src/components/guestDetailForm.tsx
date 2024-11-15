@@ -3,6 +3,7 @@ import { Diets, GuestDetail } from "../api/axios-client";
 import * as yup from "yup";
 import { useForm, useFieldArray } from "react-hook-form";
 import DividerLine from "./dividerLine";
+import useUpdateGuestDetails from "../hooks/useUpdateGuestDetails";
 
 type GuestDetailFormProps = {
   details: GuestDetail | undefined;
@@ -112,6 +113,8 @@ const GuestDetailForm: React.FC<GuestDetailFormProps> = (props) => {
     name: "dietary_restrictions",
   });
 
+  const { mutateAsync } = useUpdateGuestDetails();
+
   const watchAttending = watch("attending");
   const plusOneAllowed = props.details?.plus_one_allowed;
 
@@ -119,8 +122,15 @@ const GuestDetailForm: React.FC<GuestDetailFormProps> = (props) => {
     append({ value: "none" });
   };
 
-  const onSubmit = (data: GuestDetailForm) => {
+  const onSubmit = async (data: GuestDetailForm) => {
     console.log(data);
+    const transformedData = {
+      ...data,
+      dietary_restrictions: data.dietary_restrictions?.map(
+        (restriction) => restriction.value
+      ) as Diets[],
+    };
+    await mutateAsync(transformedData);
   };
 
   const onErrors = (errors: FormErrors): void => {
@@ -314,13 +324,13 @@ const GuestDetailForm: React.FC<GuestDetailFormProps> = (props) => {
           {/* Country */}
           <div>
             <label htmlFor="country" className={labelClass}>
-              Postal Code
+              Country
             </label>
             <input
               type="text"
               id="country"
               className={inputClass}
-              autoComplete="postal-code"
+              autoComplete="country"
               {...register("country")}
             />
             {errors?.country && (
