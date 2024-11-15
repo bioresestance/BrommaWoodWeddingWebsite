@@ -1,9 +1,11 @@
 import { yupResolver } from "@hookform/resolvers/yup";
 import { Diets, GuestDetail } from "../api/axios-client";
 import * as yup from "yup";
-import { useForm, useFieldArray } from "react-hook-form";
+import { useForm, useFieldArray, set } from "react-hook-form";
 import DividerLine from "./dividerLine";
 import useUpdateGuestDetails from "../hooks/useUpdateGuestDetails";
+import Modal from "./modal";
+import { useState } from "react";
 
 type GuestDetailFormProps = {
   details: GuestDetail | undefined;
@@ -115,6 +117,8 @@ const GuestDetailForm: React.FC<GuestDetailFormProps> = (props) => {
 
   const { mutateAsync } = useUpdateGuestDetails();
 
+  const [isModalOpen, setModalOpen] = useState(false);
+
   const watchAttending = watch("attending");
   const plusOneAllowed = props.details?.plus_one_allowed;
 
@@ -122,7 +126,7 @@ const GuestDetailForm: React.FC<GuestDetailFormProps> = (props) => {
     append({ value: "none" });
   };
 
-  const onSubmit = async (data: GuestDetailForm) => {
+  const submitFormData = async (data: GuestDetailForm) => {
     console.log(data);
     const transformedData = {
       ...data,
@@ -130,7 +134,13 @@ const GuestDetailForm: React.FC<GuestDetailFormProps> = (props) => {
         (restriction) => restriction.value
       ) as Diets[],
     };
+
     await mutateAsync(transformedData);
+    setModalOpen(false);
+  };
+
+  const onSubmit = (data: GuestDetailForm) => {
+    setModalOpen(true);
   };
 
   const onErrors = (errors: FormErrors): void => {
@@ -431,6 +441,19 @@ const GuestDetailForm: React.FC<GuestDetailFormProps> = (props) => {
       <button type="submit" className="mt-4 bg-blue-500 text-white p-2 rounded">
         Save
       </button>
+
+      <Modal
+        isOpen={isModalOpen}
+        severity="info"
+        title="Confirm"
+        message="Are you sure you want to save these changes?"
+        onConfirm={() => {
+          submitFormData(watch());
+        }}
+        onCancel={() => {
+          setModalOpen(false);
+        }}
+      />
     </form>
   );
 };
