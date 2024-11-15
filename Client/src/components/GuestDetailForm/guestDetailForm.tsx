@@ -1,96 +1,21 @@
 import { yupResolver } from "@hookform/resolvers/yup";
-import { Diets, GuestDetail } from "../api/axios-client";
-import * as yup from "yup";
-import { useForm, useFieldArray, set } from "react-hook-form";
-import DividerLine from "./dividerLine";
-import useUpdateGuestDetails from "../hooks/useUpdateGuestDetails";
-import Modal from "./modal";
+import { Diets } from "../../api/axios-client";
+import { useForm, useFieldArray } from "react-hook-form";
+import DividerLine from "../dividerLine";
+import useUpdateGuestDetails from "../../hooks/useUpdateGuestDetails";
+import Modal from "../modal";
 import { useState } from "react";
-
-type GuestDetailFormProps = {
-  details: GuestDetail | undefined;
-};
-
-type GuestDetailForm = {
-  attending?: boolean;
-  first_name?: string;
-  last_name?: string;
-  preferred_name?: string;
-  email?: string;
-  phone?: string;
-  address?: string;
-  city?: string;
-  province?: string;
-  area_code?: string;
-  country?: string;
-  additional_notes?: string;
-  dietary_restrictions?: { value?: Diets }[];
-};
-
-interface FormErrors {
-  [key: string]: { message?: string };
-}
+import {
+  GuestDetailFormProps,
+  GuestDetails,
+  FormErrors,
+} from "./guestDetailTypes";
+import { GuestDetailSchema } from "./guestDetailValidationScheme";
 
 const GuestDetailForm: React.FC<GuestDetailFormProps> = (props) => {
   const labelClass = "block mb-2 text-sm font-medium text-gray-900 text-black";
   const inputClass =
     "bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg hover:ring-blue-500 hover:border-blue-500 block w-full p-2.5";
-
-  const schema = yup.object().shape({
-    attending: yup.boolean(),
-    first_name: yup.string(),
-    last_name: yup.string(),
-    preferred_name: yup.string(),
-    email: yup
-      .string()
-      .email("Please enter a valid email address.")
-      .when("attending", {
-        is: true,
-        then: (schema) => schema.required("Please enter your email."),
-      }),
-    phone: yup.string().when("attending", {
-      is: true,
-      then: (schema) =>
-        schema
-          .required("Please enter your phone number.")
-          .matches(
-            /^(\+?1[- ]?)?(\(?\d{3}\)?[- ]?)?\d{3}[- ]?\d{4}$/,
-            "Please enter a valid phone number."
-          ),
-    }),
-    address: yup.string().when("attending", {
-      is: true,
-      then: (schema) => schema.required("Please enter your address."),
-    }),
-    city: yup.string().when("attending", {
-      is: true,
-      then: (schema) => schema.required("Please enter your city."),
-    }),
-    province: yup.string().when("attending", {
-      is: true,
-      then: (schema) => schema.required("Please Select a province."),
-    }),
-    area_code: yup.string().when("attending", {
-      is: true,
-      then: (schema) => schema.required("Please enter your Postal code."),
-    }),
-    country: yup.string().when("attending", {
-      is: true,
-      then: (schema) => schema.required("Please enter your country."),
-    }),
-    additional_notes: yup.string(),
-    dietary_restrictions: yup.array().of(
-      yup.object().shape({
-        value: yup
-          .string()
-          .oneOf(
-            Object.values(Diets),
-            "Please enter a valid dietary restriction."
-          )
-          .required("Please enter a dietary restriction."),
-      })
-    ),
-  });
 
   const {
     register,
@@ -98,8 +23,8 @@ const GuestDetailForm: React.FC<GuestDetailFormProps> = (props) => {
     handleSubmit,
     watch,
     formState: { errors },
-  } = useForm<GuestDetailForm>({
-    resolver: yupResolver(schema),
+  } = useForm<GuestDetails>({
+    resolver: yupResolver(GuestDetailSchema),
     defaultValues: props.details
       ? {
           ...props.details,
@@ -126,7 +51,7 @@ const GuestDetailForm: React.FC<GuestDetailFormProps> = (props) => {
     append({ value: "none" });
   };
 
-  const submitFormData = async (data: GuestDetailForm) => {
+  const submitFormData = async (data: GuestDetails) => {
     console.log(data);
     const transformedData = {
       ...data,
@@ -139,7 +64,7 @@ const GuestDetailForm: React.FC<GuestDetailFormProps> = (props) => {
     setModalOpen(false);
   };
 
-  const onSubmit = (data: GuestDetailForm) => {
+  const onSubmit = () => {
     setModalOpen(true);
   };
 

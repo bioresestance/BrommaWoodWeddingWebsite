@@ -1,5 +1,5 @@
 import useGetGuestDetails from "../hooks/useGetGuestDetails";
-import GuestDetailForm from "../components/guestDetailForm";
+import GuestDetailForm from "../components/GuestDetailForm/guestDetailForm";
 
 const UserInfoPage: React.FC = () => {
   const { data, isLoading } = useGetGuestDetails();
