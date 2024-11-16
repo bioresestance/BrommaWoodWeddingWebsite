@@ -38,6 +38,15 @@ const GuestDetailForm = () => {
           dietary_restrictions: data.data.dietary_restrictions?.map(
             (restriction) => ({ value: restriction })
           ),
+          plus_one: data.data.plus_one
+            ? {
+                ...data.data.plus_one,
+                dietary_restrictions:
+                  data.data.plus_one.dietary_restrictions?.map(
+                    (restriction) => ({ value: restriction })
+                  ),
+              }
+            : undefined,
         }
       : undefined, // Set initial values based on the incoming details
   });
@@ -50,6 +59,17 @@ const GuestDetailForm = () => {
       dietary_restrictions: formData.dietary_restrictions?.map(
         (restriction) => restriction.value
       ) as Diets[],
+      plus_one: formData.plus_one
+        ? {
+            first_name: formData.plus_one.first_name || "",
+            last_name: formData.plus_one.last_name || "",
+            email: formData.plus_one.email || "",
+            additional_notes: formData.plus_one.additional_notes || "",
+            dietary_restrictions: formData.plus_one.dietary_restrictions?.map(
+              (restriction) => restriction.value
+            ) as Diets[],
+          }
+        : undefined,
     };
 
     mutate(transformedData);
@@ -123,6 +143,8 @@ const GuestDetailForm = () => {
           inputClass={inputClass}
         />
 
+        <br />
+        <br />
         <DividerLine text="Plus One Information" />
 
         {/* Plus One */}
@@ -135,9 +157,16 @@ const GuestDetailForm = () => {
         />
       </div>
 
-      <button type="submit" className="mt-4 bg-blue-500 text-white p-2 rounded">
-        Save
-      </button>
+      <br />
+      <br />
+      <div className="flex justify-center items-center">
+        <button
+          type="submit"
+          className="mt-4 bg-blue-500 text-white text-2xl font-extrabold p-3 rounded-xl"
+        >
+          Save
+        </button>
+      </div>
 
       <Modal
         isOpen={isModalOpen}

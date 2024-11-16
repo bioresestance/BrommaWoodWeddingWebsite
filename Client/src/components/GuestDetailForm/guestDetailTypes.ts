@@ -19,6 +19,14 @@ export type GuestDetails = {
   country?: string;
   additional_notes?: string;
   dietary_restrictions?: { value?: Diets }[];
+  has_plus_one?: boolean;
+  plus_one?: {
+    first_name?: string;
+    last_name?: string;
+    email?: string;
+    dietary_restrictions?: { value?: Diets }[];
+    additional_notes?: string;
+  };
 };
 
 export interface FormErrors {

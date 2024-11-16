@@ -56,4 +56,35 @@ export const GuestDetailSchema = yup.object().shape({
         .required("Please enter a dietary restriction."),
     })
   ),
+  has_plus_one: yup.boolean(),
+  plus_one: yup.object().shape({
+    first_name: yup.string().when("has_plus_one", {
+      is: true,
+      then: (schema) => schema.required("Please enter your plus one's name."),
+    }),
+    last_name: yup.string().when("has_plus_one", {
+      is: true,
+      then: (schema) => schema.required("Please enter your plus one's name."),
+    }),
+    email: yup
+      .string()
+      .email("Please enter a valid email address.")
+      .when("has_plus_one", {
+        is: true,
+        then: (schema) =>
+          schema.required("Please enter your plus one's email."),
+      }),
+    dietary_restrictions: yup.array().of(
+      yup.object().shape({
+        value: yup
+          .string()
+          .oneOf(
+            Object.values(Diets),
+            "Please enter a valid dietary restriction."
+          )
+          .required("Please enter a dietary restriction."),
+      })
+    ),
+    additional_notes: yup.string(),
+  }),
 });

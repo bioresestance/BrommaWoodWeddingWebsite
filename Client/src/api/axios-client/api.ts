@@ -58,6 +58,31 @@ export interface Admin {
 /**
  * 
  * @export
+ * @interface CreateUserModel
+ */
+export interface CreateUserModel {
+    /**
+     * 
+     * @type {string}
+     * @memberof CreateUserModel
+     */
+    'username': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof CreateUserModel
+     */
+    'code': string;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof CreateUserModel
+     */
+    'plus_one': boolean;
+}
+/**
+ * 
+ * @export
  * @enum {string}
  */
 
@@ -125,6 +150,12 @@ export interface GuestDetail {
      * @memberof GuestDetail
      */
     'last_name': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof GuestDetail
+     */
+    'preferred_name'?: string;
     /**
      * 
      * @type {string}
@@ -227,6 +258,12 @@ export interface GuestDetailForm {
      * @type {string}
      * @memberof GuestDetailForm
      */
+    'preferred_name'?: string | null;
+    /**
+     * 
+     * @type {string}
+     * @memberof GuestDetailForm
+     */
     'email'?: string | null;
     /**
      * 
@@ -276,6 +313,12 @@ export interface GuestDetailForm {
      * @memberof GuestDetailForm
      */
     'additional_notes'?: string | null;
+    /**
+     * 
+     * @type {PlusOneDetail}
+     * @memberof GuestDetailForm
+     */
+    'plus_one'?: PlusOneDetail | null;
 }
 /**
  * 
@@ -368,6 +411,84 @@ export const AdminApiAxiosParamCreator = function (configuration?: Configuration
     return {
         /**
          * 
+         * @summary Create Guest
+         * @param {CreateUserModel} createUserModel 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        createGuestAdminGuestCreatePost: async (createUserModel: CreateUserModel, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'createUserModel' is not null or undefined
+            assertParamExists('createGuestAdminGuestCreatePost', 'createUserModel', createUserModel)
+            const localVarPath = `/admin/guest/create`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication OAuth2PasswordBearer required
+            // oauth required
+            await setOAuthToObject(localVarHeaderParameter, "OAuth2PasswordBearer", [], configuration)
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(createUserModel, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @summary Get Guest
+         * @param {string} guestName 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getGuestAdminGuestGuestNameGet: async (guestName: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'guestName' is not null or undefined
+            assertParamExists('getGuestAdminGuestGuestNameGet', 'guestName', guestName)
+            const localVarPath = `/admin/guest/{guest_name}`
+                .replace(`{${"guest_name"}}`, encodeURIComponent(String(guestName)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication OAuth2PasswordBearer required
+            // oauth required
+            await setOAuthToObject(localVarHeaderParameter, "OAuth2PasswordBearer", [], configuration)
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
          * @summary Login
          * @param {string} username 
          * @param {string} password 
@@ -436,6 +557,40 @@ export const AdminApiAxiosParamCreator = function (configuration?: Configuration
         },
         /**
          * 
+         * @summary Nuke Db
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        nukeDbAdminNukePost: async (options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/admin/nuke`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication OAuth2PasswordBearer required
+            // oauth required
+            await setOAuthToObject(localVarHeaderParameter, "OAuth2PasswordBearer", [], configuration)
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
          * @summary Read Users Me
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -480,6 +635,32 @@ export const AdminApiFp = function(configuration?: Configuration) {
     return {
         /**
          * 
+         * @summary Create Guest
+         * @param {CreateUserModel} createUserModel 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async createGuestAdminGuestCreatePost(createUserModel: CreateUserModel, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<any>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.createGuestAdminGuestCreatePost(createUserModel, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['AdminApi.createGuestAdminGuestCreatePost']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         * 
+         * @summary Get Guest
+         * @param {string} guestName 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async getGuestAdminGuestGuestNameGet(guestName: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<GuestDetail>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.getGuestAdminGuestGuestNameGet(guestName, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['AdminApi.getGuestAdminGuestGuestNameGet']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         * 
          * @summary Login
          * @param {string} username 
          * @param {string} password 
@@ -494,6 +675,18 @@ export const AdminApiFp = function(configuration?: Configuration) {
             const localVarAxiosArgs = await localVarAxiosParamCreator.loginAdminLoginPost(username, password, grantType, scope, clientId, clientSecret, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['AdminApi.loginAdminLoginPost']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         * 
+         * @summary Nuke Db
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async nukeDbAdminNukePost(options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<any>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.nukeDbAdminNukePost(options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['AdminApi.nukeDbAdminNukePost']?.[localVarOperationServerIndex]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
         /**
@@ -520,6 +713,26 @@ export const AdminApiFactory = function (configuration?: Configuration, basePath
     return {
         /**
          * 
+         * @summary Create Guest
+         * @param {AdminApiCreateGuestAdminGuestCreatePostRequest} requestParameters Request parameters.
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        createGuestAdminGuestCreatePost(requestParameters: AdminApiCreateGuestAdminGuestCreatePostRequest, options?: RawAxiosRequestConfig): AxiosPromise<any> {
+            return localVarFp.createGuestAdminGuestCreatePost(requestParameters.createUserModel, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @summary Get Guest
+         * @param {AdminApiGetGuestAdminGuestGuestNameGetRequest} requestParameters Request parameters.
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getGuestAdminGuestGuestNameGet(requestParameters: AdminApiGetGuestAdminGuestGuestNameGetRequest, options?: RawAxiosRequestConfig): AxiosPromise<GuestDetail> {
+            return localVarFp.getGuestAdminGuestGuestNameGet(requestParameters.guestName, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
          * @summary Login
          * @param {AdminApiLoginAdminLoginPostRequest} requestParameters Request parameters.
          * @param {*} [options] Override http request option.
@@ -527,6 +740,15 @@ export const AdminApiFactory = function (configuration?: Configuration, basePath
          */
         loginAdminLoginPost(requestParameters: AdminApiLoginAdminLoginPostRequest, options?: RawAxiosRequestConfig): AxiosPromise<AccessToken> {
             return localVarFp.loginAdminLoginPost(requestParameters.username, requestParameters.password, requestParameters.grantType, requestParameters.scope, requestParameters.clientId, requestParameters.clientSecret, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @summary Nuke Db
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        nukeDbAdminNukePost(options?: RawAxiosRequestConfig): AxiosPromise<any> {
+            return localVarFp.nukeDbAdminNukePost(options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -539,6 +761,34 @@ export const AdminApiFactory = function (configuration?: Configuration, basePath
         },
     };
 };
+
+/**
+ * Request parameters for createGuestAdminGuestCreatePost operation in AdminApi.
+ * @export
+ * @interface AdminApiCreateGuestAdminGuestCreatePostRequest
+ */
+export interface AdminApiCreateGuestAdminGuestCreatePostRequest {
+    /**
+     * 
+     * @type {CreateUserModel}
+     * @memberof AdminApiCreateGuestAdminGuestCreatePost
+     */
+    readonly createUserModel: CreateUserModel
+}
+
+/**
+ * Request parameters for getGuestAdminGuestGuestNameGet operation in AdminApi.
+ * @export
+ * @interface AdminApiGetGuestAdminGuestGuestNameGetRequest
+ */
+export interface AdminApiGetGuestAdminGuestGuestNameGetRequest {
+    /**
+     * 
+     * @type {string}
+     * @memberof AdminApiGetGuestAdminGuestGuestNameGet
+     */
+    readonly guestName: string
+}
 
 /**
  * Request parameters for loginAdminLoginPost operation in AdminApi.
@@ -598,6 +848,30 @@ export interface AdminApiLoginAdminLoginPostRequest {
 export class AdminApi extends BaseAPI {
     /**
      * 
+     * @summary Create Guest
+     * @param {AdminApiCreateGuestAdminGuestCreatePostRequest} requestParameters Request parameters.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof AdminApi
+     */
+    public createGuestAdminGuestCreatePost(requestParameters: AdminApiCreateGuestAdminGuestCreatePostRequest, options?: RawAxiosRequestConfig) {
+        return AdminApiFp(this.configuration).createGuestAdminGuestCreatePost(requestParameters.createUserModel, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @summary Get Guest
+     * @param {AdminApiGetGuestAdminGuestGuestNameGetRequest} requestParameters Request parameters.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof AdminApi
+     */
+    public getGuestAdminGuestGuestNameGet(requestParameters: AdminApiGetGuestAdminGuestGuestNameGetRequest, options?: RawAxiosRequestConfig) {
+        return AdminApiFp(this.configuration).getGuestAdminGuestGuestNameGet(requestParameters.guestName, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
      * @summary Login
      * @param {AdminApiLoginAdminLoginPostRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
@@ -606,6 +880,17 @@ export class AdminApi extends BaseAPI {
      */
     public loginAdminLoginPost(requestParameters: AdminApiLoginAdminLoginPostRequest, options?: RawAxiosRequestConfig) {
         return AdminApiFp(this.configuration).loginAdminLoginPost(requestParameters.username, requestParameters.password, requestParameters.grantType, requestParameters.scope, requestParameters.clientId, requestParameters.clientSecret, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @summary Nuke Db
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof AdminApi
+     */
+    public nukeDbAdminNukePost(options?: RawAxiosRequestConfig) {
+        return AdminApiFp(this.configuration).nukeDbAdminNukePost(options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
