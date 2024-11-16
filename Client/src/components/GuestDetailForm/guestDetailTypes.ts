@@ -1,4 +1,5 @@
 import { Diets, GuestDetail } from "../../api/axios-client";
+import { UseFormRegister, FieldErrors } from "react-hook-form";
 
 export type GuestDetailFormProps = {
   details: GuestDetail | undefined;
@@ -23,3 +24,10 @@ export type GuestDetails = {
 export interface FormErrors {
   [key: string]: { message?: string };
 }
+
+export type GuestContactProps = {
+  register: UseFormRegister<GuestDetails>;
+  errors: FieldErrors<GuestDetails>;
+  labelClass: string;
+  inputClass: string;
+};
