@@ -50,6 +50,7 @@ class Guest(BaseModel):
 
 class GuestDetailForm(BaseModel):
     attending: Optional[StrictBool] = False
+    preferred_name: Optional[str] = None
     email: Optional[EmailStr] = None
     phone: Optional[str] = None
     address: Optional[str] = None
@@ -59,6 +60,7 @@ class GuestDetailForm(BaseModel):
     country: Optional[str] = None
     dietary_restrictions: Optional[list[Diets]] = []
     additional_notes: Optional[str] = None
+    plus_one: Optional[PlusOneDetail] = None
 
     @field_validator("phone")
     def phone_validator(cls, phone: str|None):
@@ -74,6 +76,7 @@ class GuestDetailForm(BaseModel):
 class PlusOneForm(BaseModel):
     first_name: str
     last_name: str
+    preferred_name: str = ""
     email: EmailStr | None = None
     dietary_restrictions: list[Diets] = []
     additional_notes: str = ""

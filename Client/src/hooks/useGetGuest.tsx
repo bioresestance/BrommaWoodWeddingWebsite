@@ -5,7 +5,7 @@ import { useQuery } from "@tanstack/react-query";
 const api = new GuestApi(apiConfiguration);
 export default function useGetGuest() {
   const queryResult = useQuery({
-    queryKey: ["GuestInfo"],
+    queryKey: ["GuestDetails"],
     queryFn: async () => {
       const response = await api.readUsersMeGuestMeGet();
       return response;

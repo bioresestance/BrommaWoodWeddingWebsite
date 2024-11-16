@@ -1,15 +1,15 @@
-import { yupResolver } from "@hookform/resolvers/yup";
-import { Diets } from "../../api/axios-client";
-import { useForm } from "react-hook-form";
-import DividerLine from "../dividerLine";
-import useUpdateGuestDetails from "../../hooks/useUpdateGuestDetails";
-import Modal from "../modal";
 import { useState } from "react";
-import {
-  GuestDetailFormProps,
-  GuestDetails,
-  FormErrors,
-} from "./guestDetailTypes";
+import { useForm } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
+
+import { Diets } from "../../api/axios-client";
+import useUpdateGuestDetails from "../../hooks/useUpdateGuestDetails";
+import useGetGuestDetails from "../../hooks/useGetGuestDetails";
+
+import DividerLine from "../dividerLine";
+import Modal from "../modal";
+
+import { GuestDetails, FormErrors } from "./guestDetailTypes";
 import { GuestDetailSchema } from "./guestDetailValidationScheme";
 import ContactInformation from "./ContactInformation";
 import AddressInformation from "./AddressInformation";
@@ -17,10 +17,12 @@ import DietaryInformation from "./DietaryInformation";
 import AdditionalNotes from "./AdditionalNotes";
 import PlusOneInformation from "./PlusOneInformation";
 
-const GuestDetailForm: React.FC<GuestDetailFormProps> = (props) => {
+const GuestDetailForm = () => {
   const labelClass = "block mb-2 text-sm font-medium text-gray-900 text-black";
   const inputClass =
     "bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg hover:ring-blue-500 hover:border-blue-500 block w-full p-2.5";
+  const { mutate } = useUpdateGuestDetails();
+  const { data } = useGetGuestDetails();
 
   const {
     register,
@@ -30,30 +32,27 @@ const GuestDetailForm: React.FC<GuestDetailFormProps> = (props) => {
     formState: { errors },
   } = useForm<GuestDetails>({
     resolver: yupResolver(GuestDetailSchema),
-    defaultValues: props.details
+    defaultValues: data.data
       ? {
-          ...props.details,
-          dietary_restrictions: props.details.dietary_restrictions?.map(
+          ...data.data,
+          dietary_restrictions: data.data.dietary_restrictions?.map(
             (restriction) => ({ value: restriction })
           ),
         }
       : undefined, // Set initial values based on the incoming details
   });
 
-  const { mutateAsync } = useUpdateGuestDetails();
-
   const [isModalOpen, setModalOpen] = useState(false);
 
-  const submitFormData = async (data: GuestDetails) => {
-    console.log(data);
+  const submitFormData = async (formData: GuestDetails) => {
     const transformedData = {
-      ...data,
-      dietary_restrictions: data.dietary_restrictions?.map(
+      ...formData,
+      dietary_restrictions: formData.dietary_restrictions?.map(
         (restriction) => restriction.value
       ) as Diets[],
     };
 
-    await mutateAsync(transformedData);
+    mutate(transformedData);
     setModalOpen(false);
   };
 
@@ -132,7 +131,7 @@ const GuestDetailForm: React.FC<GuestDetailFormProps> = (props) => {
           errors={errors}
           labelClass={labelClass}
           inputClass={inputClass}
-          plus_one_allowed={props.details?.plus_one_allowed}
+          plus_one_allowed={data.data?.plus_one_allowed}
         />
       </div>
 

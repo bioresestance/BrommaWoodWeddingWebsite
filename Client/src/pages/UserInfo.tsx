@@ -20,7 +20,7 @@ const UserInfoPage: React.FC = () => {
         not, please update them and make sure to hit save.
       </p>
       <div className=" border-black border-4 mt-10 mx-2 md:mx-16 p-6">
-        <GuestDetailForm details={data?.data} />
+        <GuestDetailForm />
       </div>
     </div>
   );

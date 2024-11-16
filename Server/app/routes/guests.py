@@ -4,7 +4,7 @@ from fastapi.security import OAuth2PasswordRequestForm
 
 from app.models.access_token import AccessToken
 from app.models.guests import Guest, GuestDetail, GuestDetailForm, PlusOneDetail, PlusOneForm
-from app.security.utils import encode_json_web_token, get_current_guest, authenticate_guest
+from app.security.utils import encode_json_web_token, get_current_guest, authenticate_guest, get_guest_from_name
 from app.settings import get_settings
 from app.database.models import Guest as GuestDB
 
@@ -36,18 +36,66 @@ async def update_guest(form_data: GuestDetailForm,current_user: GuestDetail = De
     # Get the db object for the current user
     guest = GuestDB.objects(first_name = current_user.first_name, last_name = current_user.last_name).first()
 
+    if not guest:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail="User not found",
+        )
 
-    # TODO: Only update fields that are not None, and check if user has permission to update the field, such as plus_one
+    guest.preferred_name = form_data.preferred_name
+    guest.attending = form_data.attending
+    guest.email = form_data.email
+    guest.phone = form_data.phone
+    guest.address = form_data.address
+    guest.city = form_data.city
+    guest.province = form_data.province
+    guest.area_code = form_data.area_code
+    guest.country = form_data.country
 
-    # Update the guest details for items that are not None
-    for key, value in form_data.dict().items():
-        if value is not None:
-            setattr(guest, key, value)
-            setattr(current_user, key, value)
+    guest.dietary_restrictions = []
+    for diet in form_data.dietary_restrictions:
+        # Prevent duplicates
+        if diet not in guest.dietary_restrictions:
+            guest.dietary_restrictions.append(diet)
+
+    guest.additional_notes = form_data.additional_notes
+
+    # Update the plus one details
+    if guest.plus_one_allowed:
+        # Guest does not have a plus one
+        if not form_data.plus_one:
+            guest.has_plus_one = False
+            guest.plus_one = None
+        # Guest already has a plus one, so update the details
+        elif guest.has_plus_one:
+            plus_one = guest.plus_one
+            plus_one.first_name = form_data.plus_one.first_name
+            plus_one.last_name = form_data.plus_one.last_name
+            plus_one.email = form_data.plus_one.email
+            plus_one.additional_notes = form_data.plus_one.additional_notes
+
+            plus_one.dietary_restrictions = []
+            for diet in form_data.plus_one.dietary_restrictions:
+                plus_one.dietary_restrictions.append(diet)
+
+        # Guest does not have a plus one already, so create a new one
+        elif form_data.plus_one:
+            plus_one = PlusOneDetail(first_name=form_data.plus_one.first_name,
+                                    last_name=form_data.plus_one.last_name,
+                                    email=form_data.plus_one.email,
+                                    additional_notes=form_data.plus_one.additional_notes)
+            for diet in form_data.plus_one.dietary_restrictions:
+                plus_one.dietary_restrictions.append(diet)
+            guest.plus_one = plus_one
+            guest.has_plus_one = True
+    else:
+        guest.has_plus_one = False
+        guest.plus_one = None
 
     # Save the updated guest object
     guest.save()
-    return current_user
+    return get_guest_from_name(guest.first_name, guest.last_name)
+
 
 @guest_router.get("/details")
 async def get_guest(current_user: GuestDetail = Depends(get_current_guest)) -> GuestDetail:
