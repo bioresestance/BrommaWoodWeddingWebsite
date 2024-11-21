@@ -1,6 +1,8 @@
 import sys
 import logging
+from logtail import LogtailHandler
 from loguru import logger
+from app.settings import get_settings
 
 ########################################################################################################################
 # Intercept the uvicorn logger and redirect it to Loguru
@@ -41,3 +43,10 @@ logger.add(sys.stdout, format=default_format, level="DEBUG")
 
 # Add a new logger that outputs to a file
 logger.add("logs/BrommaWoodWedding/debug.log", format=default_format, level="INFO", rotation="1 day")
+
+
+settings = get_settings()
+
+if settings.log_token != "":
+    handler = LogtailHandler(source_token=settings.log_token)
+    logger.add(handler, format=default_format, level="INFO")

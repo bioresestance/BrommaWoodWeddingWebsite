@@ -8,6 +8,7 @@ dependencies = [
     "aioredis>=2.0.1",
     "fastapi-limiter>=0.1.6",
     "fastapi[all]>=0.115.5",
+    "logtail-python>=0.3.1",
     "loguru>=0.7.2",
     "mongoengine>=0.29.1",
     "motor>=3.6.0",

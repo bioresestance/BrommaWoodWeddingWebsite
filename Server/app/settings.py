@@ -3,6 +3,7 @@ from pydantic import Field
 from functools import lru_cache
 
 class Settings(BaseSettings):
+    app_mode: str = Field("dev", env="APP_MODE")
     app_name: str = Field("Bromma Wood Wedding", env="APP_NAME")
     db_url: str = Field("mongodb://localhost:27017", env="DB_URL")
     db_username: str = Field("admin", env="DB_USERNAME")
@@ -12,6 +13,7 @@ class Settings(BaseSettings):
     jwt_algorithm: str = Field("HS256", env="JWT_ALGORITHM")
     jwt_expires: int = Field(900, env="JWT_EXPIRES")
     redis_url: str = Field("redis://localhost:6379", env="REDIS_URL")
+    log_token: str = Field("", env="LOG_TOKEN")
 
 
 @lru_cache()
