@@ -74,8 +74,8 @@ class GuestDetailForm(BaseModel):
         return phone
 
 class PlusOneForm(BaseModel):
-    first_name: str
-    last_name: str
+    first_name: str = ""
+    last_name: str = ""
     preferred_name: str = ""
     email: EmailStr | None = None
     dietary_restrictions: list[Diets] = []

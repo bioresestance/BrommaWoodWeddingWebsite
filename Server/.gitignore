@@ -162,3 +162,4 @@ cython_debug/
 
 checks.json
 *.xlsx*
+.ruff_cache/
