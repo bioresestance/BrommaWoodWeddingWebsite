@@ -1,11 +1,11 @@
 from datetime import datetime, timedelta
 import os
 from typing import Annotated
-from fastapi import Depends, HTTPException, Header, status
+from fastapi import Depends, HTTPException, status
 from fastapi.security import OAuth2PasswordBearer
 from jose import JWTError, jwt
 from app.models.access_token import AccessToken, AccessTokenContents
-from app.database.models import Admin as DBAdmin, Guest as DBGuest
+from app.database.models import Guest as DBGuest
 from app.settings import get_settings, Settings
 from app.security.hasher import Hasher
 from app.models.admin import Admin

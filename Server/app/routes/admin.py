@@ -48,8 +48,8 @@ async def get_guest(guest_name: str, _:Admin = Depends(get_current_admin)) -> Gu
     try:
         first_name = guest_name.split("_")[0].lower()
         last_name = guest_name.split("_")[1].lower()
-    except:
-        logger.error(f"Failed to get guest {guest_name}")
+    except Exception as e:
+        logger.error(f"Failed to get guest {guest_name}: {e}")
         raise HTTPException(
             status_code=status.HTTP_400_BAD_REQUEST,
             detail="Please ensure the guest name is in the format 'first_last'",
@@ -74,8 +74,8 @@ async def create_guest( newGuestInfo:CreateUserModel,  _:Admin = Depends(get_cur
     try:
         first_name = newGuestInfo.username.split("_")[0].lower()
         last_name = newGuestInfo.username.split("_")[1].lower()
-    except:
-        logger.error(f"Failed to create guest {newGuestInfo.username}")
+    except Exception as e:
+        logger.error(f"Failed to create guest {newGuestInfo.username}: {e}")
         raise HTTPException(
             status_code=status.HTTP_400_BAD_REQUEST,
             detail="Please ensure the username is in the format 'first_last'",

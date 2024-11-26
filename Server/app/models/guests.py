@@ -1,6 +1,6 @@
 from enum import Enum
 from typing import Optional
-from pydantic import BaseModel, EmailStr, StrictBool, ValidationError, field_validator
+from pydantic import BaseModel, EmailStr, StrictBool, field_validator
 import re
 
 

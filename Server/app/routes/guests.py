@@ -4,7 +4,7 @@ from fastapi.security import OAuth2PasswordRequestForm
 from loguru import logger
 
 from app.models.access_token import AccessToken
-from app.models.guests import Guest, GuestDetail, GuestDetailForm, PlusOneDetail, PlusOneForm
+from app.models.guests import Guest, GuestDetail, GuestDetailForm
 from app.security.utils import encode_json_web_token, get_current_guest, authenticate_guest, get_guest_from_name
 from app.settings import get_settings
 from app.database.models import Guest as GuestDB, GuestPlusOne
@@ -16,7 +16,7 @@ setting = get_settings()
 async def login(form_data: OAuth2PasswordRequestForm = Depends()) -> AccessToken:
     user = authenticate_guest(form_data.password)
     if not user:
-        logger.error(f"Failed login attempt")
+        logger.error("Failed login attempt")
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
             detail="Incorrect username or password",
@@ -24,7 +24,7 @@ async def login(form_data: OAuth2PasswordRequestForm = Depends()) -> AccessToken
         )
     access_token_expires = timedelta(minutes=setting.jwt_expires)
     access_token = encode_json_web_token(user, "guest", access_token_expires )
-    logger.info(f"User "{user}" logged in")
+    logger.info(f"User '{user}' logged in")
     return access_token
 
 
@@ -41,7 +41,7 @@ async def update_guest(form_data: GuestDetailForm,current_user: GuestDetail = De
 
 
     if not guest:
-        logger.error(f"User not found")
+        logger.error("User not found")
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND,
             detail="User not found",
