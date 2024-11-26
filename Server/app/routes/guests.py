@@ -1,12 +1,13 @@
 from datetime import timedelta
 from fastapi import APIRouter, Depends, HTTPException, status
 from fastapi.security import OAuth2PasswordRequestForm
+from loguru import logger
 
 from app.models.access_token import AccessToken
 from app.models.guests import Guest, GuestDetail, GuestDetailForm, PlusOneDetail, PlusOneForm
 from app.security.utils import encode_json_web_token, get_current_guest, authenticate_guest, get_guest_from_name
 from app.settings import get_settings
-from app.database.models import Guest as GuestDB
+from app.database.models import Guest as GuestDB, GuestPlusOne
 
 guest_router = APIRouter( prefix="/guest", tags=["guest"])
 setting = get_settings()
@@ -15,6 +16,7 @@ setting = get_settings()
 async def login(form_data: OAuth2PasswordRequestForm = Depends()) -> AccessToken:
     user = authenticate_guest(form_data.password)
     if not user:
+        logger.error(f"Failed login attempt")
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
             detail="Incorrect username or password",
@@ -22,6 +24,7 @@ async def login(form_data: OAuth2PasswordRequestForm = Depends()) -> AccessToken
         )
     access_token_expires = timedelta(minutes=setting.jwt_expires)
     access_token = encode_json_web_token(user, "guest", access_token_expires )
+    logger.info(f"User {user.first_name} {user.last_name} logged in")
     return access_token
 
 
@@ -34,13 +37,17 @@ async def read_users_me(current_user:GuestDetail = Depends(get_current_guest)) -
 async def update_guest(form_data: GuestDetailForm,current_user: GuestDetail = Depends(get_current_guest)) -> GuestDetail:
 
     # Get the db object for the current user
-    guest = GuestDB.objects(first_name = current_user.first_name, last_name = current_user.last_name).first()
+    guest:GuestDB = GuestDB.objects(first_name = current_user.first_name, last_name = current_user.last_name).first()
+
 
     if not guest:
+        logger.error(f"User not found")
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND,
             detail="User not found",
         )
+    
+    logger.info(f"Updating user {guest.first_name} {guest.last_name}")
 
     guest.preferred_name = form_data.preferred_name
     guest.attending = form_data.attending
@@ -80,7 +87,7 @@ async def update_guest(form_data: GuestDetailForm,current_user: GuestDetail = De
 
         # Guest does not have a plus one already, so create a new one
         elif form_data.plus_one:
-            plus_one = PlusOneDetail(first_name=form_data.plus_one.first_name,
+            plus_one = GuestPlusOne(first_name=form_data.plus_one.first_name,
                                     last_name=form_data.plus_one.last_name,
                                     email=form_data.plus_one.email,
                                     additional_notes=form_data.plus_one.additional_notes)
@@ -93,7 +100,15 @@ async def update_guest(form_data: GuestDetailForm,current_user: GuestDetail = De
         guest.plus_one = None
 
     # Save the updated guest object
-    guest.save()
+    try:
+        guest.save()
+        logger.info(f"User {guest.first_name} {guest.last_name} updated")
+    except Exception as e:
+        logger.error(f"Failed to update user: {str(e)}")
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail=str(e)
+        )
     return get_guest_from_name(guest.first_name, guest.last_name)
 
 

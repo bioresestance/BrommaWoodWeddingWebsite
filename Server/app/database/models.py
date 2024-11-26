@@ -6,11 +6,11 @@ class GuestPlusOne(EmbeddedDocument):
     """
     Guest Plus One class, to be embedded in the Guest class.
     """
-    first_name = StringField(required=True)
-    last_name = StringField(required=True)
-    email = StringField(required=True)
-    dietary_restrictions = StringField(required=True)
-    additional_notes = StringField(required=True)
+    first_name = StringField(default= "")
+    last_name = StringField(default= "")
+    email = StringField(default= "")
+    dietary_restrictions = ListField(StringField(default=""))
+    additional_notes = StringField(default= "")
 
 
 
