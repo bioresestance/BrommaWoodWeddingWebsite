@@ -8,6 +8,21 @@ on:
       - "*"
 
 jobs:
+
+  lint_server:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Install UV 
+        uses: astral-sh/setup-uv@v3 
+
+      - name: Lint Server
+        run: |
+          uv tool run ruff check --output-format=github ./Server
+
+
   build-and-deploy:
     runs-on: ubuntu-latest
 
