@@ -24,7 +24,7 @@ async def login(form_data: OAuth2PasswordRequestForm = Depends()) -> AccessToken
         )
     access_token_expires = timedelta(minutes=setting.jwt_expires)
     access_token = encode_json_web_token(user, "guest", access_token_expires )
-    logger.info(f"User {user.first_name} {user.last_name} logged in")
+    logger.info(f"User "{user}" logged in")
     return access_token
 
 
