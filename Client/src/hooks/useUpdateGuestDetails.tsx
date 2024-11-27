@@ -8,7 +8,9 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 const api = new GuestApi(apiConfiguration);
 
-export default function useUpdateGuestDetails() {
+export default function useUpdateGuestDetails(
+  onErrorFn: (error: Error) => void | undefined = undefined
+) {
   const queryClient = useQueryClient();
 
   const mutation = useMutation({
@@ -20,8 +22,10 @@ export default function useUpdateGuestDetails() {
       return response;
     },
     onSuccess: (result) => {
-      console.log(result.data);
       queryClient.setQueryData(["GuestDetails"], result);
+    },
+    onError: (error) => {
+      if (onErrorFn) onErrorFn(error);
     },
   });
 
