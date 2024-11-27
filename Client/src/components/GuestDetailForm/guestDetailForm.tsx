@@ -155,6 +155,7 @@ const GuestDetailForm = () => {
           inputClass={inputClass}
           plus_one_allowed={data.data?.plus_one_allowed}
           watch={watch}
+          control={control}
         />
       </div>
 
