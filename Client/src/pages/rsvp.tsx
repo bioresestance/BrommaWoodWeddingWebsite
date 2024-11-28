@@ -5,18 +5,22 @@ import * as yup from "yup";
 import AuthContext from "../authContext";
 import { useNavigate } from "react-router-dom";
 
-const RSVP: React.FC = () => {
+const RSVPPage: React.FC = () => {
   const schema = yup.object().shape({
     rsvp_code: yup
       .string()
       .required("Please enter your RSVP code.")
       .min(6, "Please enter a valid RSVP code."),
+    agreeToPrivacyPolicy: yup
+      .boolean()
+      .oneOf([true], "You must agree to the privacy policy."),
   });
 
   const {
     register,
     handleSubmit,
     formState: { errors },
+    watch,
   } = useForm({
     resolver: yupResolver(schema),
   });
@@ -31,7 +35,10 @@ const RSVP: React.FC = () => {
     }
   }, [user, navigate]);
 
-  const onSubmit = async (data: { rsvp_code: string }) => {
+  const onSubmit = async (data: {
+    rsvp_code: string;
+    agreeToPrivacyPolicy: boolean;
+  }) => {
     try {
       const response: boolean = await login(data.rsvp_code);
 
@@ -47,36 +54,62 @@ const RSVP: React.FC = () => {
     }
   };
 
-  const onError = (error: any) => {
+  const onError = (error: Record<string, unknown>) => {
     console.log(error);
   };
+  const agreeToPrivacyPolicy = watch("agreeToPrivacyPolicy");
 
   return (
-    <div className="flex flex-col items-center w-full min-h-screen text-white pt-[40vh]">
-      <p className="text-xl font-bold text-black rounded-full p-12 pr-16">
+    <div className="flex flex-col items-center w-full min-h-screen text-white pt-[20vh] px-4 md:px-0">
+      <p className="text-2xl md:text-4xl font-bold text-black p-6 md:p-12 pr-8 md:pr-16 bg-white">
         RSVP
       </p>
-      <br />
-      <br />
-      <form onSubmit={handleSubmit(onSubmit, onError)}>
+      <p className="text-center text-black mt-4 md:mt-8">
+        Please enter your RSVP code to proceed.
+      </p>
+      <form
+        onSubmit={handleSubmit(onSubmit, onError)}
+        className="w-full max-w-md mt-8"
+      >
         <input
-          className="w-96 h-12 rounded-full border border-black text-center text-black"
+          className="w-full h-12 rounded-full border border-black text-center text-black mb-4"
           type="text"
           placeholder="Enter your RSVP code"
           {...register("rsvp_code")}
         />
-        <br />
-        <p className="text-red-600">{errors.rsvp_code?.message}</p>
-        <br />
+        <p className="text-red-600 text-center mb-4">
+          {errors.rsvp_code?.message}
+        </p>
+        <div className="flex items-center mb-4">
+          <input
+            type="checkbox"
+            {...register("agreeToPrivacyPolicy")}
+            className="mr-2"
+          />
+          <label className="text-black">
+            I agree to the{" "}
+            <a href="/privacy" className="text-blue-600 underline">
+              privacy policy
+            </a>
+            .
+          </label>
+        </div>
+        <p className="text-red-600 text-center mb-4">
+          {errors.agreeToPrivacyPolicy?.message}
+        </p>
         {isError && (
-          <p className="text-red-600">
+          <p className="text-red-600 text-center mb-4">
             That RSVP code was incorrect, please check and try again!
           </p>
         )}
-        <br />
         <button
-          className="bg-blue-600/75 hover:bg-blue-800 text-xl border-2 border rounded-full border-black text-white/90 hover:text-white font-bold py-4 px-8"
+          className={`w-full text-xl border-2 rounded-full border-black font-bold py-4 px-8 ${
+            agreeToPrivacyPolicy
+              ? "bg-blue-600/75 hover:bg-blue-800 text-white/90 hover:text-white"
+              : "bg-gray-400 text-gray-700 cursor-not-allowed"
+          }`}
           type="submit"
+          disabled={!agreeToPrivacyPolicy}
         >
           Submit
         </button>
@@ -85,4 +118,4 @@ const RSVP: React.FC = () => {
   );
 };
 
-export default RSVP;
+export default RSVPPage;

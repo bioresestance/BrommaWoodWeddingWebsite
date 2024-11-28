@@ -3,8 +3,8 @@ import ReactDOM from "react-dom/client";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import App from "./App.tsx";
-import Home from "./pages/home.tsx";
-import RSVP from "./pages/rsvp.tsx";
+import HomePage from "./pages/home.tsx";
+import RSVPPage from "./pages/rsvp.tsx";
 import FAQPage from "./pages/FAQ.tsx";
 import UserInfoPage from "./pages/UserInfo.tsx";
 import RulesPage from "./pages/RulesPage.tsx";
@@ -19,8 +19,8 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
       <Router>
         <Routes>
           <Route path="/" element={<App />}>
-            <Route path="/" element={<Home />} />
-            <Route path="/rsvp" element={<RSVP />} />
+            <Route path="/" element={<HomePage />} />
+            <Route path="/rsvp" element={<RSVPPage />} />
             <Route path="/faq" element={<FAQPage />} />
             <Route path="/rules" element={<RulesPage />} />
             <Route path="/privacy" element={<PrivacyPolicyPage />} />
@@ -32,7 +32,7 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
                 </PrivateRoute>
               }
             />
-            <Route path="*" element={<Home />} /> /* Catch all */
+            <Route path="*" element={<HomePage />} /> /* Catch all */
           </Route>
         </Routes>
       </Router>

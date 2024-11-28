@@ -1,7 +1,7 @@
 import CountdownTimer from "../components/countdownTimer";
 import { Link } from "react-router-dom";
 
-const Home: React.FC = () => {
+const HomePage: React.FC = () => {
   const wedding_time = new Date("2025-06-15T16:00:00Z").getTime();
   return (
     <div className="bg-cover bg-center bg-no-repeat bg-fixed background">
@@ -24,4 +24,4 @@ const Home: React.FC = () => {
   );
 };
 
-export default Home;
+export default HomePage;
