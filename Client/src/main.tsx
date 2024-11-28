@@ -9,6 +9,7 @@ import FAQPage from "./pages/FAQ.tsx";
 import UserInfoPage from "./pages/UserInfo.tsx";
 import RulesPage from "./pages/RulesPage.tsx";
 import PrivateRoute from "./pages/PrivatePage.tsx";
+import PrivacyPolicyPage from "./pages/PrivacyPolicy.tsx";
 
 const queryClient = new QueryClient();
 
@@ -22,6 +23,7 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
             <Route path="/rsvp" element={<RSVP />} />
             <Route path="/faq" element={<FAQPage />} />
             <Route path="/rules" element={<RulesPage />} />
+            <Route path="/privacy" element={<PrivacyPolicyPage />} />
             <Route
               path="/user"
               element={
