@@ -1,4 +1,4 @@
-#!/bin/fish
+#!/usr/bin/env bash
 
 # Install the dependencies
 uv sync

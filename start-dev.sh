@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 # Name of the tmux session
 SESSION_NAME="wedding-website-dev"
