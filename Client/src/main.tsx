@@ -10,6 +10,7 @@ import UserInfoPage from "./pages/UserInfo.tsx";
 import RulesPage from "./pages/RulesPage.tsx";
 import PrivateRoute from "./pages/PrivatePage.tsx";
 import PrivacyPolicyPage from "./pages/PrivacyPolicy.tsx";
+import HotelsPage from "./pages/Hotels.tsx";
 
 const queryClient = new QueryClient();
 
@@ -24,6 +25,7 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
             <Route path="/faq" element={<FAQPage />} />
             <Route path="/rules" element={<RulesPage />} />
             <Route path="/privacy" element={<PrivacyPolicyPage />} />
+            <Route path="/hotels" element={<HotelsPage />} />
             <Route
               path="/user"
               element={
