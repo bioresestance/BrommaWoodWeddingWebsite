@@ -11,6 +11,7 @@ import RulesPage from "./pages/RulesPage.tsx";
 import PrivateRoute from "./pages/PrivatePage.tsx";
 import PrivacyPolicyPage from "./pages/PrivacyPolicy.tsx";
 import HotelsPage from "./pages/Hotels.tsx";
+import VenuePage from "./pages/Venue.tsx";
 
 const queryClient = new QueryClient();
 
@@ -26,6 +27,7 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
             <Route path="/rules" element={<RulesPage />} />
             <Route path="/privacy" element={<PrivacyPolicyPage />} />
             <Route path="/hotels" element={<HotelsPage />} />
+            <Route path="/venue" element={<VenuePage />} />
             <Route
               path="/user"
               element={

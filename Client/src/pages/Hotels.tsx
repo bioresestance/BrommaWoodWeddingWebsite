@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { FC } from 'react';
 
 const HotelsPage: React.FC = () => {
     return (
@@ -10,7 +10,7 @@ const HotelsPage: React.FC = () => {
                 </p>
 
                 <div className="mb-6">
-                    <h2 className="text-2xl font-semibold mb-2">Quality Inn</h2>
+                    <h2 className="text-2xl font-semibold mb-2 text-center">Quality Inn</h2>
                     <p className="mb-2"><strong>Location:</strong> 2476 Mt. Newton Cross Roads, Saanichton, BC V8M 2B8</p>
                     <p className="mb-2"><strong>Hotel Summary:</strong></p>
                     <p className="mb-2">
@@ -19,7 +19,7 @@ const HotelsPage: React.FC = () => {
                 </div>
 
                 <div className="mb-6">
-                    <h2 className="text-2xl font-semibold mb-2">Motel 6</h2>
+                    <h2 className="text-2xl font-semibold mb-2 text-center">Motel 6</h2>
                     <p className="mb-2"><strong>Location:</strong> 401 Mt Newton Cross Rd, Saanichton, BC V8M 1T8</p>
                     <p className="mb-2"><strong>Hotel Summary:</strong></p>
                     <p className="mb-2">
@@ -28,7 +28,7 @@ const HotelsPage: React.FC = () => {
                 </div>
 
                 <div className="mb-6">
-                    <h2 className="text-2xl font-semibold mb-2">Brentwood Bay Resort</h2>
+                    <h2 className="text-2xl font-semibold mb-2 text-center">Brentwood Bay Resort</h2>
                     <p className="mb-2"><strong>Location:</strong> 849 Verdier Ave, Victoria, BC V8M 1C5</p>
                     <p className="mb-2"><strong>Hotel Summary:</strong></p>
                     <p className="mb-2">
@@ -37,7 +37,7 @@ const HotelsPage: React.FC = () => {
                 </div>
 
                 <div className="mb-6">
-                    <h2 className="text-2xl font-semibold mb-2">Sidney Waterfront Inn</h2>
+                    <h2 className="text-2xl font-semibold mb-2 text-center">Sidney Waterfront Inn</h2>
                     <p className="mb-2"><strong>Location:</strong> 9775 First St, Sidney, BC V8L 3E1</p>
                     <p className="mb-2"><strong>Hotel Summary:</strong></p>
                     <p className="mb-2">
@@ -46,7 +46,7 @@ const HotelsPage: React.FC = () => {
                 </div>
 
                 <div className="mb-6">
-                    <h2 className="text-2xl font-semibold mb-2">Best Western Plus Emerald Isle Hotel</h2>
+                    <h2 className="text-2xl font-semibold mb-2 text-center">Best Western Plus Emerald Isle Hotel</h2>
                     <p className="mb-2"><strong>Location:</strong> 2306 Beacon Ave, Sidney, BC V8L 1X2 • (250) 656-4441</p>
                     <p className="mb-2"><strong>Hotel Summary:</strong></p>
                     <p className="mb-2">
