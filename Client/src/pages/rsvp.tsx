@@ -66,7 +66,7 @@ const RSVPPage: React.FC = () => {
           RSVP
         </p>
         <p className="mt-4 md:mt-8">
-          This RSVP system will be open until April 30th, 2025. You are able to make changes to your RSVP until this date. If you have any questions or need to make changes after this date, please contact us!
+          This RSVP system will be open until <strong>April 30th, 2025</strong>. You are able to make changes to your RSVP until this date. If you have any questions or need to make changes after this date, please contact us!
         </p>
         <br />
         <p className="mt-4 md:mt-8">

@@ -108,7 +108,7 @@ const FAQPage: React.FC = () => {
         <div className="flex flex-col items-center w-full min-h-screen text-black pt-[15vh] pb-20">
             <div className="flex flex-col items-center">
                 <h2 className="mt-5 text-center text-3xl font-bold tracking-tight md:text-5xl">FAQ</h2>
-                <p className="mt-3 text-lg text-neutral-500 md:text-xl">
+                <p className="mt-3 text-lg md:text-3xl">
                     Frequenty asked questions
                 </p>
             </div>
@@ -116,8 +116,8 @@ const FAQPage: React.FC = () => {
                 {faqs.map((faq, index) => (
                     <div className="py-5" key={index}>
                         <details className="group">
-                            <summary className="flex cursor-pointer list-none items-center justify-between font-medium">
-                                <span> {faq.question}</span>
+                            <summary className="flex cursor-pointer list-none items-center justify-between text-3xl font-bold">
+                                <span > {faq.question}</span>
                                 <span className="transition group-open:rotate-180">
                                     <svg fill="none" height="24" shape-rendering="geometricPrecision"
                                         stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
@@ -126,7 +126,7 @@ const FAQPage: React.FC = () => {
                                     </svg>
                                 </span>
                             </summary>
-                            <p className="group-open:animate-fadeIn mt-3 text-neutral-600">
+                            <p className="group-open:animate-fadeIn mt-3 text-neutral-700">
                                 {faq.answer}
                             </p>
                         </details>
