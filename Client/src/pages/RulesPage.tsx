@@ -1,8 +1,8 @@
 const RulesPage: React.FC = () => {
     return (
-        <div className="flex flex-col items-center w-full min-h-screen text-black pt-[40vh] bg-gradient-to-r from-purple-300 via-pink-300 to-red-300 pb-20">
+        <div className="flex flex-col items-center w-full min-h-screen text-black pt-[40vh] pb-20">
 
-            <div className="text-center px-20 bg-white bg-opacity-80 p-10 mb-5 mx-16 rounded-lg shadow-lg">
+            <div className="text-center px-20 p-10 mb-5 mx-16">
 
                 <p className="text-5xl font-bold text-black rounded-full p-12 pr-16">
                     Wedding Ground Rules and Expectations
@@ -15,7 +15,7 @@ const RulesPage: React.FC = () => {
                 </p>
             </div>
 
-            <div className=" px-20 bg-white bg-opacity-80 p-10 mb-5 mx-16 rounded-lg shadow-lg">
+            <div className=" px-20 p-10 mb-5 mx-16">
                 <p className="text-5xl font-semibold mt-6 text-center pb-5">
                     General
                 </p>
@@ -52,7 +52,7 @@ const RulesPage: React.FC = () => {
                 </ul>
             </div>
 
-            <div className="px-20 bg-white bg-opacity-80 p-10 mx-16 mb-5 rounded-lg shadow-lg">
+            <div className="px-20 p-10 mx-16 mb-5">
                 <p className="text-5xl font-semibold mt-6 text-center pb-5">
                     Clothing/Attire
                 </p>

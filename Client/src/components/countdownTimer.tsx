@@ -27,7 +27,7 @@ const DateTimeDisplay = ({ value, type }: DateTimeDisplayProps) => {
 
 const ShowCounter = ({ days, hours, minutes, seconds }: ShowCounterProps) => {
   return (
-    <div className="flex flex-row bg-purple-400/65 text-lg justify-center align-middle text-black font-bold rounded-full px-7 py-1 space-x-2">
+    <div className="flex flex-row bg-purple-400/65 text-2xl justify-center align-middle text-black font-bold rounded-full px-7 py-1 space-x-2">
       <DateTimeDisplay value={days} type={"Days"} />
       <p>:</p>
       <DateTimeDisplay value={hours} type={"Hours"} />

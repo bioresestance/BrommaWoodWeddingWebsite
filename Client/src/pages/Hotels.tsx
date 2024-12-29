@@ -3,7 +3,7 @@ import React, { FC } from 'react';
 const HotelsPage: React.FC = () => {
     return (
         <div className="flex flex-col items-center w-full min-h-screen text-black pt-[15vh] pb-20">
-            <div className="p-6 max-w-4xl mx-auto text-gray-800 font-sans">
+            <div className="p-6 max-w-4xl mx-auto text-gray-800">
                 <h1 className="text-3xl font-bold mb-4">Recommendations for Hotels</h1>
                 <p className="mb-4">
                     This is a list of accommodations near the wedding venues. While we've chosen these for their convenience, you are not required to stay at any of them. We encourage you to explore other options, compare prices, and find the best deal that fits your needs.

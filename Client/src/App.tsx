@@ -7,12 +7,16 @@ import AuthProvider from "./components/authProvider";
 function App() {
   return (
     <AuthProvider>
-      <div className="flex flex-col min-h-screen">
-        <Header />
-        <div className="flex-grow">
+      <div className="flex flex-col min-h-screen text-2xl">
+        <div className="bg-white bg-opacity-80">
+          <Header />
+        </div>
+        <div className="flex-grow bg-gradient-to-b from-[#f8fcf7] to-[#d4e8d1]">
           <Outlet />
         </div>
-        <Footer />
+        <div className="bg-white bg-opacity-80">
+          <Footer />
+        </div>
       </div>
     </AuthProvider>
   );

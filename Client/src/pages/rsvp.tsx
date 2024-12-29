@@ -61,7 +61,7 @@ const RSVPPage: React.FC = () => {
 
   return (
     <div className="flex flex-col items-center w-full min-h-screen text-white pt-[20vh] px-4 md:px-0">
-      <p className="text-2xl md:text-4xl font-bold text-black p-6 md:p-12 pr-8 md:pr-16 bg-white">
+      <p className="text-2xl md:text-5xl font-bold text-black p-6 md:p-12 pr-8 md:pr-16">
         RSVP
       </p>
       <p className="text-center text-black mt-4 md:mt-8">
@@ -72,7 +72,7 @@ const RSVPPage: React.FC = () => {
         className="w-full max-w-md mt-8"
       >
         <input
-          className="w-full h-12 rounded-full border border-black text-center text-black mb-4"
+          className="w-full h-12 rounded-full border border-black text-center text-black mb-4 bg-white"
           type="text"
           placeholder="Enter your RSVP code"
           {...register("rsvp_code")}
@@ -103,11 +103,10 @@ const RSVPPage: React.FC = () => {
           </p>
         )}
         <button
-          className={`w-full text-xl border-2 rounded-full border-black font-bold py-4 px-8 ${
-            agreeToPrivacyPolicy
-              ? "bg-blue-600/75 hover:bg-blue-800 text-white/90 hover:text-white"
-              : "bg-gray-400 text-gray-700 cursor-not-allowed"
-          }`}
+          className={`w-full text-3xl border-2 rounded-full border-black font-bold py-4 px-8 ${agreeToPrivacyPolicy
+            ? "bg-blue-600/75 hover:bg-blue-800 text-white/90 hover:text-white"
+            : "bg-gray-400 text-gray-700 cursor-not-allowed"
+            }`}
           type="submit"
           disabled={!agreeToPrivacyPolicy}
         >

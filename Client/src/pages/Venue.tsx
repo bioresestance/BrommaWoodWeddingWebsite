@@ -3,14 +3,14 @@ import React from 'react';
 const VenuePage: React.FC = () => {
     return (
         <div className="flex flex-col items-center w-full min-h-screen text-black pt-[15vh] pb-20">
-            <div className="p-6 max-w-4xl mx-auto text-gray-800 font-sans">
-                <h1 className="text-3xl font-bold mb-4">Wedding Venue</h1>
+            <div className="p-6 max-w-4xl mx-auto text-gray-800">
+                <h1 className="text-5xl font-bold text-center mb-4">Wedding Venue</h1>
                 <p className="mb-4">
                     We are excited to celebrate our special day with you at our chosen venue. Below are the details about the venue, including location and parking/transportation information.
                 </p>
 
                 <div className="mb-6">
-                    <h2 className="text-2xl font-semibold mb-2 text-center">Sea Cider Farm & Ciderhouse</h2>
+                    <h2 className="text-5xl font-semibold mb-2 text-center">Sea Cider Farm & Ciderhouse</h2>
                     <p className="mb-2"><strong>Location:</strong> 2487 Mt St Michael Rd, Saanichton, BC V8M 1T7</p>
                     <p className="mb-2"><strong>Venue Summary:</strong></p>
                     <p className="mb-2">
@@ -23,7 +23,7 @@ const VenuePage: React.FC = () => {
                 </div>
 
                 <div className="mb-6">
-                    <h2 className="text-2xl font-semibold mb-2 text-center">Parking and Transportation</h2>
+                    <h2 className="text-5xl font-semibold mb-2 text-center">Parking and Transportation</h2>
                     <p className="mb-2"><strong>Parking:</strong></p>
                     <p className="mb-2">
                         Sea Cider provides plenty of parking for events and the gneral public. Parking is free and available on a first-come, first-served basis. If you plan to drive, we recommend carpooling with other guests to save on parking space.

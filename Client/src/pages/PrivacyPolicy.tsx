@@ -1,15 +1,15 @@
 const PrivacyPolicyPage: React.FC = () => {
   return (
     <div className="flex flex-col items-center w-full min-h-screen text-black pt-[15vh] pb-20">
-      <div className="p-6 max-w-4xl mx-auto text-gray-800 font-sans">
-        <h1 className="text-3xl font-bold mb-4">Privacy Policy</h1>
+      <div className="p-6 max-w-4xl mx-auto text-gray-800">
+        <h1 className="text-5xl font-bold mb-4">Privacy Policy</h1>
         <p className="mb-4">
           Welcome to our wedding RSVP website! Your privacy is very important to
           us. This Privacy Policy outlines how we handle and protect the
           personal information you share with us.
         </p>
 
-        <h2 className="text-2xl font-semibold mt-6 mb-2">
+        <h2 className="text-4xl font-semibold mt-6 mb-2">
           What Information We Collect
         </h2>
         <p className="mb-2">
@@ -24,7 +24,7 @@ const PrivacyPolicyPage: React.FC = () => {
           <li>Dietary preferences or other RSVP-related details</li>
         </ul>
 
-        <h2 className="text-2xl font-semibold mt-6 mb-2">
+        <h2 className="text-4xl font-semibold mt-6 mb-2">
           How We Use Your Information
         </h2>
         <p className="mb-2">
@@ -41,7 +41,7 @@ const PrivacyPolicyPage: React.FC = () => {
           wedding and its associated activities.
         </p>
 
-        <h2 className="text-2xl font-semibold mt-6 mb-2">Cookies</h2>
+        <h2 className="text-4xl font-semibold mt-6 mb-2">Cookies</h2>
         <p className="mb-4">
           This website uses cookies to enhance functionality and improve your
           experience. Specifically, we use:
@@ -59,14 +59,14 @@ const PrivacyPolicyPage: React.FC = () => {
           in this Privacy Policy.
         </p>
 
-        <h2 className="text-2xl font-semibold mt-6 mb-2">Data Sharing</h2>
+        <h2 className="text-4xl font-semibold mt-6 mb-2">Data Sharing</h2>
         <p className="mb-4">
           Your information will not be shared, sold, or disclosed to any third
           parties, except as required by law or for essential wedding planning
           purposes (e.g., providing guest counts to the venue).
         </p>
 
-        <h2 className="text-2xl font-semibold mt-6 mb-2">
+        <h2 className="text-4xl font-semibold mt-6 mb-2">
           Data Retention and Deletion
         </h2>
         <p className="mb-2">
@@ -84,14 +84,14 @@ const PrivacyPolicyPage: React.FC = () => {
           No copies of your information will be kept after this deletion.
         </p>
 
-        <h2 className="text-2xl font-semibold mt-6 mb-2">Data Security</h2>
+        <h2 className="text-4xl font-semibold mt-6 mb-2">Data Security</h2>
         <p className="mb-4">
           We are committed to ensuring that your information is secure.
           Appropriate technical measures are in place to protect your data from
           unauthorized access or disclosure.
         </p>
 
-        <h2 className="text-2xl font-semibold mt-6 mb-2">Your Consent</h2>
+        <h2 className="text-4xl font-semibold mt-6 mb-2">Your Consent</h2>
         <p className="mb-4">
           By providing your information on this website, you consent to its use
           as outlined in this Privacy Policy. If you have any questions or

@@ -11,7 +11,7 @@ const Header: React.FC = () => {
   };
 
   return (
-    <header className="bg-gradient-to-r from-blue-500/75 to-purple-500/75 md:fixed w-full z-10 md:shadow-xl">
+    <header className="bg-gradient-to-r from-blue-400/75 to-purple-400/75 md:fixed w-full z-10 md:shadow-xl">
       <div className="container mx-auto flex items-center justify-between p-3 md:m-1 md:px-10 h-16  rounded-b-3xl max-w-full">
         <div className="flex justify-start items-center lg:mb-[-175px]">
           <Link to="/">
@@ -26,38 +26,38 @@ const Header: React.FC = () => {
         <nav className="hidden md:flex justify-center space-x-4 md:space-x-20">
           <Link
             to="/rsvp"
-            className="text-gray-800 hover:bg-indigo-500 hover:text-white px-2 py-2 rounded-md text-sm font-medium border border-2 bg-gray-600/20 w-20 md:w-36 h-8 md:h-10 text-center"
+            className="text-gray-800 hover:bg-indigo-500 hover:text-white px-2 py-2 rounded-md text-lg font-medium border-2 bg-gray-600/20 w-20 md:w-36 h-8 md:h-10 text-center"
           >
             RSVP
           </Link>
           <Link
             to="/venue"
-            className="text-gray-800 hover:bg-indigo-500 hover:text-white px-2 py-2 rounded-md text-sm font-medium border border-2 bg-gray-600/20 w-20 md:w-36 h-8 md:h-10 text-center"
+            className="text-gray-800 hover:bg-indigo-500 hover:text-white px-2 py-2 rounded-md text-lg font-medium border-2 bg-gray-600/20 w-20 md:w-36 h-8 md:h-10 text-center"
           >
             Venue
           </Link>
           <Link
             to="/hotels"
-            className="text-gray-800 hover:bg-indigo-500 hover:text-white px-2 py-2 rounded-md text-sm font-medium border border-2 bg-gray-600/20 w-20 md:w-36 h-8 md:h-10 text-center"
+            className="text-gray-800 hover:bg-indigo-500 hover:text-white px-2 py-2 rounded-md text-lg font-medium border-2 bg-gray-600/20 w-20 md:w-36 h-8 md:h-10 text-center"
           >
             Accommodations
           </Link>
           <Link
             to="/rules"
-            className="text-gray-800 hover:bg-indigo-500 hover:text-white px-2 py-2 rounded-md text-sm font-medium border border-2 bg-gray-600/20 w-20 md:w-36 h-8 md:h-10 text-center"
+            className="text-gray-800 hover:bg-indigo-500 hover:text-white px-2 py-2 rounded-md text-lg font-medium border-2 bg-gray-600/20 w-20 md:w-36 h-8 md:h-10 text-center"
           >
             Rules
           </Link>
           <Link
             to="/faq"
-            className="text-gray-800 hover:bg-indigo-500 hover:text-white px-2 py-2 rounded-md text-sm font-medium border border-2 bg-gray-600/20 w-20 md:w-36 h-8 md:h-10 text-center"
+            className="text-gray-800 hover:bg-indigo-500 hover:text-white px-2 py-2 rounded-md text-lg font-medium  border-2 bg-gray-600/20 w-20 md:w-36 h-8 md:h-10 text-center"
           >
             FAQ
           </Link>
         </nav>
 
         <div className="flex justify-end items-center space-x-4 md:space-x-20 font-bold">
-          <p className="text-sm md:text-base">June 15th, 2025</p>
+          <p className="text-4xl md:text-base">June 15th, 2025</p>
           {user && (
             <Link to="/">
               <button
@@ -98,35 +98,35 @@ const Header: React.FC = () => {
           <nav className="flex flex-col items-center space-y-2 py-2">
             <Link
               to="/rsvp"
-              className="text-gray-800 hover:bg-indigo-500 hover:text-white px-2 py-2 rounded-md text-sm font-medium border border-2 bg-gray-600/20 w-36 h-10 text-center"
+              className="text-gray-800 hover:bg-indigo-500 hover:text-white px-2 py-2 rounded-md text-lg font-medium border-2 bg-gray-600/20 w-36 h-10 text-center"
               onClick={toggleMenu}
             >
               RSVP
             </Link>
             <Link
               to="/venue"
-              className="text-gray-800 hover:bg-indigo-500 hover:text-white px-2 py-2 rounded-md text-sm font-medium border border-2 bg-gray-600/20 w-36 h-10 text-center"
+              className="text-gray-800 hover:bg-indigo-500 hover:text-white px-2 py-2 rounded-md text-lg font-medium border-2 bg-gray-600/20 w-36 h-10 text-center"
               onClick={toggleMenu}
             >
               Venue
             </Link>
             <Link
               to="/hotels"
-              className="text-gray-800 hover:bg-indigo-500 hover:text-white px-2 py-2 rounded-md text-sm font-medium border border-2 bg-gray-600/20 w-36 h-10 text-center"
+              className="text-gray-800 hover:bg-indigo-500 hover:text-white px-2 py-2 rounded-md text-lg font-medium border-2 bg-gray-600/20 w-36 h-10 text-center"
               onClick={toggleMenu}
             >
               Accommodations
             </Link>
             <Link
               to="/rules"
-              className="text-gray-800 hover:bg-indigo-500 hover:text-white px-2 py-2 rounded-md text-sm font-medium border border-2 bg-gray-600/20 w-36 h-10 text-center"
+              className="text-gray-800 hover:bg-indigo-500 hover:text-white px-2 py-2 rounded-md text-lg font-medium border-2 bg-gray-600/20 w-36 h-10 text-center"
               onClick={toggleMenu}
             >
               Rules
             </Link>
             <Link
               to="/faq"
-              className="text-gray-800 hover:bg-indigo-500 hover:text-white px-2 py-2 rounded-md text-sm font-medium border border-2 bg-gray-600/20 w-36 h-10 text-center"
+              className="text-gray-800 hover:bg-indigo-500 hover:text-white px-2 py-2 rounded-md text-lg font-medium border-2 bg-gray-600/20 w-36 h-10 text-center"
               onClick={toggleMenu}
             >
               FAQ

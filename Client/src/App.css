@@ -7,6 +7,18 @@
     font-style: normal;
 }
 
+@font-face {
+    font-family: 'EduTASBeginner';
+    src: url('/fonts/EduTASBeginner.ttf');
+    font-style: normal;
+    font-weight: normal;
+}
+
+/* Set EduTSASBeginner as the default font */
+body {
+    font-family: 'EduTASBeginner';
+}
+
 .title {
     font-family: 'LovelyHome';
     text-shadow:
@@ -31,5 +43,5 @@
     left: 0;
     -webkit-filter: grayscale(0%);
     filter: grayscale(50%);
-    z-index: -1;
+    z-index: 0;
 }
