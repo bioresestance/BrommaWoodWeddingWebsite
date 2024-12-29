@@ -31,16 +31,22 @@ const Header: React.FC = () => {
             RSVP
           </Link>
           <Link
-            to="/rules"
+            to="/venue"
             className="text-gray-800 hover:bg-indigo-500 hover:text-white px-2 py-2 rounded-md text-sm font-medium border border-2 bg-gray-600/20 w-20 md:w-36 h-8 md:h-10 text-center"
           >
-            Rules
+            Venue
           </Link>
           <Link
             to="/hotels"
             className="text-gray-800 hover:bg-indigo-500 hover:text-white px-2 py-2 rounded-md text-sm font-medium border border-2 bg-gray-600/20 w-20 md:w-36 h-8 md:h-10 text-center"
           >
             Accommodations
+          </Link>
+          <Link
+            to="/rules"
+            className="text-gray-800 hover:bg-indigo-500 hover:text-white px-2 py-2 rounded-md text-sm font-medium border border-2 bg-gray-600/20 w-20 md:w-36 h-8 md:h-10 text-center"
+          >
+            Rules
           </Link>
           <Link
             to="/faq"
@@ -98,6 +104,20 @@ const Header: React.FC = () => {
               RSVP
             </Link>
             <Link
+              to="/venue"
+              className="text-gray-800 hover:bg-indigo-500 hover:text-white px-2 py-2 rounded-md text-sm font-medium border border-2 bg-gray-600/20 w-36 h-10 text-center"
+              onClick={toggleMenu}
+            >
+              Venue
+            </Link>
+            <Link
+              to="/hotels"
+              className="text-gray-800 hover:bg-indigo-500 hover:text-white px-2 py-2 rounded-md text-sm font-medium border border-2 bg-gray-600/20 w-36 h-10 text-center"
+              onClick={toggleMenu}
+            >
+              Accommodations
+            </Link>
+            <Link
               to="/rules"
               className="text-gray-800 hover:bg-indigo-500 hover:text-white px-2 py-2 rounded-md text-sm font-medium border border-2 bg-gray-600/20 w-36 h-10 text-center"
               onClick={toggleMenu}
@@ -110,13 +130,6 @@ const Header: React.FC = () => {
               onClick={toggleMenu}
             >
               FAQ
-            </Link>
-            <Link
-              to="/hotels"
-              className="text-gray-800 hover:bg-indigo-500 hover:text-white px-2 py-2 rounded-md text-sm font-medium border border-2 bg-gray-600/20 w-36 h-10 text-center"
-              onClick={toggleMenu}
-            >
-              Accommodations
             </Link>
           </nav>
         </div>
