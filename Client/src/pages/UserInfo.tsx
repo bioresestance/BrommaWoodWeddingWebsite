@@ -14,10 +14,14 @@ const UserInfoPage: React.FC = () => {
         Welcome {data?.data.first_name}
       </p>
       <br />
+      <p>
+
+      </p>
       <br />
-      <p className="md:w-[50%] w-[90%] text-lg">
+      <p className="md:w-[50%] w-[90%]">
         Below are your current details, please make sure they are correct. If
-        not, please update them and make sure to hit save.
+        not, please update them and make sure to hit save. If you do not wish to
+        to join us, make sure the "Join us" checkbox is unchecked.
       </p>
       <div className=" border-black border-4 mt-10 mx-2 md:mx-16 p-6">
         <GuestDetailForm />
