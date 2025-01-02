@@ -14,8 +14,8 @@ const UserInfoPage: React.FC = () => {
         Welcome {data?.data.first_name}
       </p>
       <br />
-      <p>
-
+      <p className="text-5xl font-bold text-black rounded-full p-12 pr-16">
+        Wedding Details:
       </p>
       <br />
       <p className="md:w-[50%] w-[90%]">
