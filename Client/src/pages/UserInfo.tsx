@@ -17,12 +17,13 @@ const UserInfoPage: React.FC = () => {
       <p className="text-5xl font-bold text-black rounded-full p-12 pr-16">
         Wedding Details:
       </p>
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-left w-full max-w-lg">
+        <strong>Date:</strong> <span>15th of June 2025</span>
+        <strong>Location:</strong> <span>Sea Cider Farm & Ciderhouse, Saanichton BC</span>
+        <strong>Time:</strong> <span>Guests arrive at 3:30pm, ceremony starts at 4:00pm</span>
+        <strong>Details:</strong> <span>The ceremony will be held outside, please dress accordingly.</span>
+      </div>
       <br />
-      <p className="md:w-[50%] w-[90%]">
-        Below are your current details, please make sure they are correct. If
-        not, please update them and make sure to hit save. If you do not wish to
-        to join us, make sure the "Join us" checkbox is unchecked.
-      </p>
       <div className=" border-black border-4 mt-10 mx-2 md:mx-16 p-6">
         <GuestDetailForm />
       </div>
