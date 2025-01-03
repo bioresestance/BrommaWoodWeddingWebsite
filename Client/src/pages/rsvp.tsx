@@ -35,10 +35,7 @@ const RSVPPage: React.FC = () => {
     }
   }, [user, navigate]);
 
-  const onSubmit = async (data: {
-    rsvp_code: string;
-    agreeToPrivacyPolicy: boolean;
-  }) => {
+  const onSubmit = async (data: { rsvp_code: string; agreeToPrivacyPolicy: boolean }) => {
     try {
       const response: boolean = await login(data.rsvp_code);
 
@@ -61,7 +58,7 @@ const RSVPPage: React.FC = () => {
 
   return (
     <div className="flex flex-col items-center text-center w-full min-h-screen text-black pt-[20vh] px-4 md:px-0">
-      <div className="w-[50%] mx-auto">
+      <div className="w-full max-w-md mx-auto">
         <p className="text-2xl md:text-5xl font-bold text-black p-6 md:p-12 pr-8 md:pr-16">
           RSVP
         </p>
@@ -74,7 +71,7 @@ const RSVPPage: React.FC = () => {
         </p>
         <form
           onSubmit={handleSubmit(onSubmit, onError)}
-          className=" mt-8 w-[75%] mx-auto"
+          className="mt-8 w-full"
         >
           <input
             className="w-full h-12 rounded-full border border-black text-center text-black mb-4 bg-white"
@@ -108,7 +105,7 @@ const RSVPPage: React.FC = () => {
             </p>
           )}
           <button
-            className={`w-[50%] text-3xl border-2 rounded-full border-black font-bold py-4 px-8 ${agreeToPrivacyPolicy
+            className={`w-full text-3xl border-2 rounded-full border-black font-bold py-4 px-8 ${agreeToPrivacyPolicy
               ? "bg-blue-600/75 hover:bg-blue-800 text-white/90 hover:text-white"
               : "bg-gray-400 text-gray-700 cursor-not-allowed"
               }`}

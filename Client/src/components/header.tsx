@@ -10,54 +10,41 @@ const Header: React.FC = () => {
     setIsMenuOpen(!isMenuOpen);
   };
 
+  const links = [
+    { to: "/rsvp", label: "RSVP" },
+    { to: "/venue", label: "Venue" },
+    { to: "/hotels", label: "Hotels" },
+    { to: "/rules", label: "Rules" },
+    { to: "/faq", label: "FAQ" },
+  ];
+
   return (
-    <header className="bg-gradient-to-r from-blue-400/75 to-purple-400/75 md:fixed w-full z-10 md:shadow-xl">
-      <div className="container mx-auto flex items-center justify-between p-3 md:m-1 md:px-10 h-16  rounded-b-3xl max-w-full">
-        <div className="flex justify-start items-center lg:mb-[-175px]">
+    <header className="bg-gradient-to-r from-blue-400/75 to-purple-400/75 sm:fixed w-full z-10 md:shadow-xl">
+      <div className="container mx-auto flex items-center justify-between p-3 md:m-1 md:px-10 h-auto rounded-b-3xl max-w-full">
+        <div className="flex justify-start items-center 2xl:mb-[-175px]">
           <Link to="/">
             <img
-              className="w-16 h-16 md:w-48 md:h-48 rounded-full shadow-lg border-black border-2 md:border-6"
+              className="w-16 h-16 md:w-24 md:h-24 2xl:w-48 2xl:h-48 rounded-full shadow-lg border-black border-2 2xl:border-6"
               src="/photos/logo.png"
               alt="Profile"
             />
           </Link>
         </div>
 
-        <nav className="hidden md:flex justify-center space-x-4 md:space-x-20">
-          <Link
-            to="/rsvp"
-            className="text-gray-800 hover:bg-indigo-500 hover:text-white px-2 py-2 rounded-md text-xl font-medium border-2 bg-gray-600/20 w-20 md:w-36 h-8 md:h-10 text-center"
-          >
-            RSVP
-          </Link>
-          <Link
-            to="/venue"
-            className="text-gray-800 hover:bg-indigo-500 hover:text-white px-2 py-2 rounded-md text-xl font-medium border-2 bg-gray-600/20 w-20 md:w-36 h-8 md:h-10 text-center"
-          >
-            Venue
-          </Link>
-          <Link
-            to="/hotels"
-            className="text-gray-800 hover:bg-indigo-500 hover:text-white px-2 py-2 rounded-md text-xl font-medium border-2 bg-gray-600/20 w-20 md:w-36 h-8 md:h-10 text-center"
-          >
-            Accommodations
-          </Link>
-          <Link
-            to="/rules"
-            className="text-gray-800 hover:bg-indigo-500 hover:text-white px-2 py-2 rounded-md text-xl font-medium border-2 bg-gray-600/20 w-20 md:w-36 h-8 md:h-10 text-center"
-          >
-            Rules
-          </Link>
-          <Link
-            to="/faq"
-            className="text-gray-800 hover:bg-indigo-500 hover:text-white px-2 py-2 rounded-md text-xl font-medium  border-2 bg-gray-600/20 w-20 md:w-36 h-8 md:h-10 text-center"
-          >
-            FAQ
-          </Link>
+        <nav className="hidden lg:grid lg:grid-cols-3 2xl:flex justify-center space-y-2 md:space-x-6 lg:space-x-10 xl:space-x-15 ">
+          {links.map((link) => (
+            <Link
+              key={link.to}
+              to={link.to}
+              className="text-gray-800 hover:bg-indigo-500 hover:text-white px-2 py-2 rounded-md text-sm sm:text-base md:text-xl font-medium border-2 bg-gray-600/20 w-16 sm:w-20 md:w-36 h-8 md:h-10 text-center"
+            >
+              {link.label}
+            </Link>
+          ))}
         </nav>
 
-        <div className="flex justify-end items-center space-x-4 md:space-x-20 font-bold">
-          <p className="text-4xl md:text-base">June 15th, 2025</p>
+        <div className="flex justify-end items-center space-x-4 md:space-x-15 font-bold">
+          <p>June 15th, 2025</p>
           {user && (
             <Link to="/">
               <button
@@ -94,43 +81,18 @@ const Header: React.FC = () => {
       </div>
 
       {isMenuOpen && (
-        <div className="lg:hidden absolute  right-0 w-full bg-blue-100 shadow-lg rounded-b-3xl z-20">
+        <div className="lg:hidden absolute right-0 w-full bg-blue-100 shadow-lg rounded-b-3xl z-20">
           <nav className="flex flex-col items-center space-y-2 py-2">
-            <Link
-              to="/rsvp"
-              className="text-gray-800 hover:bg-indigo-500 hover:text-white px-2 py-2 rounded-md text-xl font-medium border-2 bg-gray-600/20 w-36 h-10 text-center"
-              onClick={toggleMenu}
-            >
-              RSVP
-            </Link>
-            <Link
-              to="/venue"
-              className="text-gray-800 hover:bg-indigo-500 hover:text-white px-2 py-2 rounded-md text-xl font-medium border-2 bg-gray-600/20 w-36 h-10 text-center"
-              onClick={toggleMenu}
-            >
-              Venue
-            </Link>
-            <Link
-              to="/hotels"
-              className="text-gray-800 hover:bg-indigo-500 hover:text-white px-2 py-2 rounded-md text-xl font-medium border-2 bg-gray-600/20 w-36 h-10 text-center"
-              onClick={toggleMenu}
-            >
-              Accommodations
-            </Link>
-            <Link
-              to="/rules"
-              className="text-gray-800 hover:bg-indigo-500 hover:text-white px-2 py-2 rounded-md text-xl font-medium border-2 bg-gray-600/20 w-36 h-10 text-center"
-              onClick={toggleMenu}
-            >
-              Rules
-            </Link>
-            <Link
-              to="/faq"
-              className="text-gray-800 hover:bg-indigo-500 hover:text-white px-2 py-2 rounded-md text-xl font-medium border-2 bg-gray-600/20 w-36 h-10 text-center"
-              onClick={toggleMenu}
-            >
-              FAQ
-            </Link>
+            {links.map((link) => (
+              <Link
+                key={link.to}
+                to={link.to}
+                className="text-gray-800 hover:bg-indigo-500 hover:text-white px-2 py-2 rounded-md text-xl font-medium border-2 bg-gray-600/20 w-36 h-10 text-center"
+                onClick={toggleMenu}
+              >
+                {link.label}
+              </Link>
+            ))}
           </nav>
         </div>
       )}
