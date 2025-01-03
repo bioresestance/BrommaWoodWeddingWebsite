@@ -43,7 +43,7 @@ const Header: React.FC = () => {
           ))}
         </nav>
 
-        <div className="flex justify-end items-center space-x-4 md:space-x-15 font-bold">
+        <div className="flex justify-end items-center space-x-4 md:space-x-15 font-bold text-xl md:text-2xl">
           <p>June 15th, 2025</p>
           {user && (
             <Link to="/">
