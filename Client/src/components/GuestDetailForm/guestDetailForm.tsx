@@ -103,11 +103,11 @@ const GuestDetailForm = () => {
   };
 
   const handleYesClick = () => {
-    setValue("attending", true);
+    setValue("attending", true, { shouldDirty: true });
   };
 
   const handleNoClick = () => {
-    setValue("attending", false);
+    setValue("attending", false, { shouldDirty: true });
     handleSubmit(onSubmit, onErrors)();
   };
 
