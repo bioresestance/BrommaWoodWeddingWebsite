@@ -105,23 +105,23 @@ const FAQPage: React.FC = () => {
     ];
 
     return (
-        <div className="flex flex-col items-center w-full min-h-screen text-black pt-[15vh] pb-20">
-            <div className="flex flex-col items-center">
-                <h2 className="mt-5 text-center text-3xl font-bold tracking-tight md:text-5xl">FAQ</h2>
+        <div className="flex flex-col items-center w-full min-h-screen text-black pt-10 pb-20 md:pt-[15vh]">
+            <div className="flex flex-col items-center px-4 md:px-0">
+                <h2 className="mt-5 text-center text-2xl font-bold tracking-tight md:text-5xl">FAQ</h2>
                 <p className="mt-3 text-lg md:text-3xl">
-                    Frequenty asked questions
+                    Frequently asked questions
                 </p>
             </div>
-            <div className="mx-auto mt-8 grid max-w-xl divide-y divide-neutral-200">
+            <div className="mx-auto mt-8 grid max-w-xl divide-y divide-neutral-200 px-4 md:px-0">
                 {faqs.map((faq, index) => (
                     <div className="py-5" key={index}>
                         <details className="group">
-                            <summary className="flex cursor-pointer list-none items-center justify-between text-3xl font-bold">
+                            <summary className="flex cursor-pointer list-none items-center justify-between font-bold">
                                 <span > {faq.question}</span>
                                 <span className="transition group-open:rotate-180">
-                                    <svg fill="none" height="24" shape-rendering="geometricPrecision"
-                                        stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
-                                        stroke-width="1.5" viewBox="0 0 24 24" width="24">
+                                    <svg fill="none" height="24" shapeRendering="geometricPrecision"
+                                        stroke="currentColor" strokeLinecap="round" strokeLinejoin="round"
+                                        strokeWidth="1.5" viewBox="0 0 24 24" width="24">
                                         <path d="M6 9l6 6 6-6"></path>
                                     </svg>
                                 </span>
