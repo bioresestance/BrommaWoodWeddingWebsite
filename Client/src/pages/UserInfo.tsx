@@ -1,5 +1,6 @@
 import useGetGuestDetails from "../hooks/useGetGuestDetails";
 import GuestDetailForm from "../components/GuestDetailForm/guestDetailForm";
+import { Link } from "react-router-dom";
 
 const UserInfoPage: React.FC = () => {
   const { data, isLoading } = useGetGuestDetails();
@@ -19,7 +20,7 @@ const UserInfoPage: React.FC = () => {
       </p>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-left w-full max-w-lg">
         <strong>Date:</strong> <span>15th of June 2025</span>
-        <strong>Location:</strong> <span>Sea Cider Farm & Ciderhouse, Saanichton BC</span>
+        <strong>Location:</strong> <span>Sea Cider Farm & Ciderhouse, Saanichton BC <Link to="/venue" className="text-blue-500 underline">Details</Link></span>
         <strong>Time:</strong> <span>Guests arrive at 3:30pm, ceremony starts at 4:00pm</span>
         <strong>Details:</strong> <span>The ceremony will be held outside, please dress accordingly.</span>
       </div>

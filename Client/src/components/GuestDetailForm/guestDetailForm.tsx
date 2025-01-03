@@ -31,25 +31,26 @@ const GuestDetailForm = () => {
     control,
     handleSubmit,
     watch,
-    formState: { errors },
+    setValue,
+    formState: { errors, isDirty },
   } = useForm<GuestDetails>({
     resolver: yupResolver(GuestDetailSchema),
     defaultValues: data.data
       ? {
-          ...data.data,
-          dietary_restrictions: data.data.dietary_restrictions?.map(
-            (restriction) => ({ value: restriction })
-          ),
-          plus_one: data.data.plus_one
-            ? {
-                ...data.data.plus_one,
-                dietary_restrictions:
-                  data.data.plus_one.dietary_restrictions?.map(
-                    (restriction) => ({ value: restriction })
-                  ),
-              }
-            : undefined,
-        }
+        ...data.data,
+        dietary_restrictions: data.data.dietary_restrictions?.map(
+          (restriction) => ({ value: restriction })
+        ),
+        plus_one: data.data.plus_one
+          ? {
+            ...data.data.plus_one,
+            dietary_restrictions:
+              data.data.plus_one.dietary_restrictions?.map(
+                (restriction) => ({ value: restriction })
+              ),
+          }
+          : undefined,
+      }
       : undefined, // Set initial values based on the incoming details
   });
 
@@ -67,14 +68,14 @@ const GuestDetailForm = () => {
       ) as Diets[],
       plus_one: formData.plus_one
         ? {
-            first_name: formData.plus_one.first_name || "",
-            last_name: formData.plus_one.last_name || "",
-            email: formData.plus_one.email || "",
-            additional_notes: formData.plus_one.additional_notes || "",
-            dietary_restrictions: formData.plus_one.dietary_restrictions?.map(
-              (restriction) => restriction.value
-            ) as Diets[],
-          }
+          first_name: formData.plus_one.first_name || "",
+          last_name: formData.plus_one.last_name || "",
+          email: formData.plus_one.email || "",
+          additional_notes: formData.plus_one.additional_notes || "",
+          dietary_restrictions: formData.plus_one.dietary_restrictions?.map(
+            (restriction) => restriction.value
+          ) as Diets[],
+        }
         : undefined,
     };
 
@@ -100,6 +101,17 @@ const GuestDetailForm = () => {
   const onErrors = (errors: FormErrors): void => {
     console.log(errors);
   };
+
+  const handleYesClick = () => {
+    setValue("attending", true);
+  };
+
+  const handleNoClick = () => {
+    setValue("attending", false);
+    handleSubmit(onSubmit, onErrors)();
+  };
+
+  const attending = watch("attending");
 
   return (
     <div>
@@ -136,29 +148,33 @@ const GuestDetailForm = () => {
       )}
       <form onSubmit={handleSubmit(onSubmit, onErrors)}>
         <div className="w-full flex flex-col items-center my-5 pb-6 md:mb-16">
-          <p className=" md:w-[70%] lg:text-xl md:text-lg text-sm font-bold">
+          <p className="md:w-[70%] font-bold text-center">
             If you plan on attending the event on{" "}
-            <span className="underline">June 15th, 2025</span>, please indicate
-            using the following button, and fill out the form below. After any
-            changes, please make sure to hit save.
+            <span className="underline font-bold">June 15th, 2025</span>, please indicate
+            using the following buttons. If you are attending, please fill out the form that appears below and hit save.
           </p>
           <br />
           <br />
-          <label className="inline-flex items-center cursor-pointer">
-            <input
-              type="checkbox"
-              value=""
-              className="sr-only peer"
-              {...register("attending")}
-            />
-            <div className="relative w-14 h-7 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer bg-gray-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:start-[4px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-6 after:w-6 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600"></div>
-            <span className=" md:ms-5 ms-10  md:text-3xl text-lg font-bold text-gray-900">
-              I Plan On Attending
-            </span>
-          </label>
+          <div className="flex space-x-4 mt-10">
+            <button
+              type="button"
+              onClick={handleYesClick}
+              className="bg-green-500 text-white text-2xl font-extrabold p-3 rounded-xl"
+            >
+              Yes, I plan on attending
+            </button>
+            <button
+              type="button"
+              onClick={handleNoClick}
+              className="bg-red-500 text-white text-2xl font-extrabold p-3 rounded-xl"
+            >
+              No, I won't be able to make it
+            </button>
+          </div>
+          <p>(You may change this selection anytime)</p>
         </div>
 
-        <div className={watch("attending") ? "" : "hidden"}>
+        <div className={attending ? "" : "hidden"}>
           <DividerLine text="Contact Information" />
           <ContactInformation
             register={register}
@@ -210,14 +226,18 @@ const GuestDetailForm = () => {
 
         <br />
         <br />
-        <div className="flex justify-center items-center">
-          <button
-            type="submit"
-            className="mt-4 bg-blue-500 text-white text-2xl font-extrabold p-3 rounded-xl"
-          >
-            Save
-          </button>
-        </div>
+        {attending && (
+          <div className="flex justify-center items-center">
+            <button
+              type="submit"
+              className={`mt-4 text-white text-2xl font-extrabold p-3 rounded-xl ${isDirty ? "bg-blue-500" : "bg-gray-500 cursor-not-allowed"
+                }`}
+              disabled={!isDirty}
+            >
+              Save
+            </button>
+          </div>
+        )}
 
         <Modal
           isOpen={isModalOpen}
