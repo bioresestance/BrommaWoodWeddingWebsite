@@ -105,7 +105,7 @@ const RSVPPage: React.FC = () => {
             </p>
           )}
           <button
-            className={`w-full text-3xl border-2 rounded-full border-black font-bold py-4 px-8 ${agreeToPrivacyPolicy
+            className={`w-full text-3xl border-2 rounded-full border-black font-bold py-4 px-8 mb-10 ${agreeToPrivacyPolicy
               ? "bg-blue-600/75 hover:bg-blue-800 text-white/90 hover:text-white"
               : "bg-gray-400 text-gray-700 cursor-not-allowed"
               }`}
