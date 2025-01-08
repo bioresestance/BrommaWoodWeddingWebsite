@@ -1,5 +1,5 @@
 from enum import Enum
-from typing import Optional
+from typing import List, Optional
 from pydantic import BaseModel, EmailStr, StrictBool, field_validator
 import re
 
@@ -51,7 +51,7 @@ class Guest(BaseModel):
 class GuestDetailForm(BaseModel):
     attending: Optional[StrictBool] = False
     preferred_name: Optional[str] = None
-    email: Optional[EmailStr] = None
+    email: Optional[str] = None
     phone: Optional[str] = None
     address: Optional[str] = None
     city: Optional[str] = None
@@ -63,8 +63,8 @@ class GuestDetailForm(BaseModel):
     plus_one: Optional[PlusOneDetail] = None
 
     @field_validator("phone")
-    def phone_validator(cls, phone: str|None):
-        if phone is not None:
+    def phone_validator(cls, phone: Optional[str]):
+        if phone is not None and phone != "":
             pattern = r'^\+?1?[-.\s]?(\(?([2-9][0-8][0-9])\)?[-.\s]?([2-9][0-9]{2})[-.\s]?([0-9]{4}))$'
             match = re.match(pattern, phone)
             if not match:
@@ -72,6 +72,12 @@ class GuestDetailForm(BaseModel):
             # Format phone number with dashes
             phone = "1-{}-{}-{}".format(match.group(2), match.group(3), match.group(4))
         return phone
+
+    @field_validator("email")
+    def email_validator(cls, email: Optional[EmailStr]):
+        if (email is not None and email != "") and not re.match(r"[^@]+@[^@]+\.[^@]+", email):
+            raise ValueError("Invalid email address")
+        return email
 
 class PlusOneForm(BaseModel):
     first_name: str = ""

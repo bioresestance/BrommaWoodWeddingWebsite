@@ -39,7 +39,7 @@ default_format = "<green>{time:YYYY-MM-DD HH:mm:ss}</green> | <level>{level: <8}
 
 
 # Add a new logger that outputs to the console
-logger.add(sys.stdout, format=default_format, level="DEBUG")
+logger.add(sys.stdout, format=default_format, level="INFO")
 
 # Add a new logger that outputs to a file
 logger.add("logs/BrommaWoodWedding/debug.log", format=default_format, level="INFO", rotation="1 day")
