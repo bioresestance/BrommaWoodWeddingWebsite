@@ -15,6 +15,10 @@ class Settings(BaseSettings):
     redis_url: str = Field("redis://localhost:6379", env="REDIS_URL")
     log_token: str = Field("", env="LOG_TOKEN")
 
+    email_api_url: str = Field("", env="EMAIL_API_URL")
+    email_api_key: str = Field("", env="EMAIL_API_KEY") # Do not Commit
+    email_from: str = Field("", env="EMAIL_FROM")
+
 
 @lru_cache()
 def get_settings() -> Settings:

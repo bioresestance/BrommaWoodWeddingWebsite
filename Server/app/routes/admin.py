@@ -9,6 +9,7 @@ from app.models.access_token import AccessToken
 from app.models.admin import Admin, CreateUserModel
 from app.database.models import Guest as GuestDB
 from app.models.guests import GuestDetail
+from app.email import send_email, send_bulk_email
 
 admin_router = APIRouter( prefix="/admin", tags=["admin"])
 setting = get_settings()
@@ -105,3 +106,10 @@ async def create_guest( newGuestInfo:CreateUserModel,  _:Admin = Depends(get_cur
             detail=f"Failed to create guest: {e}",
         )
     return JSONResponse(content={"message": "Guest created successfully"}, status_code=status.HTTP_201_CREATED)
+
+
+
+
+@admin_router.post("/email")
+async def send_test_email(_:Admin = Depends(get_current_admin)):
+    pass # TODO: Implement this
