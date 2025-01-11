@@ -9,7 +9,7 @@ from app.models.access_token import AccessToken
 from app.models.admin import Admin, CreateUserModel
 from app.database.models import Guest as GuestDB
 from app.models.guests import GuestDetail
-from app.email import send_email, send_bulk_email
+# from app.email import send_email, send_bulk_email
 
 admin_router = APIRouter( prefix="/admin", tags=["admin"])
 setting = get_settings()
