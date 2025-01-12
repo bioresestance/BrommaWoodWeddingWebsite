@@ -16,7 +16,7 @@ def send_email(to: str, subject: str, text: str):
         "from": settings.email_from,
         "to": to,
         "subject": subject,
-        "text": text
+        "html": text
     }
 
     try:
@@ -42,7 +42,7 @@ def send_bulk_email(emails: dict, subject: str, text: str):
         "from": settings.email_from,
         "to": list(emails.keys()),
         "subject": subject,
-        "text": text,
+        "html": text,
         "recipient-variables": json.dumps(emails)
     }
 

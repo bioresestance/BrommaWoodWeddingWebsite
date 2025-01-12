@@ -1,4 +1,5 @@
 from datetime import timedelta
+import os
 from loguru import logger
 from fastapi import APIRouter, Depends, HTTPException, status
 from fastapi.security import OAuth2PasswordRequestForm
@@ -9,7 +10,7 @@ from app.models.access_token import AccessToken
 from app.models.admin import Admin, CreateUserModel
 from app.database.models import Guest as GuestDB
 from app.models.guests import GuestDetail
-# from app.email import send_email, send_bulk_email
+from app.email import send_email
 
 admin_router = APIRouter( prefix="/admin", tags=["admin"])
 setting = get_settings()
@@ -112,4 +113,13 @@ async def create_guest( newGuestInfo:CreateUserModel,  _:Admin = Depends(get_cur
 
 @admin_router.post("/email")
 async def send_test_email(_:Admin = Depends(get_current_admin)):
-    pass # TODO: Implement this
+
+    base_dir = os.path.dirname(os.path.abspath(__file__))
+    template_path = os.path.join(base_dir, "../templates/invite_email_template.html")
+    
+    # Load the template
+    with open(template_path, "r") as file:
+        email_template = file.read()
+    
+    # Send the email
+    send_email("aaron.bromma@gmail.com", "You have been Invited!", email_template)
