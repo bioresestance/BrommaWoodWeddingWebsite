@@ -93,8 +93,8 @@ async def create_guest( newGuestInfo:CreateUserModel,  _:Admin = Depends(get_cur
         )
 
     newGuest = GuestDB()
-    newGuest.first_name = first_name
-    newGuest.last_name = last_name
+    newGuest.first_name = first_name.capitalize()
+    newGuest.last_name = last_name.capitalize()
     newGuest.password = encryptor.encrypt(newGuestInfo.code)
     newGuest.plus_one_allowed = newGuestInfo.plus_one
     newGuest.email = newGuestInfo.email
