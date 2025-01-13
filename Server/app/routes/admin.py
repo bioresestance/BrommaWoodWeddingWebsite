@@ -10,11 +10,12 @@ from app.models.access_token import AccessToken
 from app.models.admin import Admin, CreateUserModel
 from app.database.models import Guest as GuestDB
 from app.models.guests import GuestDetail
-from app.email import send_email
+from app.email import send_bulk_email, send_email
+from app.security.Encryptor import Encryptor
 
 admin_router = APIRouter( prefix="/admin", tags=["admin"])
 setting = get_settings()
-
+encryptor = Encryptor(setting.encryption_key)
 
 @admin_router.post("/login")
 async def login(form_data: OAuth2PasswordRequestForm = Depends()) -> AccessToken:
@@ -94,8 +95,9 @@ async def create_guest( newGuestInfo:CreateUserModel,  _:Admin = Depends(get_cur
     newGuest = GuestDB()
     newGuest.first_name = first_name
     newGuest.last_name = last_name
-    newGuest.hash_password(newGuestInfo.code)
+    newGuest.password = encryptor.encrypt(newGuestInfo.code)
     newGuest.plus_one_allowed = newGuestInfo.plus_one
+    newGuest.email = newGuestInfo.email
 
     try:
         newGuest.save()
@@ -111,15 +113,58 @@ async def create_guest( newGuestInfo:CreateUserModel,  _:Admin = Depends(get_cur
 
 
 
-@admin_router.post("/email")
-async def send_test_email(_:Admin = Depends(get_current_admin)):
+@admin_router.post("/email/invite/{guest_name}")
+async def send_invite_email(guest_name:str, _:Admin = Depends(get_current_admin)):
 
     base_dir = os.path.dirname(os.path.abspath(__file__))
     template_path = os.path.join(base_dir, "../templates/invite_email_template.html")
-    
+
     # Load the template
     with open(template_path, "r") as file:
         email_template = file.read()
-    
-    # Send the email
-    send_email("aaron.bromma@gmail.com", "You have been Invited!", email_template)
+
+    # if guest_name is "all", send to all guests
+    if guest_name.lower() == "all" :
+        guests: GuestDB = GuestDB.objects()
+        emails = {}
+        for guest in guests:
+            if guest.email in [None, ""]:
+                logger.warning(f"Guest {guest.first_name} {guest.last_name} has no email")
+                continue
+
+            invite_code = encryptor.decrypt(guest.password)
+            emails[guest.email] = {"first_name": guest.first_name.capitalize(), "last_name": guest.last_name.capitalize(), "invite_code": invite_code}
+        send_bulk_email(emails, "You have been Invited!", email_template)
+
+    else:
+        # Get the guest
+        try:
+            first_name = guest_name.split("_")[0].lower()
+            last_name = guest_name.split("_")[1].lower()
+        except Exception as e:
+            logger.error(f"Failed to get guest {guest_name}: {e}")
+            raise HTTPException(
+                status_code=status.HTTP_400_BAD_REQUEST,
+                detail="Please ensure the guest name is in the format 'first_last'",
+            )
+
+        guest = get_guest_from_name(first_name, last_name)
+
+        if guest is None:
+            logger.error(f"Guest {guest_name} not found")
+            raise HTTPException(
+                status_code=status.HTTP_404_NOT_FOUND,
+                detail="Guest not found",
+            )
+        
+        if guest.email in [None, ""]:
+            logger.error(f"Guest {guest_name} has no email")
+            raise HTTPException(
+                status_code=status.HTTP_400_BAD_REQUEST,
+                detail="Guest has no email" )
+
+        # Send the email
+        send_email((guest.email, 
+                    {"first_name" : guest.first_name.capitilize(), "last_name": guest.last_name.capitilize(), "invite_code": guest.invite_code}), 
+                    "You have been Invited!", 
+                    email_template)

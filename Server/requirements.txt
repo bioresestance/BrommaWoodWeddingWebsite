@@ -14,6 +14,7 @@ openpyxl
 python-multipart
 aioredis
 fastapi-limiter
+cryptography
 
 # Testing dependencies
 pytest

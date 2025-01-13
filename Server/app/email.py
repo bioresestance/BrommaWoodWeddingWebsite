@@ -4,7 +4,7 @@ from app.settings import get_settings
 from loguru import logger as logging
 
 
-def send_email(to: str, subject: str, text: str):
+def send_email(email: tuple, subject: str, text: str):
     settings = get_settings()
 
     if(settings.email_api_url in [None, ""] or settings.email_api_key in [None, ""]):
@@ -14,15 +14,16 @@ def send_email(to: str, subject: str, text: str):
 
     email_json = {
         "from": settings.email_from,
-        "to": to,
+        "to": email[0],
         "subject": subject,
-        "html": text
+        "html": text,
+        "recipient-variables": json.dumps(email)
     }
 
     try:
         resp = requests.post(settings.email_api_url, auth=("api", settings.email_api_key), data= email_json)
         if resp.status_code == 200: # success
-            logging.info(f"Successfully sent an email to '{to}' via Mailgun API.")
+            logging.info(f"Successfully sent an email to '{email[0]}' via Mailgun API.")
         else: # error
             logging.error(f"Could not send the email, reason: {resp.text}")
 
@@ -52,6 +53,8 @@ def send_bulk_email(emails: dict, subject: str, text: str):
             logging.info(f"Successfully sent an email to '{email_json["to"]}' via Mailgun API.")
         else: # error
             logging.error(f"Could not send the email, reason: {resp.text}")
+            raise Exception(f"Could not send the email, reason: {resp.text}")
 
     except Exception as ex:
         logging.exception(f"Mailgun error: {ex}")
+        raise ex

@@ -7,7 +7,7 @@ from jose import JWTError, jwt
 from app.models.access_token import AccessToken, AccessTokenContents
 from app.database.models import Guest as DBGuest
 from app.settings import get_settings, Settings
-from app.security.hasher import Hasher
+from app.security.Encryptor import Encryptor
 from app.models.admin import Admin
 from app.models.guests import GuestDetail, PlusOneDetail
 
@@ -159,9 +159,11 @@ def authenticate_guest( invite_code: str) -> str | None:
     Authenticates the guest with the given invite code.
     """
     guests = DBGuest.objects()
+    settings = get_settings()
+    encryptor = Encryptor(settings.encryption_key)
 
     # Search for the guest with the given invite code.
     for guest in guests:
-        if Hasher.verify_password(invite_code, guest.password):
+        if encryptor.compare(invite_code, guest.password):
             return guest.first_name + "_" + guest.last_name
     return None

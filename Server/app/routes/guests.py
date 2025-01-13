@@ -8,9 +8,11 @@ from app.models.guests import Guest, GuestDetail, GuestDetailForm
 from app.security.utils import encode_json_web_token, get_current_guest, authenticate_guest, get_guest_from_name
 from app.settings import get_settings
 from app.database.models import Guest as GuestDB, GuestPlusOne
+from app.security.Encryptor import Encryptor
 
 guest_router = APIRouter( prefix="/guest", tags=["guest"])
 setting = get_settings()
+encryptor = Encryptor(setting.encryption_key)
 
 @guest_router.post("/login")
 async def login(form_data: OAuth2PasswordRequestForm = Depends()) -> AccessToken:

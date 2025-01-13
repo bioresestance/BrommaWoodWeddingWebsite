@@ -50,12 +50,12 @@ def nuke_db(base_url, token):
     else:
         print(f"Failed to nuke database: {response.text}")
 
-def send_email(base_url, token):
+def send_email(email, base_url, token):
     headers = {
         "Authorization": f"Bearer {token}"
     }
 
-    response = requests.post(f"{base_url}/admin/email", headers=headers)
+    response = requests.post(f"{base_url}/admin/email/invite/{email}", headers=headers)
     if response.status_code == 200:
         print("Email Sent")
     else:
@@ -67,7 +67,7 @@ def main():
     parser.add_argument("--base-url", help="Base URL of the admin API", default="http://localhost:8000")
     parser.add_argument("--auth-file", help="File containing username and password for authentication", default="auth.json")
     parser.add_argument("--users-file", help="File containing list of users to ensure exist on the server", default="users.json")
-    parser.add_argument("--email", help="Send a test email", default=False, action="store_true")
+    parser.add_argument("--invite", help="Send an invite email to a guest or guests", default="")
 
     args = parser.parse_args()
 
@@ -86,8 +86,8 @@ def main():
     if args.nuke:
         nuke_db(args.base_url, token)
 
-    elif args.email:
-        send_email(args.base_url, token)
+    elif args.invite != "":
+        send_email(args.invite, args.base_url, token)
 
     else:
         with open(args.users_file, "r") as f:

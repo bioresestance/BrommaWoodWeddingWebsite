@@ -12,3 +12,4 @@ class CreateUserModel(BaseModel):
     username: str
     code: str
     plus_one: bool
+    email: str

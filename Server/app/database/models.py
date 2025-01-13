@@ -1,6 +1,4 @@
-from mongoengine import Document, StringField, BooleanField, EmbeddedDocument, EmbeddedDocumentField, ListField
-from app.security.hasher import Hasher
-
+from mongoengine import Document, StringField, BooleanField, EmbeddedDocument, EmbeddedDocumentField, ListField, BinaryField
 
 class GuestPlusOne(EmbeddedDocument):
     """
@@ -18,18 +16,12 @@ class User(Document):
     """
     Base User class for all user types.
     """
-    password = StringField(required=True)
+    password = BinaryField(required=True)
 
     meta = {'collection': 'users', 
             "allow_inheritance": True,
             }
-    
 
-    def hash_password(self, password: str):
-        self.password = Hasher.get_password_hash(password)
-
-    def verify_password(self, password: str):
-        return Hasher.verify_password(password, self.password)
 
 class Admin(User):
     """
