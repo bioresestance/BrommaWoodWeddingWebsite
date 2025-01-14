@@ -12,6 +12,7 @@ import PrivateRoute from "./pages/PrivatePage.tsx";
 import PrivacyPolicyPage from "./pages/PrivacyPolicy.tsx";
 import HotelsPage from "./pages/Hotels.tsx";
 import VenuePage from "./pages/Venue.tsx";
+import ConfirmationPage from "./pages/ConfirmationPage.tsx";
 
 const queryClient = new QueryClient();
 
@@ -33,6 +34,14 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
               element={
                 <PrivateRoute>
                   <UserInfoPage />
+                </PrivateRoute>
+              }
+            />
+            <Route
+              path="/confirmation"
+              element={
+                <PrivateRoute>
+                  <ConfirmationPage />
                 </PrivateRoute>
               }
             />

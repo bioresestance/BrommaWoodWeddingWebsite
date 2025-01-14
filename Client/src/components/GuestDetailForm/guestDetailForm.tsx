@@ -5,6 +5,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { Diets } from "../../api/axios-client";
 import useUpdateGuestDetails from "../../hooks/useUpdateGuestDetails";
 import useGetGuestDetails from "../../hooks/useGetGuestDetails";
+import { useNavigate } from "react-router-dom";
 
 import DividerLine from "../dividerLine";
 import Modal from "../modal";
@@ -54,6 +55,8 @@ const GuestDetailForm = () => {
       : undefined, // Set initial values based on the incoming details
   });
 
+  const navigate = useNavigate();
+
   const [isModalOpen, setModalOpen] = useState(false);
   const [notification, setNotification] = useState<{
     message: string;
@@ -81,10 +84,8 @@ const GuestDetailForm = () => {
 
     try {
       mutate(transformedData);
-      setNotification({
-        message: "Details saved successfully!",
-        type: "success",
-      });
+      const isGoing = formData.attending ? "yes" : "no";
+      navigate(`/confirmation?isGoing=${isGoing}`);
     } catch (error) {
       setNotification({ message: `Error: ${error.message}`, type: "error" });
     }
@@ -234,7 +235,7 @@ const GuestDetailForm = () => {
                 }`}
               disabled={!isDirty}
             >
-              Save
+              Submit
             </button>
           </div>
         )}
@@ -243,7 +244,7 @@ const GuestDetailForm = () => {
           isOpen={isModalOpen}
           severity="info"
           title="Confirm"
-          message="Are you sure you want to save these changes?"
+          message="Are you sure you want to submit?"
           onConfirm={() => {
             submitFormData(watch());
           }}
