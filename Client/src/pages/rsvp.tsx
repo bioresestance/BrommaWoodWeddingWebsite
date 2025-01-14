@@ -67,7 +67,7 @@ const RSVPPage: React.FC = () => {
         </p>
         <br />
         <p className="mt-4 md:mt-8">
-          Please enter your RSVP code that was sent to you in order to proceed.
+          Please enter your RSVP code that was sent to you in the invite email in order to proceed. Please Note, the RSVP code is case-sensitive.
         </p>
         <form
           onSubmit={handleSubmit(onSubmit, onError)}
