@@ -1,8 +1,11 @@
+import os
 from datetime import timedelta
 from fastapi import APIRouter, Depends, HTTPException, status
 from fastapi.security import OAuth2PasswordRequestForm
 from loguru import logger
+from jinja2 import Template
 
+from app.email import send_email
 from app.models.access_token import AccessToken
 from app.models.guests import Guest, GuestDetail, GuestDetailForm
 from app.security.utils import encode_json_web_token, get_current_guest, authenticate_guest, get_guest_from_name
@@ -13,6 +16,23 @@ from app.security.Encryptor import Encryptor
 guest_router = APIRouter( prefix="/guest", tags=["guest"])
 setting = get_settings()
 encryptor = Encryptor(setting.encryption_key)
+
+
+def send_confirmation_email(guest: GuestDB):
+    # Load the email template
+    template_path = os.path.join(os.path.dirname(__file__), "..", 'templates', 'confirmation_email_template.html.j2')
+    with open(template_path) as file_:
+        template = Template(file_.read())
+
+    # Render the template with guest details
+    email_body = template.render(attending = guest.attending, first_name=guest.first_name, last_name=guest.last_name)
+
+    # Send the email
+    send_email(guest.email, "Bromma + Wood RSVP Confirmation", email_body)
+
+
+
+
 
 @guest_router.post("/login")
 async def login(form_data: OAuth2PasswordRequestForm = Depends()) -> AccessToken:
@@ -105,6 +125,7 @@ async def update_guest(form_data: GuestDetailForm,current_user: GuestDetail = De
     try:
         guest.save()
         logger.info(f"User {guest.first_name} {guest.last_name} updated")
+        send_confirmation_email(guest)
     except Exception as e:
         logger.error(f"Failed to update user: {str(e)}")
         raise HTTPException(

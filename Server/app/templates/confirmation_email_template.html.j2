@@ -48,17 +48,6 @@
             color: #333333;
         }
 
-        .button {
-            display: inline-block;
-            padding: 10px 20px;
-            margin-top: 20px;
-            background-color: #4a90e2;
-            color: #ffffff !important;
-            text-decoration: none;
-            border-radius: 5px;
-            font-size: 18px;
-        }
-
         .footer {
             text-align: center;
             padding: 20px;
@@ -81,7 +70,7 @@
             <h1>RSVP Confirmation</h1>
         </div>
         <div class="content">
-            <p>Dear %recipient.first_name% %recipient.last_name%,</p>
+            <p>Dear {{first_name}} {{last_name}},</p>
             <p>
                 {%if attending%}
                 Thank you for your RSVP. We are thrilled to confirm your attendance at our wedding.
@@ -89,11 +78,17 @@
                 We are sorry to hear that you won't be able to make it to our wedding. We will miss you!
                 {%endif%}
             </p>
+            <br />
             <p class="details">
+                {% if attending %}
                 <strong>Wedding Details:</strong><br>
                 Venue: Sea Cider Farm & Ciderhouse<br>
                 Date: June 15th, 2025<br>
                 Time: Guests arrive at 3:30 PM, ceremony starts at 4:00 PM
+                {% else %}
+                If you change your mind and would like to attend, please visit the RSVP page on our website and update
+                your response before Apr. 30th, 2025.
+                {% endif %}
             </p>
             <p>If you have any questions or need further assistance, please do not hesitate to contact us.</p>
             <a href="https://bromma-n-wood.ca" class="button">Visit Our Website</a>
