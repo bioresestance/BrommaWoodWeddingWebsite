@@ -165,6 +165,6 @@ async def send_invite_email(guest_name:str, _:Admin = Depends(get_current_admin)
 
         # Send the email
         send_email((guest.email, 
-                    {"first_name" : guest.first_name.capitilize(), "last_name": guest.last_name.capitilize(), "invite_code": guest.invite_code}), 
+                    {"first_name" : guest.first_name.capitalize(), "last_name": guest.last_name.capitalize(), "invite_code": guest.invite_code}), 
                     "You have been Invited!", 
                     email_template)
