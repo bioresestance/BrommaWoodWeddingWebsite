@@ -139,8 +139,8 @@ async def send_invite_email(guest_name:str, _:Admin = Depends(get_current_admin)
     else:
         # Get the guest
         try:
-            first_name = guest_name.split("_")[0].lower()
-            last_name = guest_name.split("_")[1].lower()
+            first_name = guest_name.split("_")[0].capitalize()
+            last_name = guest_name.split("_")[1].capitalize()
         except Exception as e:
             logger.error(f"Failed to get guest {guest_name}: {e}")
             raise HTTPException(
