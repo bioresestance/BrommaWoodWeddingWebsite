@@ -226,22 +226,26 @@ const GuestDetailForm = () => {
           />
         </div>
 
-        <br />
-        <br />
-        <DividerLine text="Wedding Expectations" />
-        <div className="bg-gray-100 p-4 rounded-lg">
-          <ul className="list-disc pl-5 space-y-2">
-            <li>The wedding will be modern, nontraditional, and non-religious; guests must respect our choices regarding included customs.</li>
-            <li>Please, no gifts; instead, a wishing well will be available for contributions to our honeymoon.</li>
-            <li>Only the Bride can wear white or related shades (the only exceptions are men's dress shirts).</li>
-            <li>Only wedding party members may wear any amount of purple or blue.</li>
-            <li>Phones and personal devices must be silent and put away during the ceremony and pre-dinner speeches.</li>
-            <li>All guests are expected to set aside personal dynamics and focus on celebrating the wedding with us.</li>
-            <li>Underage drinking is strictly prohibited, and any violators will be asked to leave with no warnings.</li>
-          </ul>
-          <br />
-          <p className="mt-4 font-bold text-center">By submitting, you agree to follow these rules. <a href="/full-rules" target="_blank" rel="noopener noreferrer" className="text-blue-500 underline">Read the full rules here</a>.</p>
-        </div>
+        {attending && (
+          <>
+            <br />
+            <br />
+            <DividerLine text="Wedding Expectations" />
+            <div className="bg-gray-100 p-4 rounded-lg">
+              <ul className="list-disc pl-5 space-y-2">
+                <li>The wedding will be modern, nontraditional, and non-religious; guests must respect our choices regarding included customs.</li>
+                <li>Please, no gifts; instead, a wishing well will be available for contributions to our honeymoon.</li>
+                <li>Only the Bride can wear white or related shades (the only exceptions are men's dress shirts).</li>
+                <li>Only wedding party members may wear any amount of purple or blue.</li>
+                <li>Phones and personal devices must be silent and put away during the ceremony and pre-dinner speeches.</li>
+                <li>All guests are expected to set aside personal dynamics and focus on celebrating the wedding with us.</li>
+                <li>Underage drinking is strictly prohibited, and any violators will be asked to leave with no warnings.</li>
+              </ul>
+              <br />
+              <p className="mt-4 font-bold text-center">By submitting, you agree to follow these rules. <a href="/full-rules" target="_blank" rel="noopener noreferrer" className="text-blue-500 underline">Read the full rules here</a>.</p>
+            </div>
+          </>
+        )}
 
         <br />
         <br />
