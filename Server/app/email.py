@@ -18,7 +18,7 @@ def send_email(email: str | tuple, subject: str, text: str):
             "to": email[0],
             "subject": subject,
             "html": text,
-            "recipient-variables": json.dumps(email)
+            "recipient-variables": json.dumps({email[0]: email[1]})
         }
     else:
         email_json = {
