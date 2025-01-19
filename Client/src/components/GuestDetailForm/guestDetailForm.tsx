@@ -19,9 +19,9 @@ import AdditionalNotes from "./AdditionalNotes";
 import PlusOneInformation from "./PlusOneInformation";
 
 const GuestDetailForm = () => {
-  const labelClass = "block mb-2 text-sm font-medium text-gray-900 text-black";
+  const labelClass = "block mb-2 text-xl font-medium text-gray-900 text-black";
   const inputClass =
-    "bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg hover:ring-blue-500 hover:border-blue-500 block w-full p-2.5";
+    "bg-gray-50 border border-gray-300 text-gray-900 text-xl rounded-lg hover:ring-blue-500 hover:border-blue-500 block w-full p-2.5";
   const { mutate } = useUpdateGuestDetails((error) => {
     setNotification({ message: `Error: ${error.message}`, type: "error" });
   });
@@ -78,6 +78,7 @@ const GuestDetailForm = () => {
           dietary_restrictions: formData.plus_one.dietary_restrictions?.map(
             (restriction) => restriction.value
           ) as Diets[],
+          is_over_19: formData.plus_one.is_over_19,
         }
         : undefined,
     };

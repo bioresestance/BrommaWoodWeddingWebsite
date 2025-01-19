@@ -85,7 +85,7 @@ const PlusOneInformation: React.FC<PlusOneInformationProps> = ({
             />
             {errors?.last_name && (
               <p className="text-red-500 text-sm">
-                {errors?.last_name.message}
+                {errors?.plus_one.last_name.message}
               </p>
             )}
           </div>
@@ -102,7 +102,7 @@ const PlusOneInformation: React.FC<PlusOneInformationProps> = ({
               {...register("plus_one.email")}
             />
             {errors?.email && (
-              <p className="text-red-500 text-sm">{errors?.email.message}</p>
+              <p className="text-red-500 text-sm">{errors?.plus_one.email.message}</p>
             )}
           </div>
         </div>
@@ -123,6 +123,20 @@ const PlusOneInformation: React.FC<PlusOneInformationProps> = ({
           placeholder="Please enter any additional notes here that we will need to know about your plus one!"
           {...register("plus_one.additional_notes")}
         />
+      </div>
+      <div className="col-span-3">
+        <label htmlFor="plus_one_is_over_19" className="flex items-center">
+          <input
+            type="checkbox"
+            id="plus_one_is_over_19"
+            className="mr-2 w-6 h-6"
+            {...register("plus_one.is_over_19")}
+          />
+          Will you be 19 or older by the wedding date on June 15, 2025?
+        </label>
+        {errors?.is_over_19 && (
+          <p className="text-red-500 text-sm">{errors?.plus_one.is_over_19.message}</p>
+        )}
       </div>
     </div>
   );

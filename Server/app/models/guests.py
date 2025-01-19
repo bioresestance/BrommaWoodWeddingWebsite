@@ -21,6 +21,7 @@ class PlusOneDetail(BaseModel):
     email: str
     dietary_restrictions: list[Diets] = []
     additional_notes: str = ""
+    is_over_19: StrictBool = False
 
 class GuestDetail(BaseModel):
     first_name: str
@@ -40,6 +41,7 @@ class GuestDetail(BaseModel):
     plus_one_allowed: StrictBool = False
     has_plus_one: StrictBool = False
     plus_one: Optional[PlusOneDetail] = None
+    is_over_19: StrictBool = False
 
 
 
@@ -61,6 +63,7 @@ class GuestDetailForm(BaseModel):
     dietary_restrictions: Optional[list[Diets]] = []
     additional_notes: Optional[str] = None
     plus_one: Optional[PlusOneDetail] = None
+    is_over_19: Optional[StrictBool] = False
 
     @field_validator("phone")
     def phone_validator(cls, phone: Optional[str]):
@@ -86,3 +89,4 @@ class PlusOneForm(BaseModel):
     email: EmailStr | None = None
     dietary_restrictions: list[Diets] = []
     additional_notes: str = ""
+    is_over_19: StrictBool = False

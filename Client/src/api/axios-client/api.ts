@@ -79,6 +79,12 @@ export interface CreateUserModel {
      * @memberof CreateUserModel
      */
     'plus_one': boolean;
+    /**
+     * 
+     * @type {string}
+     * @memberof CreateUserModel
+     */
+    'email': string;
 }
 /**
  * 
@@ -240,6 +246,12 @@ export interface GuestDetail {
      * @memberof GuestDetail
      */
     'plus_one'?: PlusOneDetail | null;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof GuestDetail
+     */
+    'is_over_19'?: boolean;
 }
 /**
  * 
@@ -319,6 +331,12 @@ export interface GuestDetailForm {
      * @memberof GuestDetailForm
      */
     'plus_one'?: PlusOneDetail | null;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof GuestDetailForm
+     */
+    'is_over_19'?: boolean | null;
 }
 /**
  * 
@@ -369,6 +387,12 @@ export interface PlusOneDetail {
      * @memberof PlusOneDetail
      */
     'additional_notes'?: string;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof PlusOneDetail
+     */
+    'is_over_19'?: boolean;
 }
 /**
  * 
@@ -623,6 +647,44 @@ export const AdminApiAxiosParamCreator = function (configuration?: Configuration
                 options: localVarRequestOptions,
             };
         },
+        /**
+         * 
+         * @summary Send Invite Email
+         * @param {string} guestName 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        sendInviteEmailAdminEmailInviteGuestNamePost: async (guestName: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'guestName' is not null or undefined
+            assertParamExists('sendInviteEmailAdminEmailInviteGuestNamePost', 'guestName', guestName)
+            const localVarPath = `/admin/email/invite/{guest_name}`
+                .replace(`{${"guest_name"}}`, encodeURIComponent(String(guestName)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication OAuth2PasswordBearer required
+            // oauth required
+            await setOAuthToObject(localVarHeaderParameter, "OAuth2PasswordBearer", [], configuration)
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
     }
 };
 
@@ -701,6 +763,19 @@ export const AdminApiFp = function(configuration?: Configuration) {
             const localVarOperationServerBasePath = operationServerMap['AdminApi.readUsersMeAdminMeGet']?.[localVarOperationServerIndex]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
+        /**
+         * 
+         * @summary Send Invite Email
+         * @param {string} guestName 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async sendInviteEmailAdminEmailInviteGuestNamePost(guestName: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<any>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.sendInviteEmailAdminEmailInviteGuestNamePost(guestName, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['AdminApi.sendInviteEmailAdminEmailInviteGuestNamePost']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
     }
 };
 
@@ -758,6 +833,16 @@ export const AdminApiFactory = function (configuration?: Configuration, basePath
          */
         readUsersMeAdminMeGet(options?: RawAxiosRequestConfig): AxiosPromise<Admin> {
             return localVarFp.readUsersMeAdminMeGet(options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @summary Send Invite Email
+         * @param {AdminApiSendInviteEmailAdminEmailInviteGuestNamePostRequest} requestParameters Request parameters.
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        sendInviteEmailAdminEmailInviteGuestNamePost(requestParameters: AdminApiSendInviteEmailAdminEmailInviteGuestNamePostRequest, options?: RawAxiosRequestConfig): AxiosPromise<any> {
+            return localVarFp.sendInviteEmailAdminEmailInviteGuestNamePost(requestParameters.guestName, options).then((request) => request(axios, basePath));
         },
     };
 };
@@ -840,6 +925,20 @@ export interface AdminApiLoginAdminLoginPostRequest {
 }
 
 /**
+ * Request parameters for sendInviteEmailAdminEmailInviteGuestNamePost operation in AdminApi.
+ * @export
+ * @interface AdminApiSendInviteEmailAdminEmailInviteGuestNamePostRequest
+ */
+export interface AdminApiSendInviteEmailAdminEmailInviteGuestNamePostRequest {
+    /**
+     * 
+     * @type {string}
+     * @memberof AdminApiSendInviteEmailAdminEmailInviteGuestNamePost
+     */
+    readonly guestName: string
+}
+
+/**
  * AdminApi - object-oriented interface
  * @export
  * @class AdminApi
@@ -902,6 +1001,18 @@ export class AdminApi extends BaseAPI {
      */
     public readUsersMeAdminMeGet(options?: RawAxiosRequestConfig) {
         return AdminApiFp(this.configuration).readUsersMeAdminMeGet(options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @summary Send Invite Email
+     * @param {AdminApiSendInviteEmailAdminEmailInviteGuestNamePostRequest} requestParameters Request parameters.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof AdminApi
+     */
+    public sendInviteEmailAdminEmailInviteGuestNamePost(requestParameters: AdminApiSendInviteEmailAdminEmailInviteGuestNamePostRequest, options?: RawAxiosRequestConfig) {
+        return AdminApiFp(this.configuration).sendInviteEmailAdminEmailInviteGuestNamePost(requestParameters.guestName, options).then((request) => request(this.axios, this.basePath));
     }
 }
 

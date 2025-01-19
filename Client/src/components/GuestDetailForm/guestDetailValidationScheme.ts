@@ -45,6 +45,7 @@ export const GuestDetailSchema = yup.object().shape({
     then: (schema) => schema.required("Please enter your country."),
   }),
   additional_notes: yup.string(),
+  is_over_19: yup.boolean().default(false),
   dietary_restrictions: yup.array().of(
     yup.object().shape({
       value: yup
@@ -83,8 +84,9 @@ export const GuestDetailSchema = yup.object().shape({
             "Please enter a valid dietary restriction."
           )
           .required("Please enter a dietary restriction."),
-      })
+      }),
     ),
     additional_notes: yup.string(),
+    is_over_19: yup.boolean().default(false),
   }),
 });

@@ -9,6 +9,7 @@ class GuestPlusOne(EmbeddedDocument):
     email = StringField(default= "")
     dietary_restrictions = ListField(StringField(default=""))
     additional_notes = StringField(default= "")
+    is_over_19 = BooleanField(default=False)
 
 
 
@@ -57,3 +58,4 @@ class Guest(User):
     plus_one_allowed = BooleanField(default=False)
     has_plus_one = BooleanField(default=False)
     plus_one = EmbeddedDocumentField(GuestPlusOne)
+    is_over_19 = BooleanField(default=False)

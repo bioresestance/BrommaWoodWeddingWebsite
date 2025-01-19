@@ -18,7 +18,7 @@ const ContactInformation: React.FC<GuestContactProps> = ({
         id="first_name"
         disabled={true}
         autoComplete="given-name"
-        className="bg-gray-200 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5"
+        className="bg-gray-200 border border-gray-300 text-gray-900 text-xl rounded-lg block w-full p-2.5"
         {...register("first_name")}
       />
       {errors?.first_name && (
@@ -36,7 +36,7 @@ const ContactInformation: React.FC<GuestContactProps> = ({
         id="last_name"
         disabled={true}
         autoComplete="family-name"
-        className="bg-gray-200 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5"
+        className="bg-gray-200 border border-gray-300 text-gray-900 text-xl rounded-lg block w-full p-2.5"
         {...register("last_name")}
       />
       {errors?.last_name && (
@@ -88,6 +88,22 @@ const ContactInformation: React.FC<GuestContactProps> = ({
       />
       {errors?.phone && (
         <p className="text-red-500 text-sm">{errors?.phone.message}</p>
+      )}
+    </div>
+
+    {/* Is Over 19 */}
+    <div className="col-span-3">
+      <label htmlFor="is_over_19" className="flex items-center">
+        <input
+          type="checkbox"
+          id="is_over_19"
+          className="mr-2 w-6 h-6"
+          {...register("is_over_19")}
+        />
+        Will you be 19 or older by the wedding date on June 15, 2025?
+      </label>
+      {errors?.is_over_19 && (
+        <p className="text-red-500 text-sm">{errors?.is_over_19.message}</p>
       )}
     </div>
   </div>
