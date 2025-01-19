@@ -4,20 +4,29 @@ from app.settings import get_settings
 from loguru import logger as logging
 
 
-def send_email(email: str, subject: str, text: str):
+def send_email(email: str | tuple, subject: str, text: str):
     settings = get_settings()
 
     if(settings.email_api_url in [None, ""] or settings.email_api_key in [None, ""]):
         logging.error("Mailgun API URL or API Key is not set.")
         return
 
+    if isinstance(email, tuple):
 
-    email_json = {
-        "from": settings.email_from,
-        "to": email,
-        "subject": subject,
-        "html": text,
-    }
+        email_json = {
+            "from": settings.email_from,
+            "to": email[0],
+            "subject": subject,
+            "html": text,
+            "recipient-variables": json.dumps(email)
+        }
+    else:
+        email_json = {
+            "from": settings.email_from,
+            "to": email,
+            "subject": subject,
+            "html": text,
+        }
 
     try:
         resp = requests.post(settings.email_api_url, auth=("api", settings.email_api_key), data= email_json)
