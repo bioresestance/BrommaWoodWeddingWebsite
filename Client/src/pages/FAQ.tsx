@@ -24,7 +24,7 @@ const FAQPage: React.FC = () => {
         },
         {
             question: "What do I do if I RSVP but something comes up?",
-            answer: "We understand that life happens. If you know two weeks prior, please update your status using your invite code. If something happens within two weeks of the wedding date (June 15th, 2025), please let XXX know as soon as possible."
+            answer: "We understand that life happens. You are able to change your RSVP up until Apr. 30th, 2025. If you need to change your RSVP after this date, please contact either Gina or Aaron directly."
         },
         {
             question: "Is there going to be assigned seating? Where am I sitting? I want to sit beside [insert name here]!",
@@ -36,7 +36,7 @@ const FAQPage: React.FC = () => {
         },
         {
             question: "Can I take photos? If so, how can I share them with you?",
-            answer: "Yes, you can take personal pictures during most of the event. We will also have a photo booth that we strongly encourage guests to have fun with. However, all phones and personal devices must be put away and on silent during the ceremony and speeches just before dinner. Any photos you take during the festivities, you can share them with us on XXX if you would like."
+            answer: "Yes, you can take personal pictures during most of the event. We will also have a photo booth that we strongly encourage guests to have fun with. However, all phones and personal devices must be put away and on silent during the ceremony and speeches just before dinner. Any photos you take during the festivities, you can share them with us on Google Photos (Link to come) if you would like."
         },
         {
             question: "What is the Parking like at Sea Cider?",
@@ -44,7 +44,7 @@ const FAQPage: React.FC = () => {
         },
         {
             question: "Is the entire event outdoors?",
-            answer: "No. The wedding ceremony will be outside in a wooded area. The Cider hour will also be outdoors on their patio. The reception will be inside Sea Cider’s Hall."
+            answer: "No. The wedding ceremony will be outside in a wooded area. The Cider hour will also be outdoors on their patio. The reception will be inside Sea Cider's Hall."
         },
         {
             question: "What do we do if it rains?",
@@ -92,7 +92,7 @@ const FAQPage: React.FC = () => {
         },
         {
             question: "Are you providing accommodations? Can we stay with you?",
-            answer: "If you’re traveling from out of town for the wedding or need a place to stay, please arrange your own accommodations. If you need help finding options or recommendations, check out our list of accommodations. Unfortunately, we won’t be able to host anyone at our home during the wedding weekend, including the days leading up to and following the event. We appreciate your understanding and hope you find a comfortable place to stay!"
+            answer: "If you're traveling from out of town for the wedding or need a place to stay, please arrange your own accommodations. If you need help finding options or recommendations, check out our list of accommodations. Unfortunately, we won't be able to host anyone at our home during the wedding weekend, including the days leading up to and following the event. We appreciate your understanding and hope you find a comfortable place to stay!"
         },
         {
             question: "I am coming in one [insert date here]; wanna hang out? I can help with wedding prep/clean up!",
@@ -100,7 +100,7 @@ const FAQPage: React.FC = () => {
         },
         {
             question: "Who do I talk to if I have a random question that is not here?",
-            answer: "If you have read all the questions here and still have lingering questions, please do not immediately run to the Bride or Groom. Try asking XXX or XXXX first."
+            answer: "If you have read all the questions here and still have lingering questions, please do not immediately run to the Bride or Groom. Please try and reach out to one of the wedding party first."
         }
     ];
 

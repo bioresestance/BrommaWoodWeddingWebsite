@@ -41,7 +41,7 @@ const PlusOneDietaryInformation: React.FC<DietaryInformationProps> = ({
         <button
           type="button"
           onClick={addDietaryRestriction}
-          className="mt-2 bg-blue-500 text-white p-2 m-3 rounded px-4 text-lg font-extrabold"
+          className="mt-2 bg-blue-500 text-white p-2 m-3 rounded px-4 text-2xl font-extrabold"
         >
           +
         </button>

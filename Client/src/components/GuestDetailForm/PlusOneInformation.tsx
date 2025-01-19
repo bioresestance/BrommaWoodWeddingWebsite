@@ -40,7 +40,7 @@ const PlusOneInformation: React.FC<PlusOneInformationProps> = ({
   return (
     <div>
       <div className="flex items-center justify-center m-10">
-        <p className="text-lg pr-10">
+        <p className="text-2xl pr-10">
           Are you Planning on bringing a plus one?
         </p>
         <input
@@ -133,7 +133,7 @@ const PlusOneInformation: React.FC<PlusOneInformationProps> = ({
         <br />
         <textarea
           id="notes"
-          className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full  p-2.5"
+          className="bg-gray-50 border border-gray-300 text-gray-900 text-xl rounded-lg block w-full  p-2.5"
           placeholder="Please enter any additional notes here that we will need to know about your plus one!"
           {...register("plus_one.additional_notes")}
         />
