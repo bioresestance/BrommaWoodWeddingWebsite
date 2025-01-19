@@ -13,6 +13,9 @@ from app.models.guests import GuestDetail
 from app.email import send_bulk_email, send_email
 from app.security.Encryptor import Encryptor
 
+EMAIL_SUBJECT = "You Have Been Invited To Aaron And Gina's Wedding!"
+
+
 admin_router = APIRouter( prefix="/admin", tags=["admin"])
 setting = get_settings()
 encryptor = Encryptor(setting.encryption_key)
@@ -134,7 +137,7 @@ async def send_invite_email(guest_name:str, _:Admin = Depends(get_current_admin)
 
             invite_code = encryptor.decrypt(guest.password)
             emails[guest.email] = {"first_name": guest.first_name.capitalize(), "last_name": guest.last_name.capitalize(), "invite_code": invite_code}
-        send_bulk_email(emails, "You have been Invited!", email_template)
+        send_bulk_email(emails, EMAIL_SUBJECT, email_template)
 
     else:
         # Get the guest
@@ -166,5 +169,5 @@ async def send_invite_email(guest_name:str, _:Admin = Depends(get_current_admin)
         # Send the email
         send_email((guest.email, 
                     {"first_name" : guest.first_name.capitalize(), "last_name": guest.last_name.capitalize(), "invite_code": guest.invite_code}), 
-                    "You have been Invited!", 
+                    EMAIL_SUBJECT, 
                     email_template)
