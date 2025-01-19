@@ -151,7 +151,7 @@ async def send_invite_email(guest_name:str, _:Admin = Depends(get_current_admin)
                 detail="Please ensure the guest name is in the format 'first_last'",
             )
 
-        guest = get_guest_from_name(first_name, last_name)
+        guest:GuestDB = GuestDB.objects(first_name=first_name, last_name=last_name).first()
 
         if guest is None:
             logger.error(f"Guest {guest_name} not found")
