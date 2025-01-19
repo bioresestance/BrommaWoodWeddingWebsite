@@ -40,6 +40,7 @@ def get_guest_from_name(first_name: str, last_name: str) -> GuestDetail | None:
                                 is_wedding_party=db_guest.is_wedding_party,
                                 plus_one_allowed=db_guest.plus_one_allowed,
                                 has_plus_one=db_guest.has_plus_one,
+                                is_over_19=db_guest.is_over_19,
                                 )
     for diet in db_guest.dietary_restrictions:
         guest_detail.dietary_restrictions.append(diet)
@@ -48,7 +49,8 @@ def get_guest_from_name(first_name: str, last_name: str) -> GuestDetail | None:
         guest_detail.plus_one = PlusOneDetail(first_name=db_guest.plus_one.first_name,
                                               last_name=db_guest.plus_one.last_name,
                                               email=db_guest.plus_one.email,
-                                              additional_notes=db_guest.plus_one.additional_notes)
+                                              additional_notes=db_guest.plus_one.additional_notes,
+                                              is_over_19=db_guest.plus_one.is_over_19)
         for diet in db_guest.plus_one.dietary_restrictions:
             guest_detail.plus_one.dietary_restrictions.append(diet)
 

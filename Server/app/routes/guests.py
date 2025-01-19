@@ -80,6 +80,7 @@ async def update_guest(form_data: GuestDetailForm,current_user: GuestDetail = De
     guest.province = form_data.province
     guest.area_code = form_data.area_code
     guest.country = form_data.country
+    guest.is_over_19 = form_data.is_over_19
 
     guest.dietary_restrictions = []
     for diet in form_data.dietary_restrictions:
@@ -102,6 +103,7 @@ async def update_guest(form_data: GuestDetailForm,current_user: GuestDetail = De
             plus_one.last_name = form_data.plus_one.last_name
             plus_one.email = form_data.plus_one.email
             plus_one.additional_notes = form_data.plus_one.additional_notes
+            plus_one.is_over_19 = form_data.plus_one.is_over_19
 
             plus_one.dietary_restrictions = []
             for diet in form_data.plus_one.dietary_restrictions:
@@ -112,7 +114,8 @@ async def update_guest(form_data: GuestDetailForm,current_user: GuestDetail = De
             plus_one = GuestPlusOne(first_name=form_data.plus_one.first_name,
                                     last_name=form_data.plus_one.last_name,
                                     email=form_data.plus_one.email,
-                                    additional_notes=form_data.plus_one.additional_notes)
+                                    additional_notes=form_data.plus_one.additional_notes,
+                                    is_over_19=form_data.plus_one.is_over_19)
             for diet in form_data.plus_one.dietary_restrictions:
                 plus_one.dietary_restrictions.append(diet)
             guest.plus_one = plus_one
