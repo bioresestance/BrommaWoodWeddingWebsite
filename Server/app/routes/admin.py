@@ -166,8 +166,9 @@ async def send_invite_email(guest_name:str, _:Admin = Depends(get_current_admin)
                 status_code=status.HTTP_400_BAD_REQUEST,
                 detail="Guest has no email" )
 
+        invite_code = encryptor.decrypt(guest.password)
         # Send the email
         send_email((guest.email, 
-                    {"first_name" : guest.first_name.capitalize(), "last_name": guest.last_name.capitalize(), "invite_code": guest.invite_code}), 
+                    {"first_name" : guest.first_name.capitalize(), "last_name": guest.last_name.capitalize(), "invite_code": invite_code}), 
                     EMAIL_SUBJECT, 
                     email_template)
