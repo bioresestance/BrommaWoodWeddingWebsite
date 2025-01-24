@@ -58,6 +58,7 @@ const AddressInformation: React.FC<GuestContactProps> = ({
         <option value="">Choose a province</option>
         <option value="BC">British Columbia</option>
         <option value="QC">Quebec</option>
+        <option value="NS">Nova Scotia</option>
         <option value="NB">New Brunswick</option>
         <option value="MB">Manitoba</option>
         <option value="ON">Ontario</option>
