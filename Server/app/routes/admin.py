@@ -199,3 +199,27 @@ async def get_attending_guests(_: Admin = Depends(get_current_admin)) -> JSONRes
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
             detail="Failed to retrieve attending guests",
         )
+    
+@admin_router.get("/guests/send_logistics_email")
+async def send_logistics_email(_: Admin = Depends(get_current_admin)) -> JSONResponse:
+    base_dir = os.path.dirname(os.path.abspath(__file__))
+    template_path = os.path.join(base_dir, "../templates/logistical_email.html")
+
+    # Load the template
+    with open(template_path, "r") as file:
+        email_template = file.read()
+
+    # Get all guests
+    guests: GuestDB = GuestDB.objects()
+
+    emails = {}
+    for guest in guests:
+        if guest.email in [None, ""]:
+            logger.warning(f"Guest {guest.first_name} {guest.last_name} has no email")
+            continue
+
+        emails[guest.email] = {"first_name": guest.first_name.capitalize(), "last_name": guest.last_name.capitalize()}
+
+    send_bulk_email(emails, "Bromma And Wood Wedding - Important Information!", email_template)
+    
+    return JSONResponse(content={"message": "Logistics email sent to all guests"}, status_code=status.HTTP_200_OK)

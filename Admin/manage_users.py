@@ -8,6 +8,7 @@
 import argparse
 import requests
 import json
+import csv
 
 def authenticate(base_url, username, password):
     url = f"{base_url}/admin/login"
@@ -39,6 +40,9 @@ def ensure_users_exist(base_url, token, users):
             print(f"User {user['username']} already exists")
 
 
+          
+
+
 def nuke_db(base_url, token):
     headers = {
         "Authorization": f"Bearer {token}"
@@ -61,6 +65,44 @@ def send_email(email, base_url, token):
     else:
         print(f"Failed to send email: {response.text}")
 
+
+def get_attending_guests_to_csv(base_url, token, csv_filename):
+    headers = {
+        "Authorization": f"Bearer {token}"
+    }
+    response = requests.get(f"{base_url}/admin/guests/attending", headers=headers)
+    if response.status_code == 200:
+        guests = response.json().get("attending_guests", [])
+        if not guests:
+            print("No attending guests found.")
+            return []
+        with open(csv_filename, mode="w", newline="") as csvfile:
+            fieldnames = ["first_name", "last_name", "email"]
+            writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
+            writer.writeheader()
+            for guest in guests:
+                writer.writerow({
+                    "first_name": guest.get("first_name", ""),
+                    "last_name": guest.get("last_name", ""),
+                    "email": guest.get("email", ""),
+                })
+        print(f"Attending guests written to {csv_filename}")
+        return guests
+    else:
+        print(f"Failed to retrieve attending guests: {response.text}")
+        return []
+    
+def send_logistics_email(base_url, token):
+    headers = {
+        "Authorization": f"Bearer {token}"
+    }
+
+    response = requests.post(f"{base_url}/admin/guests/send_logistics_email", headers=headers)
+    if response.status_code == 200:
+        print("Emails Sent")
+    else:
+        print(f"Failed to send email: {response.text}")
+
 def main():
     parser = argparse.ArgumentParser(description="Manage admin endpoints")
     parser.add_argument("--nuke", help="Nuke the database", default=False , action="store_true")
@@ -68,6 +110,8 @@ def main():
     parser.add_argument("--auth-file", help="File containing username and password for authentication", default="auth.json")
     parser.add_argument("--users-file", help="File containing list of users to ensure exist on the server", default="users.json")
     parser.add_argument("--invite", help="Send an invite email to a guest or guests", default="")
+    parser.add_argument("--attending-csv", help="Output attending guests to CSV file", default="")
+    parser.add_argument("--logistics-email", help="Send logistics email to all guests", default=False, action="store_true")
 
     args = parser.parse_args()
 
@@ -86,8 +130,14 @@ def main():
     if args.nuke:
         nuke_db(args.base_url, token)
 
+    elif args.logistics_email:
+        send_logistics_email(args.base_url, token)
+
     elif args.invite != "":
         send_email(args.invite, args.base_url, token)
+
+    elif args.attending_csv:
+        get_attending_guests_to_csv(args.base_url, token, args.attending_csv)
 
     else:
         with open(args.users_file, "r") as f:
