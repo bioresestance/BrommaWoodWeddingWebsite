@@ -172,3 +172,30 @@ async def send_invite_email(guest_name:str, _:Admin = Depends(get_current_admin)
                     {"first_name" : guest.first_name.capitalize(), "last_name": guest.last_name.capitalize(), "invite_code": invite_code}), 
                     EMAIL_SUBJECT, 
                     email_template)
+        
+
+@admin_router.get("/guests/attending")
+async def get_attending_guests(_: Admin = Depends(get_current_admin)) -> JSONResponse:
+    try:
+        # Query the database for guests who are attending
+        attending_guests = GuestDB.objects(attending=True)
+
+        # Format the response as a list of dictionaries
+        guest_list = [
+            {
+                "first_name": guest.first_name,
+                "last_name": guest.last_name,
+                "email": guest.email,
+            }
+            for guest in attending_guests
+        ]
+
+        logger.info(f"Retrieved {len(guest_list)} attending guests")
+        return JSONResponse(content={"attending_guests": guest_list}, status_code=status.HTTP_200_OK)
+
+    except Exception as e:
+        logger.error(f"Failed to retrieve attending guests: {e}")
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail="Failed to retrieve attending guests",
+        )
